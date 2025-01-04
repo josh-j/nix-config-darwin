@@ -1,6 +1,5 @@
 # TODO
 
-- agenix secrets
 - home settings for all->os->host
 
 # References

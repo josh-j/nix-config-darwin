@@ -124,11 +124,12 @@ in {
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
+    extraSpecialArgs = {
+      inherit username inputs;
+    };
     users.${username} = {...}: {
       imports = [
-        ../home.nix
-        # ../../modules/common
-        # ../../modules/darwin
+        ../home-common.nix
         ../../programs/atuin.nix
         ../../programs/starship.nix
         ../../programs/wezterm.nix
@@ -136,9 +137,6 @@ in {
         ../../programs/zsh.nix
         ../../programs/tmux.nix
       ];
-      _module.args = {
-        inherit inputs username;
-      };
       home = {
         packages = extraPackages ++ extraUnstablePackages;
         file = {

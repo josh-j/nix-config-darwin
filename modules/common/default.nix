@@ -3,10 +3,8 @@
   pkgs,
   ...
 }: {
-  environment.systemPackages = with pkgs; [
-    age
-    inputs.agenix.packages.${system}.default
-  ];
+  # environment.systemPackages = with pkgs; [
+  # ];
 
   nix = {
     configureBuildUsers = true;

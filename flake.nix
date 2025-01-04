@@ -14,11 +14,6 @@
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
-    agenix = {
-      url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     homebrew-core = {
       url = "github:homebrew/homebrew-core";
       flake = false;
@@ -36,113 +31,105 @@
     siovim.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    home-manager,
-    agenix,
-    ...
-  }: let
-    defaultUser = "joshj";
+  outputs = inputs:
+    with inputs; let
+      defaultUser = "joshj";
 
-    nixpkgsConfig = {
-      allowUnfree = true;
-      allowUnfreePredicate = _: true;
-      permittedInsecurePackages = [];
-      allowBroken = false;
-    };
-
-    mkPkgsWithOverlays = system:
-      import inputs.nixpkgs {
-        inherit system;
-        config = nixpkgsConfig;
-        overlays = [
-          (_: prev: {
-            unstable = import inputs.nixpkgs-unstable {
-              inherit (prev) system;
-              config = nixpkgsConfig;
-            };
-          })
-          (import ./overlays inputs)
-        ];
+      nixpkgsConfig = {
+        allowUnfree = true;
+        allowUnfreePredicate = _: true;
+        permittedInsecurePackages = [];
+        allowBroken = false;
       };
 
-    mkCommonArgs = system: {
-      inherit inputs self system;
-      inherit (inputs) nixpkgs nix-index-database;
-      channels.nixpkgs = inputs.nixpkgs;
-      channels.nixpkgs-unstable = inputs.nixpkgs-unstable;
-      pkgs = mkPkgsWithOverlays system;
-    };
-
-    mkSystem = {
-      system,
-      hostname,
-      username ? defaultUser,
-      extraModules ? [],
-    }:
-      if builtins.match ".*darwin" system != null
-      then
-        inputs.nix-darwin.lib.darwinSystem {
+      mkPkgsWithOverlays = system:
+        import inputs.nixpkgs {
           inherit system;
-          specialArgs = mkCommonArgs system // {inherit hostname username;};
-          modules =
-            [
-              ./modules/common
-              ./modules/darwin
-              inputs.home-manager.darwinModules.home-manager
-              inputs.nix-homebrew.darwinModules.nix-homebrew
-              # inputs.agenix.nixosModules.default
-              inputs.agenix.darwinModules.default
-              {
-                nix-homebrew = {
-                  enable = true;
-                  enableRosetta = false;
-                  user = username;
-                  mutableTaps = true;
-                  autoMigrate = true;
+          config = nixpkgsConfig;
+          overlays = [
+            (_: prev: {
+              unstable = import inputs.nixpkgs-unstable {
+                inherit (prev) system;
+                config = nixpkgsConfig;
+              };
+            })
+            (import ./overlays inputs)
+          ];
+        };
 
-                  taps = {
-                    "homebrew/homebrew-core" = inputs.homebrew-core;
-                    "homebrew/homebrew-cask" = inputs.homebrew-cask;
-                    "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
+      mkCommonArgs = system: {
+        inherit inputs self system;
+        channels = {
+          inherit nixpkgs nixpkgs-unstable;
+        };
+      };
+
+      mkSystem = {
+        system,
+        hostname,
+        username ? defaultUser,
+        extraModules ? [],
+      }:
+        if builtins.match ".*darwin" system != null
+        then
+          inputs.nix-darwin.lib.darwinSystem {
+            inherit system;
+            pkgs = mkPkgsWithOverlays system;
+            specialArgs = mkCommonArgs system // {inherit hostname username;};
+            modules =
+              [
+                ./modules/common
+                ./modules/darwin
+                home-manager.darwinModules.home-manager
+                nix-homebrew.darwinModules.nix-homebrew
+                {
+                  nix-homebrew = {
+                    enable = true;
+                    enableRosetta = false;
+                    user = username;
+                    mutableTaps = true;
+                    autoMigrate = true;
+
+                    taps = {
+                      "homebrew/homebrew-core" = inputs.homebrew-core;
+                      "homebrew/homebrew-cask" = inputs.homebrew-cask;
+                      "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
+                    };
                   };
-                };
-              }
-              (import (./hosts + "/${hostname}"))
-            ]
-            ++ extraModules;
-        }
-      else if builtins.match ".*linux" system != null
-      then
-        inputs.nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = mkCommonArgs system // {inherit hostname username;};
-          modules =
-            [
-              ./modules/common
-              ./modules/linux
-              inputs.home-manager.nixosModules.home-manager
-              agenix.nixosModules.default
-              (import (./hosts + "/${hostname}"))
-            ]
-            ++ extraModules;
-        }
-      else {};
-  in {
-    darwinConfigurations = {
-      mbam1 = mkSystem {
-        system = "aarch64-darwin";
-        hostname = "mbam1";
+                }
+                (import (./hosts + "/${hostname}"))
+              ]
+              ++ extraModules;
+          }
+        else if builtins.match ".*linux" system != null
+        then
+          inputs.nixpkgs.lib.nixosSystem {
+            inherit system;
+            specialArgs = mkCommonArgs system // {inherit hostname username inputs;};
+            modules =
+              [
+                ./modules/common
+                ./modules/linux
+                inputs.home-manager.nixosModules.home-manager
+                (import (./hosts + "/${hostname}"))
+              ]
+              ++ extraModules;
+          }
+        else {};
+    in {
+      darwinConfigurations = {
+        mbam1 = mkSystem {
+          system = "aarch64-darwin";
+          hostname = "mbam1";
+        };
       };
-    };
 
-    nixosConfigurations = {
-      wslhost = mkSystem {
-        system = "x86_64-linux";
-        hostname = "wslhost";
-        extraModules = [inputs.nixos-wsl.nixosModules.wsl];
+      nixosConfigurations = {
+        wslhost = mkSystem {
+          system = "x86_64-linux";
+          hostname = "wslhost";
+          extraModules = [inputs.nixos-wsl.nixosModules.wsl];
+        };
       };
     };
-  };
 }
