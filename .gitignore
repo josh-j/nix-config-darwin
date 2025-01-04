@@ -1,0 +1,9 @@
+result
+result-*
+.direnv
+.envrc
+*.swp
+.DS_Store
+age.key
+/secrets/*.age
+!secrets/*.age.pub
