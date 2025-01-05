@@ -75,18 +75,17 @@ in {
       "/opt/homebrew/bin"
     ];
 
-sessionVariables = let
-  getSecret = key: ''
-    $(if [ -f "$HOME/.secrets.json" ]; then
-      jq -r '.${key} // empty' "$HOME/.secrets.json"
-    fi)'';
-in {
-  aiservice_API_KEY = getSecret "aiservice_api";
-  GITHUB_TOKEN = getSecret "github_token";  # Example of another secret
-  OPENAI_API_KEY = getSecret "openai_api";  # Another example
-  # Add as many secrets as you need
-};
-
+    sessionVariables = let
+      getSecret = key: ''
+        $(if [ -f "$HOME/.secrets.json" ]; then
+          jq -r '.${key} // empty' "$HOME/.secrets.json"
+        fi)'';
+    in {
+      aiservice_API_KEY = getSecret "aiservice_api";
+      GITHUB_TOKEN = getSecret "github_token"; # Example of another secret
+      OPENAI_API_KEY = getSecret "openai_api"; # Another example
+      # Add as many secrets as you need
+    };
 
     stateVersion = "24.11";
   };

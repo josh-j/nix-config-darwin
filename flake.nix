@@ -105,7 +105,7 @@
         then
           inputs.nixpkgs.lib.nixosSystem {
             inherit system;
-            specialArgs = mkCommonArgs system // {inherit hostname username inputs;};
+            specialArgs = mkCommonArgs system // {inherit hostname username;};
             modules =
               [
                 ./modules/common
@@ -113,7 +113,7 @@
                 inputs.home-manager.nixosModules.home-manager
                 (import (./hosts + "/${hostname}"))
               ]
-              ++ extraModules;
+             ++ extraModules;
           }
         else {};
     in {
