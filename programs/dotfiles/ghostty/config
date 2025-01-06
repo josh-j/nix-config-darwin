@@ -1,0 +1,97 @@
+# ghostty +show-config --default --docs
+# ghostty +list-themes
+
+
+font-family                     = JetBrains Mono NR
+font-style                     = Medium
+font-feature                   = calt
+font-feature                   = dlig
+font-feature                   = ss05
+font-thicken                   = true
+
+font-size                      = 12
+window-inherit-font-size       = true
+
+# Look and Feel
+adjust-cursor-thickness        = 3
+adjust-underline-position      = 3
+background-opacity             = 0.9
+background-blur-radius         = 20
+window-decoration              = true
+window-padding-x               = 4
+window-padding-y               = 4
+window-padding-balance         = true
+window-theme                   = auto
+
+bold-is-bright                 = true
+link-url                       = true
+mouse-hide-while-typing        = true
+# theme = ef-autumn
+# theme = GruvboxDarkHard
+# theme = zenwritten_dark
+# theme = xcodedark
+# theme = xcodedarkhc
+# theme = mellifluous
+#theme = gruber-darker
+
+palette = 0=#1c1c1c
+palette = 1=#af005f
+palette = 2=#5faf00
+palette = 3=#d7af5f
+palette = 4=#5fafd7
+palette = 5=#808080
+palette = 6=#d7875f
+palette = 7=#d0d0d0
+palette = 8=#5faf5f
+palette = 9=#585858
+palette = 10=#af87d7
+palette = 11=#afd700
+palette = 12=#ff5faf
+palette = 13=#00afaf
+palette = 14=#ffaf00
+palette = 15=#5f8787
+background = #1c1c1c
+foreground = #888888
+cursor-color = #d0d0d0
+selection-background = #666666
+selection-foreground = #333333
+
+window-vsync                   = true
+
+
+# Macos
+macos-titlebar-style           = "hidden"
+macos-option-as-alt            = true
+macos-auto-secure-input        = true
+macos-secure-input-indication  = true
+
+
+working-directory              = home
+
+
+# Other
+clipboard-paste-protection     = true
+clipboard-trim-trailing-spaces = true
+copy-on-select                 = true
+scrollback-limit               = 100000
+shell-integration              = zsh
+shell-integration-features     = cursor,sudo,title
+
+
+# Startup
+# command = ~/.config/ghostty/restore_ghostty_tmux.sh
+
+
+# Key bindings
+# keybind                        = ctrl+h=goto_split:left
+# keybind                        = ctrl+j=goto_split:bottom
+# keybind                        = ctrl+k=goto_split:top
+# keybind                        = ctrl+l=goto_split:right
+# keybind                        = ctrl+shift+h=new_split:left
+# keybind                        = ctrl+shift+j=new_split:down
+# keybind                        = ctrl+shift+k=new_split:up
+# keybind                        = ctrl+shift+l=new_split:right
+# keybind                        = super+shift+enter=new_split:auto
+# keybind                        = super+shift+i=inspector:toggle
+keybind                        = ctrl+shift+r=reload_config
+# keybind                        = super+t=new_tab

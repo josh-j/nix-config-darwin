@@ -2,16 +2,18 @@
   description = "NixOS and Darwin System Configurations";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager/release-24.11";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:nix-community/home-manager/master";
+    # home-manager.inputs.nixpkgs.follows = "github:NixOS/nixpkgs/nixos-24.11";
     # nixos-wsl.url = "github:nix-community/NixOS-WSL";
     # nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     siovim.url = "github:josh-j/siovim";
-    siovim.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    siovim.inputs.nixpkgs.follows = "nixpkgs";
+    mac-app-util.url = "github:hraban/mac-app-util";
   };
 
   outputs = inputs:
@@ -63,7 +65,15 @@
               [
                 ./modules/common
                 ./modules/darwin
+                mac-app-util.darwinModules.default
                 home-manager.darwinModules.home-manager
+                (
+                  _: {
+                    home-manager.sharedModules = [
+                      mac-app-util.homeManagerModules.default
+                    ];
+                  }
+                )
                 (import (./hosts + "/${hostname}"))
               ]
               ++ extraModules;

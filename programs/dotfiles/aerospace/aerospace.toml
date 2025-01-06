@@ -119,7 +119,7 @@ alt-r = 'mode resize'
 # Applications
 alt-b = 'exec-and-forget open -a /Applications/Edge.app'
 # alt-enter = 'exec-and-forget open -n /Applications/Nix\ Apps/WezTerm.app'
-alt-enter = 'exec-and-forget open -a /Applications/Ghostty.app'
+alt-enter = 'exec-and-forget open -n /Applications/Ghostty.app'
 # alt-enter = '''exec-and-forget osascript -e '
 # tell application "/Applications/WezTerm.app"
 #     do script

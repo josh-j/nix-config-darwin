@@ -7,6 +7,9 @@
   extraPackages = with pkgs; [
     # Development tools
     tree-sitter
+    unstable.fx # JSON viewer in terminal
+    unstable.git-crypt
+    unstable.zed-editor
 
     # C/CPP
     gcc
@@ -26,6 +29,9 @@
     nodePackages.typescript-language-server
     nodePackages.yaml-language-server
     nodePackages.vscode-langservers-extracted # html, css, json, eslint
+
+    # LSP
+    unstable.neocmakelsp
 
     # Lua
     lua
@@ -49,6 +55,7 @@
     python3Packages.pip
     black # python
     ruff # python
+    unstable.uv
 
     # Rust
     cargo-cache
@@ -82,7 +89,7 @@
 
     # UI
     aerospace
-    raycast
+    # raycast
     # microsoft-edge
     vscode
     siovim
@@ -93,30 +100,11 @@
     spotify
     obsidian
   ];
-
-  extraUnstablePackages = with pkgs.unstable; [
-    # Development tools
-    zed-editor
-    fx # JSON viewer in terminal
-    git-crypt
-
-    # LSP
-    neocmakelsp
-
-    # Python
-    uv # better python package manager
-
-    # Terminal and shell
-    # zsh-autosuggestions
-    # zsh-syntax-highlighting
-
-    # misc
-    # flk-zen-browser
-  ];
 in {
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
+    backupFileExtension = "backup";
     extraSpecialArgs = {
       inherit username inputs;
     };
@@ -135,9 +123,10 @@ in {
         ../../programs/zsh.nix
       ];
       home = {
-        packages = extraPackages ++ extraUnstablePackages;
+        packages = extraPackages;
         file = {
           ".aerospace.toml".text = builtins.readFile ../../programs/dotfiles/aerospace/aerospace.toml;
+          ".config/ghostty/config".text = builtins.readFile ../../programs/dotfiles/ghostty/config;
         };
       };
     };

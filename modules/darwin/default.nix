@@ -50,7 +50,6 @@
     pam.enableSudoTouchIdAuth = true;
   };
 
-
   services = {
     # aerospace = {
     #   enable = true;
@@ -114,9 +113,11 @@
         orientation = "bottom";
         persistent-apps = [
           "${pkgs.spotify}/Applications/Spotify.app"
-          "${pkgs.wezterm}/Applications/Wezterm.app"
+          # "${pkgs.wezterm}/Applications/Wezterm.app"
+          "/Applications/Ghostty.app"
           "/Applications/Microsoft Edge.app"
-          "/Applications/Visual Studio Code.app"
+          # "/Applications/Visual Studio Code.app"
+          "${pkgs.vscode}/Applications/Visual Studio Code.app"
           # "${pkgs.alacritty}/Applications/Alacritty.app"
           # "${pkgs.obsidian}/Applications/Obsidian.app"
         ];

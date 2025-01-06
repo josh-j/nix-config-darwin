@@ -24,7 +24,7 @@
 
       max-jobs = 8;
       cores = 2;
-      distributedBuilds = false;
+      # distributedBuilds = false; # FIXME
       trusted-users = [
         "${username}"
         "@wheel"

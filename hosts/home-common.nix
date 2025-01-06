@@ -24,41 +24,36 @@
 
     # System tools
     mkalias
+    unstable.fd # fast find
+    unstable.mosh # better ssh
+    unstable.procs # better ps
+    unstable.ripgrep
+    unstable.sd # better sed and awk
+    unstable.unzip
+    unstable.evil-helix # better no-config vim
+    unstable.wget
+    unstable.yazi
+    unstable.zip
 
     # Terminal and shell
     # atuin
     carapace # multi-environment shell completion
     eza
     fzf
+    unstable.bat
+    unstable.bottom # system monitor
+    unstable.coreutils
+    unstable.curl
+    unstable.du-dust # better du cmd
+    unstable.findutils
+    unstable.git-crypt
+    unstable.htop
+    unstable.jq
+    unstable.killall
     # oh-my-zsh
     # zsh
     # zsh-autosuggestions
     # zsh-syntax-highlighting
-  ];
-  unstable-packages = with pkgs.unstable; [
-    # System tools
-    fd # fast find
-    mosh # better ssh
-    procs # better ps
-    ripgrep
-    sd # better sed and awk
-    unzip
-    evil-helix # better no-config vim
-    wget
-    yazi
-    zip
-
-    # Terminal and shell
-    bat
-    bottom # system monitor
-    coreutils
-    curl
-    du-dust # better du cmd
-    findutils
-    git-crypt
-    htop
-    jq
-    killall
   ];
 in {
   imports = [
@@ -68,7 +63,7 @@ in {
   home = {
     inherit username homeDirectory;
 
-    packages = stable-packages ++ unstable-packages;
+    packages = stable-packages;
     sessionPath = [
       # "$HOME/.local/bin"
       # "$HOME/.local/share/bin"
