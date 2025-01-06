@@ -1,5 +1,5 @@
 _: {
-  programs.atuin = {
+  programs.direnv = {
     enable = true;
     enableBashIntegration = true;
     enableZshIntegration = true;

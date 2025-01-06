@@ -9,7 +9,6 @@
 
     # Use fast-syntax-highlighting instead of regular syntax highlighting
     syntaxHighlighting.enable = false;
-    autosuggestions.enable = true;
 
     defaultKeymap = "emacs";
 
