@@ -9,6 +9,7 @@
 
     # Use fast-syntax-highlighting instead of regular syntax highlighting
     syntaxHighlighting.enable = false;
+    autosuggestions.enable = true;
 
     defaultKeymap = "emacs";
 
@@ -54,6 +55,24 @@
       ignoreSpace = true;
       share = true;
       path = "${config.xdg.dataHome}/zsh/history";
+    };
+
+    sessionVariables = {
+      ALTERNATE_EDITOR = "${pkgs.vim}/bin/vi";
+      LC_CTYPE = "en_US.UTF-8";
+      LEDGER_COLOR = "true";
+      LESS = "-FRSXM";
+      LESSCHARSET = "utf-8";
+      PAGER = "less";
+      TINC_USE_NIX = "yes";
+      WORDCHARS = "";
+
+      ZSH_THEME_GIT_PROMPT_CACHE = "yes";
+      ZSH_THEME_GIT_PROMPT_CHANGED = "%{$fg[yellow]%}%{✚%G%}";
+      ZSH_THEME_GIT_PROMPT_STASHED = "%{$fg_bold[yellow]%}%{⚑%G%}";
+      ZSH_THEME_GIT_PROMPT_UPSTREAM_FRONT = " {%{$fg[yellow]%}";
+
+      ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX = "YES";
     };
 
     # Keep essential plugins and add autosuggestions

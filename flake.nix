@@ -6,27 +6,10 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-wsl.url = "github:nix-community/NixOS-WSL";
-    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
+    # nixos-wsl.url = "github:nix-community/NixOS-WSL";
+    # nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    nix-index-database.url = "github:Mic92/nix-index-database";
-    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-
-    homebrew-core = {
-      url = "github:homebrew/homebrew-core";
-      flake = false;
-    };
-    homebrew-cask = {
-      url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
-    homebrew-bundle = {
-      url = "github:homebrew/homebrew-bundle";
-      flake = false;
-    };
-
     siovim.url = "github:josh-j/siovim";
     siovim.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
@@ -81,22 +64,6 @@
                 ./modules/common
                 ./modules/darwin
                 home-manager.darwinModules.home-manager
-                nix-homebrew.darwinModules.nix-homebrew
-                {
-                  nix-homebrew = {
-                    enable = true;
-                    enableRosetta = false;
-                    user = username;
-                    mutableTaps = true;
-                    autoMigrate = true;
-
-                    taps = {
-                      "homebrew/homebrew-core" = inputs.homebrew-core;
-                      "homebrew/homebrew-cask" = inputs.homebrew-cask;
-                      "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
-                    };
-                  };
-                }
                 (import (./hosts + "/${hostname}"))
               ]
               ++ extraModules;
@@ -113,7 +80,7 @@
                 inputs.home-manager.nixosModules.home-manager
                 (import (./hosts + "/${hostname}"))
               ]
-             ++ extraModules;
+              ++ extraModules;
           }
         else {};
     in {

@@ -107,20 +107,13 @@
     uv # better python package manager
 
     # Terminal and shell
-    zsh-autosuggestions
-    zsh-syntax-highlighting
+    # zsh-autosuggestions
+    # zsh-syntax-highlighting
 
     # misc
     # flk-zen-browser
   ];
 in {
-  homebrew = {
-    enable = true;
-    onActivation.cleanup = "zap";
-    global.brewfile = true;
-    brews = ["cowsay"];
-    casks = ["ghostty"];
-  };
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
@@ -131,11 +124,15 @@ in {
       imports = [
         ../home-common.nix
         ../../programs/atuin.nix
+        ../../programs/bash.nix
+        ../../programs/direnv.nix
+        # ../../programs/fonts.nix
+        ../../programs/fzf.nix
         ../../programs/starship.nix
+        ../../programs/tmux.nix
         ../../programs/wezterm.nix
         ../../programs/zoxide.nix
         ../../programs/zsh.nix
-        ../../programs/tmux.nix
       ];
       home = {
         packages = extraPackages ++ extraUnstablePackages;

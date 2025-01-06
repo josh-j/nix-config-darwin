@@ -72,7 +72,7 @@ in {
     sessionPath = [
       # "$HOME/.local/bin"
       # "$HOME/.local/share/bin"
-      "/opt/homebrew/bin"
+      "/opt/homebrew/bin" # FIXME don't add if not darwin
     ];
 
     sessionVariables = let

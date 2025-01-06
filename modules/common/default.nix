@@ -1,6 +1,6 @@
 {
   inputs,
-  pkgs,
+  username,
   ...
 }: {
   # environment.systemPackages = with pkgs; [
@@ -21,7 +21,12 @@
       warn-dirty = false;
       use-xdg-base-directories = true;
       accept-flake-config = true;
+
+      max-jobs = 8;
+      cores = 2;
+      distributedBuilds = false;
       trusted-users = [
+        "${username}"
         "@wheel"
         "@admin"
       ];
