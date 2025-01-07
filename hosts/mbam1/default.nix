@@ -119,6 +119,7 @@ in {
         ../../programs/starship.nix
         ../../programs/tmux.nix
         ../../programs/wezterm.nix
+        ../../programs/zellij.nix
         ../../programs/zoxide.nix
         ../../programs/zsh.nix
       ];
