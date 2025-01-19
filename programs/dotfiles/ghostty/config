@@ -1,7 +1,6 @@
 # ghostty +show-config --default --docs
 # ghostty +list-themes
 
-
 font-family                     = JetBrains Mono NR
 font-style                     = Medium
 font-feature                   = calt
@@ -19,8 +18,9 @@ background-opacity             = 0.9
 background-blur-radius         = 20
 window-decoration              = true
 window-padding-x               = 4
-window-padding-y               = 4,2
-window-padding-balance         = true
+window-padding-y               = 4
+window-padding-color           = extend-always
+window-padding-balance         = false
 window-theme                   = auto
 
 bold-is-bright                 = true
@@ -58,16 +58,13 @@ selection-foreground = #333333
 
 window-vsync                   = true
 
-
 # Macos
 macos-titlebar-style           = "hidden"
 macos-option-as-alt            = true
 macos-auto-secure-input        = true
 macos-secure-input-indication  = true
 
-
 working-directory              = home
-
 
 # Other
 clipboard-paste-protection     = true
@@ -77,10 +74,8 @@ scrollback-limit               = 100000
 shell-integration              = zsh
 shell-integration-features     = cursor,sudo,title
 
-
 # Startup
 # command = ~/.config/ghostty/restore_ghostty_tmux.sh
-
 
 # Key bindings
 # keybind                        = ctrl+h=goto_split:left

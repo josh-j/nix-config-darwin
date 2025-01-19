@@ -7,9 +7,9 @@
   extraPackages = with pkgs; [
     # Development tools
     tree-sitter
-    unstable.fx # JSON viewer in terminal
-    unstable.git-crypt
-    unstable.zed-editor
+    fx # JSON viewer in terminal
+    git-crypt
+    zed-editor
 
     # C/CPP
     gcc
@@ -31,7 +31,7 @@
     nodePackages.vscode-langservers-extracted # html, css, json, eslint
 
     # LSP
-    unstable.neocmakelsp
+    neocmakelsp
 
     # Lua
     lua
@@ -55,7 +55,7 @@
     python3Packages.pip
     black # python
     ruff # python
-    unstable.uv
+    uv
 
     # Rust
     cargo-cache
@@ -80,23 +80,10 @@
 
     # Terminal and shell
     neofetch
-    # oh-my-zsh
-    # starship
-    # zoxide
-    # zsh
-    # zsh-autosuggestions
-    # zsh-syntax-highlighting
 
     # UI
-    aerospace
-    # raycast
-    # microsoft-edge
     vscode
     siovim
-    # jeezyvim
-    # neovim
-    # ...
-    # steam
     spotify
     obsidian
   ];
@@ -126,7 +113,7 @@ in {
       home = {
         packages = extraPackages;
         file = {
-          ".aerospace.toml".text = builtins.readFile ../../programs/dotfiles/aerospace/aerospace.toml;
+          # ".aerospace.toml".text = builtins.readFile ../../programs/dotfiles/aerospace/aerospace.toml;
           ".config/ghostty/config".text = builtins.readFile ../../programs/dotfiles/ghostty/config;
         };
       };

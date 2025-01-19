@@ -1,27 +1,36 @@
 {
-  pkgs,
-  username,
-  ...
+pkgs,
+username,
+...
 }: {
   imports = [
+    ../../programs/aerospace.nix
   ];
 
-  # environment.systemPackages = with pkgs; [
-  # ];
+  environment = {
+    systemPackages = with pkgs; [
+      zsh
+      zsh-nix-shell
+    ];
+    variables = {
+      # TERMINFO_DIRS = "${pkgs.ncurses}/share/terminfo";
+    };
+  };
 
-  environment.shells = [pkgs.zsh];
+  # environment.shells = [pkgs.zsh];
 
   homebrew = {
     enable = true;
     onActivation = {
-      autoUpdate = true;
-      upgrade = true;
-      cleanup = "zap";
+      autoUpdate = false;  # Changed from true to reduce rebuild time
+      upgrade = false;     # Changed from true to reduce rebuild time
+      cleanup = "uninstall";  # Changed from "zap" to be less aggressive
     };
 
     taps = [
     ];
     brews = [
+      "openssl@3"
     ];
 
     casks = [
@@ -37,30 +46,38 @@
         name = "zen-browser";
         greedy = true;
       }
+      "vlc"
     ];
   };
+
+  launchd.user.agents.ghostty = {
+    command = "/Applications/Ghostty.app";
+    serviceConfig = {
+      KeepAlive = true;
+      RunAtLoad = true;
+    };
+  };
+
+  nix.settings = {
+    sandbox = false;
+    build-users-group = "nixbld";
+    max-jobs = "auto";  # Let nix determine the optimal number of jobs
+    cores = 0;  # Use all available cores
+  };
+
+  programs.zsh.enable = true; # breaks everything is removed
 
   users.users.${username} = {
     name = "${username}";
     home = "/Users/${username}";
-    shell = pkgs.zsh;
+    # shell = pkgs.zsh;
   };
 
   security = {
     pam.enableSudoTouchIdAuth = true;
-  };
-
-  services = {
-    # aerospace = {
-    #   enable = true;
-    #   package = pkgs.aerospace;
-    #   extraConfig = "$HOME/.config/aerospace/aerospace.toml";
-
-    # };
-    # raycast = {
-    #   enable = true;
-    #   package = pkgs.raycast;
-    # };
+    sudo.extraConfig = ''
+      ${username} ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/darwin-rebuild
+    '';
   };
 
   system = {
@@ -68,12 +85,17 @@
 
     # activationScripts are executed every time you boot the system or run
     # `nixos-rebuild` / `darwin-rebuild`.
-    activationScripts.postUserActivation.text = ''
+    activationScripts.postUserActivation = {
+      text = ''
       # activateSettings -u will reload the settings from the database and
       # apply them to the current session, so we do not need to logout and
       # login again to make the changes take effect.
       /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-    '';
+
+      # Disable spotlight indexing for faster rebuilds
+      sudo mdutil -i off / &>/dev/null || true
+      '';
+    };
 
     defaults = {
       loginwindow.GuestEnabled = false;
@@ -116,7 +138,6 @@
           # "${pkgs.wezterm}/Applications/Wezterm.app"
           "/Applications/Ghostty.app"
           "/Applications/Microsoft Edge.app"
-          # "/Applications/Visual Studio Code.app"
           "${pkgs.vscode}/Applications/Visual Studio Code.app"
           # "${pkgs.alacritty}/Applications/Alacritty.app"
           # "${pkgs.obsidian}/Applications/Obsidian.app"
@@ -156,6 +177,9 @@
         NSNavPanelExpandedStateForSaveMode = true;
         NSNavPanelExpandedStateForSaveMode2 = true;
         NSWindowResizeTime = 0.001;
+        NSDocumentSaveNewDocumentsToCloud = false;  # Faster file operations
+        NSTextShowsControlCharacters = true;
+        NSDisableAutomaticTermination = true;
         _HIHideMenuBar = true;
       };
 

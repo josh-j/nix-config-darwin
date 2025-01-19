@@ -2,15 +2,19 @@
   description = "NixOS and Darwin System Configurations";
 
   inputs = {
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
     home-manager.url = "github:nix-community/home-manager/master";
-    # home-manager.inputs.nixpkgs.follows = "github:NixOS/nixpkgs/nixos-24.11";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
     # nixos-wsl.url = "github:nix-community/NixOS-WSL";
     # nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    nix-index.url = "github:nix-community/nix-index";
+    nix-index.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Misc
+    tmux-sessionx.url = "github:omerxx/tmux-sessionx";
     siovim.url = "github:josh-j/siovim";
     siovim.inputs.nixpkgs.follows = "nixpkgs";
     mac-app-util.url = "github:hraban/mac-app-util";

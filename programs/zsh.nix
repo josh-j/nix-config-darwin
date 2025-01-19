@@ -8,42 +8,43 @@
     enableCompletion = true;
 
     # Use fast-syntax-highlighting instead of regular syntax highlighting
-    syntaxHighlighting.enable = false;
+    syntaxHighlighting.enable = true;
 
-    defaultKeymap = "emacs";
+    # defaultKeymap = "emacs";
+    defaultKeymap = "viins";
 
     # Optimized completion init
-    completionInit = ''
-      # Setup fpath for completions
-      fpath=(
-        ${config.xdg.cacheHome}/zsh/completions
-        $fpath
-        ${pkgs.zsh}/share/zsh/site-functions
-        ${pkgs.zsh}/share/zsh/${pkgs.zsh.version}/functions
-      )
-
-      # Load completions
-      autoload -Uz compinit bashcompinit
-
-      # Only regenerate completion cache once per day
-      if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
-        compinit
-        bashcompinit
-      else
-        compinit -C
-        bashcompinit -C
-      fi
-
-      # Completion styles
-      zstyle ':completion:*' menu select
-      zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-      zstyle ':completion:*' verbose true
-      zstyle ':completion:*' group-name '''' # group matches by tag
-      zstyle ':completion:*:*:*:*:corrections' format '%F{yellow}!- %d (errors: %e) -!%f'
-      zstyle ':completion:*:*:*:*:descriptions' format '%F{blue}-- %D %d --%f'
-      zstyle ':completion:*:*:*:*:messages' format ' %F{purple} -- %d --%f'
-      zstyle ':completion:*:*:*:*:warnings' format ' %F{red}-- no matches found --%f'
-    '';
+    # completionInit = ''
+    #   # Setup fpath for completions
+    #   fpath=(
+    #     ${config.xdg.cacheHome}/zsh/completions
+    #     $fpath
+    #     ${pkgs.zsh}/share/zsh/site-functions
+    #     ${pkgs.zsh}/share/zsh/${pkgs.zsh.version}/functions
+    #   )
+    #
+    #   # Load completions
+    #   autoload -Uz compinit bashcompinit
+    #
+    #   # Only regenerate completion cache once per day
+    #   if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+    #     compinit
+    #     bashcompinit
+    #   else
+    #     compinit -C
+    #     bashcompinit -C
+    #   fi
+    #
+    #   # Completion styles
+    #   zstyle ':completion:*' menu select
+    #   zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+    #   zstyle ':completion:*' verbose true
+    #   zstyle ':completion:*' group-name '''' # group matches by tag
+    #   zstyle ':completion:*:*:*:*:corrections' format '%F{yellow}!- %d (errors: %e) -!%f'
+    #   zstyle ':completion:*:*:*:*:descriptions' format '%F{blue}-- %D %d --%f'
+    #   zstyle ':completion:*:*:*:*:messages' format ' %F{purple} -- %d --%f'
+    #   zstyle ':completion:*:*:*:*:warnings' format ' %F{red}-- no matches found --%f'
+    # '';
 
     # History settings optimized for performance
     history = {
@@ -89,56 +90,61 @@
     autosuggestion.enable = true;
 
     # Initialize zsh faster by deferring source loading
-    initExtraFirst = ''
-      # Profile startup when needed
-      if [[ "$PROFILE_STARTUP" == true ]]; then
-        zmodload zsh/zprof
-      fi
+    # initExtraFirst = ''
+    #   # Profile startup when needed
+    #   if [[ "$PROFILE_STARTUP" == true ]]; then
+    #     zmodload zsh/zprof
+    #   fi
+    #
+    #   # Create completion cache directory
+    #   mkdir -p ${config.xdg.cacheHome}/zsh/completions
+    #
+    #   # Load completion system
+    #   autoload -Uz compinit
+    #
+    #   # Ensure compdef is available
+    #   autoload -Uz compdef
+    # '';
 
-      # Create completion cache directory
-      mkdir -p ${config.xdg.cacheHome}/zsh/completions
-
-      # Load completion system
-      autoload -Uz compinit
-
-      # Ensure compdef is available
-      autoload -Uz compdef
-    '';
+    # initExtra = ''
+    #   # Lazy load completions
+    #   eval "$(${pkgs.starship}/bin/starship init zsh)"
+    #
+    #   kubectl() {
+    #     unfunction "$0"
+    #     source <(command kubectl completion zsh)
+    #     $0 "$@"
+    #   }
+    #
+    #   helm() {
+    #     unfunction "$0"
+    #     source <(command helm completion zsh)
+    #     $0 "$@"
+    #   }
+    #
+    #   docker-compose() {
+    #     unfunction "$0"
+    #     source <(command docker-compose completion zsh)
+    #     $0 "$@"
+    #   }
+    #
+    #   # Load zoxide after compinit
+    #   eval "$(${pkgs.zoxide}/bin/zoxide init zsh)"
+    #
+    #   # Load atuin if zle is available
+    #   if [[ $options[zle] = on ]]; then
+    #     eval "$(${pkgs.atuin}/bin/atuin init zsh)"
+    #   fi
+    #
+    #   # Profile output
+    #   if [[ "$PROFILE_STARTUP" == true ]]; then
+    #     zprof
+    #   fi
+    # '';
 
     initExtra = ''
-      # Lazy load completions
-      eval "$(${pkgs.starship}/bin/starship init zsh)"
-
-      kubectl() {
-        unfunction "$0"
-        source <(command kubectl completion zsh)
-        $0 "$@"
-      }
-
-      helm() {
-        unfunction "$0"
-        source <(command helm completion zsh)
-        $0 "$@"
-      }
-
-      docker-compose() {
-        unfunction "$0"
-        source <(command docker-compose completion zsh)
-        $0 "$@"
-      }
-
-      # Load zoxide after compinit
-      eval "$(${pkgs.zoxide}/bin/zoxide init zsh)"
-
-      # Load atuin if zle is available
-      if [[ $options[zle] = on ]]; then
-        eval "$(${pkgs.atuin}/bin/atuin init zsh)"
-      fi
-
-      # Profile output
-      if [[ "$PROFILE_STARTUP" == true ]]; then
-        zprof
-      fi
+      bindkey -v
+      bindkey '^f' autosuggest-accept
     '';
 
     shellAliases = {
@@ -167,12 +173,11 @@
       dx = "docker exec -it";
       ls = "eza";
       dotfiles = "git --git-dir=$HOME/Projects/dotfiles/ --work-tree=$HOME";
+      switch = "darwin-rebuild switch --flake ~/Projects/dotfiles/nix-config/";
+      svim = "nix run github:josh-j/siovim";
     };
   };
 
   # Add XDG Base Directory support
   xdg.enable = true;
-
-  # Ensure completion cache directory exists
-  home.file.".cache/zsh/completions/.keep".text = "";
 }
