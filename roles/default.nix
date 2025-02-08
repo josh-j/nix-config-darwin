@@ -11,9 +11,11 @@
     networking.firewall.enable = true;
   };
 
-  development = {...}: {
+  development = { ... }: {
     # Development environment configuration
-    programs.git.enable = true;
-    programs.direnv.enable = true;
+    home-manager.users.joshj = {
+      programs.git.enable = true;
+      programs.direnv.enable = true;
+    };
   };
 }

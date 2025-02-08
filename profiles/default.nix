@@ -1,10 +1,12 @@
 {
   minimal = {...}: {
     # Minimal system configuration
-    programs = {
-      git.enable = true;
-      zsh.enable = true;
-      direnv.enable = true;
+    home-manager.users.joshj = {
+      programs = {
+        git.enable = true;
+        zsh.enable = true;
+        direnv.enable = true;
+      };
     };
   };
 
@@ -13,9 +15,11 @@
     imports = [
       ./minimal
     ];
-    programs = {
-      vscode.enable = true;
-      tmux.enable = true;
+    home-manager.users.joshj = {
+      programs = {
+        vscode.enable = true;
+        tmux.enable = true;
+      };
     };
   };
 
@@ -24,10 +28,12 @@
     imports = [
       ./minimal
     ];
-    programs = {
-      vscode.enable = true;
-      docker.enable = true;
-      direnv.enable = true;
+    home-manager.users.joshj = {
+      programs = {
+        vscode.enable = true;
+        docker.enable = true;
+        direnv.enable = true;
+      };
     };
   };
 }
