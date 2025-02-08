@@ -19,7 +19,6 @@
       cores = 0;
       build-users-group = "nixbld";
       trusted-users = [
-        "${config.user.name}"
         "@wheel"
         "@admin"
         "@nixbld"

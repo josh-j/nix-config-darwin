@@ -25,7 +25,6 @@
       cores = 0;  # Use all available cores
       build-users-group = "nixbld";
       trusted-users = [
-        "${username}"
         "@wheel"
         "@admin"
         "@nixbld"
