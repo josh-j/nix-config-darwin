@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ config, lib, ... }:
 {
   options.environmentType = lib.mkOption {
     type = lib.types.enum [ "production" "development" "testing" ];
