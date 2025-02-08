@@ -1,31 +1,25 @@
-{ config, lib, pkgs, inputs, username, ... }: {
-  imports = [
-    ./nix.nix
-    ./system.nix
-    ./security.nix
-  ];
+{ config, lib, ... }: {
   nix = {
     configureBuildUsers = true;
     gc = {
       automatic = true;
       options = "--delete-older-than 7d";
-      interval = { Weekday = 0; Hour = 0; Minute = 0; };  # Run at midnight on Sundays
+      interval = { Weekday = 0; Hour = 0; Minute = 0; };
     };
     optimise = {
       automatic = true;
-      interval = { Weekday = 0; Hour = 1; Minute = 0; };  # Run at 1 AM on Sundays
+      interval = { Weekday = 0; Hour = 1; Minute = 0; };
     };
-    registry.nixpkgs.flake = inputs.nixpkgs;
     settings = {
       experimental-features = ["nix-command" "flakes"];
       warn-dirty = false;
       use-xdg-base-directories = true;
       accept-flake-config = true;
       max-jobs = "auto";
-      cores = 0;  # Use all available cores
+      cores = 0;
       build-users-group = "nixbld";
       trusted-users = [
-        "${username}"
+        "${config.user.name}"
         "@wheel"
         "@admin"
         "@nixbld"
@@ -47,16 +41,9 @@
       fallback = true;
       connect-timeout = 5;
       max-substitution-jobs = 32;
-      min-free = 5368709120;  # 5GB
-      max-free = 26843545600; # 25GB
+      min-free = 5368709120;
+      max-free = 26843545600;
       timeout = 3600;
     };
-    buildMachines = lib.mkDefault [];
-    useDaemon = lib.mkDefault true;
-    extraOptions = lib.mkDefault ''
-      keep-going = true
-      keep-derivations = true
-    '';
   };
-  services.nix-daemon.enable = lib.mkDefault true;
 }

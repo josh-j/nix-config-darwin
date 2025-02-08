@@ -114,6 +114,9 @@
         mbam1 = mkSystem {
           system = "aarch64-darwin";
           hostname = "mbam1";
+          profile = "developer";
+          roles = [ "desktop" "development" ];
+          environment = "development";
         };
       };
 
@@ -121,6 +124,9 @@
         wslhost = mkSystem {
           system = "x86_64-linux";
           hostname = "wslhost";
+          profile = "minimal";
+          roles = [ "development" ];
+          environment = "development";
           extraModules = [inputs.nixos-wsl.nixosModules.wsl];
         };
       };
