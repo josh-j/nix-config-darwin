@@ -73,11 +73,15 @@
           ./modules/darwin
           mac-app-util.darwinModules.default
           home-manager.darwinModules.home-manager
-          (_: {
-            home-manager.sharedModules = [
-              mac-app-util.homeManagerModules.default
-            ];
-          })
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              sharedModules = [
+                mac-app-util.homeManagerModules.default
+              ];
+            };
+          }
         ] else [];
         
         linuxModules = if isLinux system then [
