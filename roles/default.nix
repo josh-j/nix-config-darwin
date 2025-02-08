@@ -1,8 +1,10 @@
 {
   desktop = { pkgs, ... }: {
     # Desktop-specific configuration
-    programs.vscode.enable = true;
-    home-manager.users.joshj.home.packages = [ pkgs.firefox ];
+    home-manager.users.joshj.home.packages = with pkgs; [ 
+      firefox
+      vscode 
+    ];
   };
   
   server = {...}: {
