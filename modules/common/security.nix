@@ -8,10 +8,6 @@
   # Linux-specific SSH configuration
   services.openssh = lib.mkIf (!pkgs.stdenv.isDarwin) {
     enable = lib.mkDefault false;
-    settings = {
-      PermitRootLogin = "no";
-      PasswordAuthentication = false;
-    };
   };
 
   # Darwin-specific SSH configuration
