@@ -1,128 +1,85 @@
 {
-pkgs,
-username,
-...
+  pkgs,
+  username,
+  ...
 }: {
   imports = [
     ../../programs/aerospace.nix
   ];
 
-  environment = {
-    systemPackages = with pkgs; [
-      zsh
-      zsh-nix-shell
-    ];
-    variables = {
-      # TERMINFO_DIRS = "${pkgs.ncurses}/share/terminfo";
-    };
-  };
-
-  # environment.shells = [pkgs.zsh];
+  # Package management
+  environment.systemPackages = with pkgs; [
+    zsh
+    zsh-nix-shell
+  ];
 
   homebrew = {
     enable = true;
     onActivation = {
-      autoUpdate = false;  # Changed from true to reduce rebuild time
-      upgrade = false;     # Changed from true to reduce rebuild time
-      cleanup = "uninstall";  # Changed from "zap" to be less aggressive
+      autoUpdate = false;
+      upgrade = false;
+      cleanup = "zap";
     };
-
-    taps = [
-    ];
-    brews = [
-      "openssl@3"
-    ];
-
+    taps = ["qmk/qmk"];
+    # brews = ["openssl@3" "qmk"];
     casks = [
       "anki"
-      {
-        name = "microsoft-edge";
-        greedy = true;
-      }
+      "microsoft-edge"
       "ghostty"
-      # { name = "brave-browser"; greedy = true; }
+      "scroll-reverser"
       "steam"
-      {
-        name = "zen-browser";
-        greedy = true;
-      }
+      "zen-browser"
       "vlc"
     ];
   };
 
-  launchd.user.agents.ghostty = {
-    command = "/Applications/Ghostty.app";
-    serviceConfig = {
-      KeepAlive = true;
-      RunAtLoad = true;
-    };
-  };
-
-  nix.settings = {
-    sandbox = false;
-    build-users-group = "nixbld";
-    max-jobs = "auto";  # Let nix determine the optimal number of jobs
-    cores = 0;  # Use all available cores
-  };
-
-  programs.zsh.enable = true; # breaks everything is removed
-
-  users.users.${username} = {
-    name = "${username}";
-    home = "/Users/${username}";
-    # shell = pkgs.zsh;
-  };
-
-  security = {
-    pam.enableSudoTouchIdAuth = true;
-    sudo.extraConfig = ''
-      ${username} ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/darwin-rebuild
-    '';
-  };
-
+  # System defaults and behavior
   system = {
     stateVersion = 5;
 
-    # activationScripts are executed every time you boot the system or run
-    # `nixos-rebuild` / `darwin-rebuild`.
-    activationScripts.postUserActivation = {
-      text = ''
-      # activateSettings -u will reload the settings from the database and
-      # apply them to the current session, so we do not need to logout and
-      # login again to make the changes take effect.
-      /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-
-      # Disable spotlight indexing for faster rebuilds
-      sudo mdutil -i off / &>/dev/null || true
-      '';
+    keyboard = {
+      enableKeyMapping = true;
+      remapCapsLockToControl = true;
     };
 
     defaults = {
       loginwindow.GuestEnabled = false;
 
-      CustomUserPreferences = {
-        "com.apple.security.smartcard" = {
-          # allowSmartCard = false;
-          enforceSmartCard = false;
-        };
-        "com.apple.commerce".AutoUpdate = true;
-        "com.apple.desktopservices" = {
-          # Avoid creating .DS_Store files on network or USB volumes
-          DSDontWriteNetworkStores = true;
-          DSDontWriteUSBStores = true;
-        };
-        "com.apple.finder" = {
-          ShowExternalHardDrivesOnDesktop = false;
-          ShowHardDrivesOnDesktop = false;
-          ShowMountedServersOnDesktop = true;
-          ShowRemovableMediaOnDesktop = true;
-          _FXSortFoldersFirst = true;
-          # When performing a search, search the current folder by default
-          FXDefaultSearchScope = "SCcf";
-        };
-        "com.apple.spaces" = {
-          "spans-displays" = 0; # Display have seperate spaces
-        };
+      NSGlobalDomain = {
+        # System behavior
+        "com.apple.keyboard.fnState" = true;
+        "com.apple.mouse.tapBehavior" = 1;
+        "com.apple.sound.beep.feedback" = 0;
+        "com.apple.sound.beep.volume" = 0.0;
+        "com.apple.springing.delay" = 0.1;
+
+        # Interface settings
+        AppleInterfaceStyle = "Dark";
+        AppleKeyboardUIMode = 3;
+        ApplePressAndHoldEnabled = false;
+        AppleShowAllExtensions = true;
+        _HIHideMenuBar = true;
+
+        # Performance settings
+        InitialKeyRepeat = 15;
+        KeyRepeat = 2;
+        NSAutomaticWindowAnimationsEnabled = false;
+        NSWindowResizeTime = 0.001;
+
+        # File handling
+        NSNavPanelExpandedStateForSaveMode = true;
+        NSNavPanelExpandedStateForSaveMode2 = true;
+        NSDocumentSaveNewDocumentsToCloud = false;
+        NSTextShowsControlCharacters = true;
+        NSDisableAutomaticTermination = true;
+      };
+
+      finder = {
+        AppleShowAllExtensions = true;
+        FXEnableExtensionChangeWarning = false;
+        FXPreferredViewStyle = "clmv";
+        ShowPathbar = true;
+        _FXShowPosixPathInTitle = true;
       };
 
       dock = {
@@ -134,13 +91,9 @@ username,
         mru-spaces = false;
         orientation = "bottom";
         persistent-apps = [
-          "${pkgs.spotify}/Applications/Spotify.app"
-          # "${pkgs.wezterm}/Applications/Wezterm.app"
           "/Applications/Ghostty.app"
           "/Applications/Microsoft Edge.app"
           "${pkgs.vscode}/Applications/Visual Studio Code.app"
-          # "${pkgs.alacritty}/Applications/Alacritty.app"
-          # "${pkgs.obsidian}/Applications/Obsidian.app"
         ];
         show-process-indicators = true;
         show-recents = false;
@@ -149,51 +102,27 @@ username,
         tilesize = 48;
       };
 
-      finder = {
-        AppleShowAllExtensions = true;
-        FXEnableExtensionChangeWarning = false;
-        FXPreferredViewStyle = "clmv";
-        ShowPathbar = true;
-        _FXShowPosixPathInTitle = true;
-      };
-
-      LaunchServices = {
-        LSQuarantine = false;
-      };
-
-      NSGlobalDomain = {
-        "com.apple.keyboard.fnState" = true;
-        "com.apple.mouse.tapBehavior" = 1;
-        "com.apple.sound.beep.feedback" = 0;
-        "com.apple.sound.beep.volume" = 0.0;
-        "com.apple.springing.delay" = 0.1;
-        AppleInterfaceStyle = "Dark";
-        AppleKeyboardUIMode = 3;
-        ApplePressAndHoldEnabled = false;
-        AppleShowAllExtensions = true;
-        InitialKeyRepeat = 15; # 120, 94, 68, 35, 25, 15
-        KeyRepeat = 2; # 120, 90, 60, 30, 12, 6, 2
-        NSAutomaticWindowAnimationsEnabled = false;
-        NSNavPanelExpandedStateForSaveMode = true;
-        NSNavPanelExpandedStateForSaveMode2 = true;
-        NSWindowResizeTime = 0.001;
-        NSDocumentSaveNewDocumentsToCloud = false;  # Faster file operations
-        NSTextShowsControlCharacters = true;
-        NSDisableAutomaticTermination = true;
-        _HIHideMenuBar = true;
-      };
-
       screencapture.location = "~/Pictures/screenshots";
       screensaver.askForPasswordDelay = 10;
-
-      trackpad = {
-        Clicking = true;
-        # TrackpadThreeFingerDrag = true;
-      };
-    };
-    keyboard = {
-      enableKeyMapping = true;
-      remapCapsLockToControl = true;
+      trackpad.Clicking = true;
     };
   };
+
+  # User configuration
+  users.users.${username} = {
+    name = "${username}";
+    home = "/Users/${username}";
+  };
+
+  # Security settings
+  security = {
+    pam.enableSudoTouchIdAuth = true;
+  };
+
+  # # System activation
+  # system.activationScripts.postUserActivation.text = ''
+  #   # System settings
+  #   /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+  #   sudo mdutil -i off / &>/dev/null || true
+  # '';
 }
