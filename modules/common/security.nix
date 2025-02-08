@@ -7,10 +7,8 @@
   # System security features
   services.openssh = lib.mkIf (!pkgs.stdenv.isDarwin) {
     enable = lib.mkDefault false;
-    settings = {
-      PasswordAuthentication = false;
-      PermitRootLogin = "no";
-    };
+    permitRootLogin = "no";
+    passwordAuthentication = false;
   };
 
   # Darwin-specific SSH configuration
