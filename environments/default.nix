@@ -1,28 +1,30 @@
-{ environment ? "development", ... }: 
-let
-  envs = {
-    production = {
-      nix.gc = {
-        automatic = true;
-        options = "--delete-older-than 30d";
+{ environment ? "development" }: 
+{
+  imports = [];
+  config = let
+    envs = {
+      production = {
+        nix.gc = {
+          automatic = true;
+          options = "--delete-older-than 30d";
+        };
+        nix.optimise.automatic = true;
       };
-      nix.optimise.automatic = true;
-    };
 
-    development = {
-      nix.gc = {
-        automatic = true;
-        options = "--delete-older-than 7d";
+      development = {
+        nix.gc = {
+          automatic = true;
+          options = "--delete-older-than 7d";
+        };
+        nix.settings.trusted-users = ["@wheel" "@admin"];
       };
-      nix.settings.trusted-users = ["@wheel" "@admin"];
-    };
 
-    testing = {
-      nix.gc = {
-        automatic = true;
-        options = "--delete-older-than 1d";
+      testing = {
+        nix.gc = {
+          automatic = true;
+          options = "--delete-older-than 1d";
+        };
       };
     };
-  };
-in
-  envs.${environment} or envs.development
+  in envs.${environment} or envs.development;
+}
