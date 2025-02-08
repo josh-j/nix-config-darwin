@@ -47,8 +47,8 @@ lib,  # Add lib to the arguments
       fallback = true;
       connect-timeout = 5;
       max-substitution-jobs = 32;
-      min-free = ${toString (5 * 1024 * 1024 * 1024)};  # 5GB
-      max-free = ${toString (25 * 1024 * 1024 * 1024)}; # 25GB
+      min-free = 5368709120;  # 5GB
+      max-free = 26843545600; # 25GB
       timeout = 3600;
     };
     buildMachines = lib.mkDefault [];
