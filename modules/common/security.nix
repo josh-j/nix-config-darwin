@@ -1,11 +1,11 @@
-{ config, lib, ... }: {
+{ config, lib, pkgs, ... }: {
   # Security settings
   security = {
     pam.enableSudoTouchIdAuth = lib.mkIf (config.system.platform == "darwin") true;
   };
   
   # System security features
-  services.openssh = lib.mkIf (!config.system.isDarwin) {
+  services.openssh = lib.mkIf (!pkgs.stdenv.isDarwin) {
     enable = lib.mkDefault false;
     settings = {
       PasswordAuthentication = false;
@@ -14,7 +14,7 @@
   };
 
   # Darwin-specific SSH configuration
-  system.defaults.ssh = lib.mkIf config.system.isDarwin {
+  system.defaults.ssh = lib.mkIf pkgs.stdenv.isDarwin {
     enable = lib.mkDefault false;
   };
 }
