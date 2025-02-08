@@ -5,41 +5,51 @@ lib,  # Add lib to the arguments
 ...
 }: {
   nix = {
-    configureBuildUsers = lib.mkDefault true;
+    configureBuildUsers = true;
     gc = {
-      automatic = lib.mkDefault true;
-      options = lib.mkDefault "--delete-older-than 7d";
+      automatic = true;
+      options = "--delete-older-than 7d";
+      dates = "weekly";
     };
-    optimise.automatic = lib.mkDefault true;
-    registry.nixpkgs.flake = lib.mkDefault inputs.nixpkgs;
+    optimise = {
+      automatic = true;
+      dates = ["weekly"];
+    };
+    registry.nixpkgs.flake = inputs.nixpkgs;
     settings = {
-      experimental-features = lib.mkDefault ["nix-command" "flakes"];
-      warn-dirty = lib.mkDefault false;
-      use-xdg-base-directories = lib.mkDefault true;
-      accept-flake-config = lib.mkDefault true;
-      max-jobs = lib.mkDefault 8;
-      cores = lib.mkDefault 2;
-      build-users-group = lib.mkDefault "nixbld";
-      trusted-users = lib.mkDefault [
+      experimental-features = ["nix-command" "flakes"];
+      warn-dirty = false;
+      use-xdg-base-directories = true;
+      accept-flake-config = true;
+      max-jobs = "auto";
+      cores = 0;  # Use all available cores
+      build-users-group = "nixbld";
+      trusted-users = [
         "${username}"
         "@wheel"
         "@admin"
         "@nixbld"
         "nixbld"
       ];
-      substituters = lib.mkDefault [
+      substituters = [
         "https://cache.nixos.org"
         "https://nix-community.cachix.org"
+        "https://cache.garnix.io"
       ];
-      trusted-public-keys = lib.mkDefault [
+      trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
       ];
-      keep-outputs = lib.mkDefault true;
-      keep-derivations = lib.mkDefault true;
-      system-features = lib.mkDefault [ "big-parallel" "kvm" "nixos-test" ];
-      fallback = lib.mkDefault true;
-      connect-timeout = lib.mkDefault 5;
+      keep-outputs = true;
+      keep-derivations = true;
+      system-features = [ "big-parallel" ];
+      fallback = true;
+      connect-timeout = 5;
+      max-substitution-jobs = 32;
+      min-free = ${toString (5 * 1024 * 1024 * 1024)};  # 5GB
+      max-free = ${toString (25 * 1024 * 1024 * 1024)}; # 25GB
+      timeout = 3600;
     };
     buildMachines = lib.mkDefault [];
     useDaemon = lib.mkDefault true;

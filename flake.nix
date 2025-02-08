@@ -22,6 +22,8 @@
 
   outputs = inputs:
     with inputs; let
+      isDarwin = system: builtins.match ".*darwin" system != null;
+      isLinux = system: builtins.match ".*linux" system != null;
       defaultUser = "joshj";
 
       nixpkgsConfig = {
@@ -57,31 +59,41 @@
         system,
         hostname,
         username ? defaultUser,
+        profile ? "default",
+        roles ? [],
+        environment ? "development",
         extraModules ? [],
-      }:
-        if builtins.match ".*darwin" system != null
-        then
-          inputs.nix-darwin.lib.darwinSystem {
-            inherit system;
-            pkgs = mkPkgsWithOverlays system;
-            specialArgs = mkCommonArgs system // {inherit hostname username;};
-            modules =
-              [
-                ./modules/common
-                ./modules/darwin
-                mac-app-util.darwinModules.default
-                home-manager.darwinModules.home-manager
-                (
-                  _: {
-                    home-manager.sharedModules = [
-                      mac-app-util.homeManagerModules.default
-                    ];
-                  }
-                )
-                (import (./hosts + "/${hostname}"))
-              ]
-              ++ extraModules;
-          }
+      }: let
+        baseModules = [
+          ./modules/common
+          (import ./environments/${environment})
+        ] ++ (map (role: (import ./roles/${role})) roles);
+        
+        darwinModules = if isDarwin system then [
+          ./modules/darwin
+          mac-app-util.darwinModules.default
+          home-manager.darwinModules.home-manager
+          (_: {
+            home-manager.sharedModules = [
+              mac-app-util.homeManagerModules.default
+            ];
+          })
+        ] else [];
+        
+        linuxModules = if isLinux system then [
+          ./modules/linux
+          home-manager.nixosModules.home-manager
+        ] else [];
+        
+      in if isDarwin system then
+        inputs.nix-darwin.lib.darwinSystem {
+          inherit system;
+          pkgs = mkPkgsWithOverlays system;
+          specialArgs = mkCommonArgs system // {inherit hostname username;};
+          modules = baseModules ++ darwinModules ++ [
+            (import (./hosts + "/${hostname}"))
+          ] ++ extraModules;
+        }
         else if builtins.match ".*linux" system != null
         then
           inputs.nixpkgs.lib.nixosSystem {
