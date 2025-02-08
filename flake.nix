@@ -66,7 +66,7 @@
       }: let
         baseModules = [
           ./modules/common
-          (import ./environments/default.nix { inherit environment; })
+          ./environments/default.nix
         ] ++ (map (role: (import ./roles/default.nix).${role}) roles);
         
         darwinModules = if isDarwin system then [

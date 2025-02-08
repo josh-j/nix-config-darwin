@@ -1,17 +1,7 @@
-{ config, lib, environment ? "development", ... }: 
-{
-  imports = [];
-  
-  options = {
-    environmentType = lib.mkOption {
-      type = lib.types.enum [ "production" "development" "testing" ];
-      default = "development";
-      description = "The type of environment to configure";
-    };
-  };
-  
-  config = let
-    envs = {
+{ config, lib, pkgs, ... }: 
+let
+  environment = config.environmentType or "development";
+  envs = {
       production = {
         nix.gc = {
           automatic = true;
@@ -41,5 +31,15 @@
         };
       };
     };
-  in envs.${environment} or envs.development;
+  in {
+    options = {
+      environmentType = lib.mkOption {
+        type = lib.types.enum [ "production" "development" "testing" ];
+        default = "development";
+        description = "The type of environment to configure";
+      };
+    };
+
+    config = envs.${environment} or envs.development;
+  };
 }
