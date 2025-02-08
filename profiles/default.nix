@@ -15,7 +15,6 @@
     ];
     programs = {
       vscode.enable = true;
-      firefox.enable = true;
       tmux.enable = true;
     };
   };
