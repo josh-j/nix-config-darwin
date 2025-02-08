@@ -1,6 +1,15 @@
-{ environment ? "development" }: 
+{ config, lib, environment ? "development", ... }: 
 {
   imports = [];
+  
+  options = {
+    environmentType = lib.mkOption {
+      type = lib.types.enum [ "production" "development" "testing" ];
+      default = "development";
+      description = "The type of environment to configure";
+    };
+  };
+  
   config = let
     envs = {
       production = {

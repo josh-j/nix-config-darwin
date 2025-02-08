@@ -54,8 +54,6 @@ lib,  # Add lib to the arguments
     buildMachines = lib.mkDefault [];
     useDaemon = lib.mkDefault true;
     extraOptions = lib.mkDefault ''
-      min-free = ${toString (100 * 1024 * 1024)}
-      max-free = ${toString (1024 * 1024 * 1024)}
       keep-going = true
       keep-derivations = true
     '';
