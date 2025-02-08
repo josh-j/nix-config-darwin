@@ -9,11 +9,11 @@ lib,  # Add lib to the arguments
     gc = {
       automatic = true;
       options = "--delete-older-than 7d";
-      dates = "weekly";
+      interval = { Weekday = 0; Hour = 0; Minute = 0; };  # Run at midnight on Sundays
     };
     optimise = {
       automatic = true;
-      dates = ["weekly"];
+      interval = { Weekday = 0; Hour = 1; Minute = 0; };  # Run at 1 AM on Sundays
     };
     registry.nixpkgs.flake = inputs.nixpkgs;
     settings = {
