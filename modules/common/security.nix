@@ -5,13 +5,6 @@
   };
   
   # System security features
-  # SSH configuration for both Linux and Darwin
-  services.openssh = lib.mkMerge [
-    (lib.mkIf (!pkgs.stdenv.isDarwin) {
-      enable = lib.mkDefault false;
-    })
-    (lib.mkIf pkgs.stdenv.isDarwin {
-      enable = lib.mkDefault false;
-    })
-  ];
+  # SSH configuration for all platforms
+  services.openssh.enable = lib.mkDefault false;
 }
