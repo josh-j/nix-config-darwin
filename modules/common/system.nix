@@ -1,6 +1,6 @@
 { config, lib, ... }: {
   # System-wide configuration
-  time.timeZone = lib.mkDefault "America/Los_Angeles";
+  time.timeZone = lib.mkDefault "Europe/Berlin";
   
   # System features
   services.nix-daemon.enable = true;
