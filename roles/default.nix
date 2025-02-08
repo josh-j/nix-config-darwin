@@ -2,8 +2,9 @@
   desktop = { pkgs, ... }: {
     # Desktop-specific configuration
     home-manager.users.joshj.home.packages = with pkgs; [ 
-      firefox
       vscode 
+    ] ++ lib.optionals (!pkgs.stdenv.isDarwin) [
+      firefox
     ];
   };
   
