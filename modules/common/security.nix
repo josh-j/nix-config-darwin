@@ -11,7 +11,7 @@
   };
 
   # Darwin-specific SSH configuration
-  system.defaults.ssh = lib.mkIf pkgs.stdenv.isDarwin {
+  services.sshd = lib.mkIf pkgs.stdenv.isDarwin {
     enable = lib.mkDefault false;
   };
 }
