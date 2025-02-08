@@ -37,7 +37,7 @@
           config = nixpkgsConfig;
           overlays = [
             (_: prev: {
-              unstable = import inputs.nixpkgs-unstable {
+              stable = import inputs.nixpkgs-stable {
                 inherit (prev) system;
                 config = nixpkgsConfig;
               };
@@ -49,7 +49,7 @@
       mkCommonArgs = system: {
         inherit inputs self system;
         channels = {
-          inherit nixpkgs nixpkgs-unstable;
+          inherit nixpkgs nixpkgs-stable;
         };
       };
 
