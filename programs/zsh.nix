@@ -12,7 +12,6 @@
 
     # defaultKeymap = "emacs";
     defaultKeymap = "viins";
-
     # Optimized completion init
     # completionInit = ''
     #   # Setup fpath for completions
@@ -66,6 +65,8 @@
       PAGER = "less";
       TINC_USE_NIX = "yes";
       WORDCHARS = "";
+
+      KEYTIMEOUT=20;
 
       ZSH_THEME_GIT_PROMPT_CACHE = "yes";
       ZSH_THEME_GIT_PROMPT_CHANGED = "%{$fg[yellow]%}%{✚%G%}";
@@ -143,6 +144,7 @@
     # '';
 
     initExtra = ''
+      bindkey -M viins 'jk' vi-cmd-mode
       bindkey -v
       bindkey '^f' autosuggest-accept
     '';
