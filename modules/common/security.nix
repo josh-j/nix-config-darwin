@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }: {
   # Security settings
   security = {
-    pam.enableSudoTouchIdAuth = lib.mkIf (config.system.platform == "darwin") true;
+    pam.enableSudoTouchIdAuth = lib.mkIf pkgs.stdenv.isDarwin true;
   };
 
   # SSH configuration (common for all platforms)
