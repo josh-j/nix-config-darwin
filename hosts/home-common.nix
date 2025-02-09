@@ -8,7 +8,7 @@
     then "/Users/${username}"
     else "/home/${username}";
 
-  stable-packages = with pkgs; [
+  extraPackages = with pkgs; [
     # Development tools
     direnv
     docker
@@ -40,7 +40,7 @@
     carapace # multi-environment shell completion
     eza
     fzf
-    stable.bat
+    bat
     bottom # system monitor
     coreutils
     curl
@@ -63,7 +63,7 @@ in {
   home = {
     inherit username homeDirectory;
 
-    packages = stable-packages;
+    packages = extraPackages;
     sessionPath = [
       # "$HOME/.local/bin"
       # "$HOME/.local/share/bin"

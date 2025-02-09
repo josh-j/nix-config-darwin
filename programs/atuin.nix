@@ -3,7 +3,7 @@ _: {
     enable = true;
     enableZshIntegration = true;
     enableNushellIntegration = true;
-    daemon.enable = true;
+    # daemon.enable = true;
     settings = {
       auto_sync = true;
       sync_frequency = "5m";

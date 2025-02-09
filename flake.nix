@@ -2,13 +2,13 @@
   description = "NixOS and Darwin System Configurations";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
-    home-manager.url = "github:nix-community/home-manager/master";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     # nixos-wsl.url = "github:nix-community/NixOS-WSL";
     # nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
-    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-24.11";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     nix-index.url = "github:nix-community/nix-index";
     nix-index.inputs.nixpkgs.follows = "nixpkgs";
@@ -37,7 +37,7 @@
           config = nixpkgsConfig;
           overlays = [
             (_: prev: {
-              stable = import inputs.nixpkgs-stable {
+              unstable = import inputs.nixpkgs-unstable {
                 inherit (prev) system;
                 config = nixpkgsConfig;
               };
@@ -49,7 +49,7 @@
       mkCommonArgs = system: {
         inherit inputs self system;
         channels = {
-          inherit nixpkgs nixpkgs-stable;
+          inherit nixpkgs nixpkgs-unstable;
         };
       };
 
