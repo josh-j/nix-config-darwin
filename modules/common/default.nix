@@ -5,6 +5,7 @@ lib,  # Add lib to the arguments
 ...
 }: {
   nix = {
+    enable = lib.mkDefault true;
     configureBuildUsers = lib.mkDefault true;
     gc = {
       automatic = lib.mkDefault true;

@@ -110,8 +110,12 @@ in {
         ../../programs/zoxide.nix
         ../../programs/zsh.nix
       ];
+      nix.enable = false;
       home = {
         packages = extraPackages;
+        sessionPath = [
+          "/nix/var/nix/profiles/default/bin"
+        ];
         file = {
           # ".aerospace.toml".text = builtins.readFile ../../programs/dotfiles/aerospace/aerospace.toml;
           ".config/ghostty/config".text = builtins.readFile ../../programs/dotfiles/ghostty/config;

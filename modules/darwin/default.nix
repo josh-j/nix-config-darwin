@@ -8,29 +8,57 @@ username,
   ];
 
   environment = {
-    systemPackages = with pkgs; [
-      zsh
-      zsh-nix-shell
-    ];
+    # systemPackages = with pkgs; [
+    #   zsh
+    #   zsh-nix-shell
+    # ];
+
     variables = {
       # TERMINFO_DIRS = "${pkgs.ncurses}/share/terminfo";
     };
   };
 
-  # environment.shells = [pkgs.zsh];
+  environment.systemPath = [
+    "/nix/var/nix/profiles/default/bin" # Determinate path
+  ] ++ config.environment.systemPath;
+
+  # Determinate compatibility
+   # nix.extraOptions = ''
+   #   auto-optimise-store = true
+   #   experimental-features = nix-command flakes
+   # '';
+
+
+  # # environment.shells = [pkgs.zsh];
+  environment.systemPackages = [ pkgs.qmk ];
+  # nix.optimise.automatic = false;
+  # nix.gc.automatic = false;
+  nix.configureBuildUsers = false;
+  nix.useDaemon = false; # Let Determinate manage the daemon
 
   homebrew = {
     enable = true;
     onActivation = {
-      autoUpdate = false;  # Changed from true to reduce rebuild time
-      upgrade = false;     # Changed from true to reduce rebuild time
-      cleanup = "uninstall";  # Changed from "zap" to be less aggressive
+      autoUpdate = true;  # Changed from true to reduce rebuild time
+      upgrade = true;     # Changed from true to reduce rebuild time
+      cleanup = "zap";
+      extraFlags = [ "--force" ];
+    };
+
+    global = {
+      # Automatically use the Brewfile that this module generates in the Nix store
+      # https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.global.brewfile
+      brewfile = true;
+      autoUpdate = true;
     };
 
     taps = [
+      # "qmk/qmk"
     ];
     brews = [
       "openssl@3"
+      "firefoxpwa"
+      # "qmk/qmk/qmk"
     ];
 
     casks = [
@@ -39,9 +67,11 @@ username,
         name = "microsoft-edge";
         greedy = true;
       }
+      # "gcc-arm-embedded"
       "ghostty"
       # { name = "brave-browser"; greedy = true; }
-      "steam"
+      "scroll-reverser"
+      # "steam"
       {
         name = "zen-browser";
         greedy = true;
@@ -58,12 +88,13 @@ username,
     };
   };
 
-  nix.settings = {
-    sandbox = false;
-    build-users-group = "nixbld";
-    max-jobs = "auto";  # Let nix determine the optimal number of jobs
-    cores = 0;  # Use all available cores
-  };
+  nix.enable = false;
+  # nix.settings = {
+  #   sandbox = false;
+  #   build-users-group = "nixbld";
+  #   max-jobs = "auto";  # Let nix determine the optimal number of jobs
+  #   cores = 0;  # Use all available cores
+  # };
 
   programs.zsh.enable = true; # breaks everything is removed
 
@@ -83,19 +114,19 @@ username,
   system = {
     stateVersion = 5;
 
-    # activationScripts are executed every time you boot the system or run
-    # `nixos-rebuild` / `darwin-rebuild`.
-    activationScripts.postUserActivation = {
-      text = ''
-      # activateSettings -u will reload the settings from the database and
-      # apply them to the current session, so we do not need to logout and
-      # login again to make the changes take effect.
-      /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-
-      # Disable spotlight indexing for faster rebuilds
-      sudo mdutil -i off / &>/dev/null || true
-      '';
-    };
+    # # activationScripts are executed every time you boot the system or run
+    # # `nixos-rebuild` / `darwin-rebuild`.
+    # activationScripts.postUserActivation = {
+    #   text = ''
+    #   # activateSettings -u will reload the settings from the database and
+    #   # apply them to the current session, so we do not need to logout and
+    #   # login again to make the changes take effect.
+    #   /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+    #
+    #   # Disable spotlight indexing for faster rebuilds
+    #   sudo mdutil -i off / &>/dev/null || true
+    #   '';
+    # };
 
     defaults = {
       loginwindow.GuestEnabled = false;

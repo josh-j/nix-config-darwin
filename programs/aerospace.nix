@@ -62,7 +62,16 @@
 
         # Applications
         alt-b = "exec-and-forget open -a /Applications/Edge.app";
-        alt-enter = "exec-and-forget open -n /Applications/Ghostty.app";
+        # alt-enter = "exec-and-forget open /Applications/Ghostty.app -n";
+        alt-enter = ''
+            exec-and-forget osascript -e 'if application "Ghostty" is not running then
+              tell application "Ghostty" to activate
+            else
+              tell application "Ghostty" to activate
+              tell application "System Events" to tell process "Ghostty" to click menu item "New Window" of menu "File" of menu bar 1
+            end if'
+        '';
+
       };
 
       mode.service.binding = {

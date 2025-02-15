@@ -13,10 +13,24 @@
     nix-index.url = "github:nix-community/nix-index";
     nix-index.inputs.nixpkgs.follows = "nixpkgs";
 
+    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
+    homebrew-bundle = {
+      url = "github:homebrew/homebrew-bundle";
+      flake = false;
+    };
+
     # Misc
     tmux-sessionx.url = "github:omerxx/tmux-sessionx";
     siovim.url = "github:josh-j/siovim";
-    siovim.inputs.nixpkgs.follows = "nixpkgs";
+    # siovim.inputs.nixpkgs.follows = "nixpkgs";
     mac-app-util.url = "github:hraban/mac-app-util";
   };
 
@@ -67,8 +81,26 @@
             specialArgs = mkCommonArgs system // {inherit hostname username;};
             modules =
               [
-                ./modules/common
+                # ./modules/common
                 ./modules/darwin
+
+                nix-homebrew.darwinModules.nix-homebrew
+                {
+                  nix-homebrew = {
+                    enable = true;
+                    enableRosetta = true;
+                    user = username;
+
+                    # Add your taps
+                    taps = {
+                      "homebrew/homebrew-core" = homebrew-core;
+                      "homebrew/homebrew-cask" = homebrew-cask;
+                      "homebrew/homebrew-bundle" = homebrew-bundle;
+                    };
+                    mutableTaps = true; # Set to false if you want fully declarative tap management
+                  };
+                }
+
                 mac-app-util.darwinModules.default
                 home-manager.darwinModules.home-manager
                 (
