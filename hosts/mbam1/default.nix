@@ -6,6 +6,7 @@
 }: let
   extraPackages = with pkgs; [
     # Development tools
+    unstable.aider-chat
     tree-sitter
     fx # JSON viewer in terminal
     git-crypt
@@ -40,16 +41,19 @@
     lua52Packages.luacheck
 
     # Nix
-    nil
+    nixd
     alejandra
     deadnix # nix
-    nixpkgs-fmt
+    # nixfmt-rfc-style
     statix # nix
 
     # Powershell
     powershell
 
     # Python
+    urnicorn
+    pyenv
+    xz
     virtualenv
     python3
     python3Packages.pip
@@ -80,6 +84,7 @@
 
     # Terminal and shell
     neofetch
+    wakeonlan
 
     # UI
     vscode
@@ -113,9 +118,9 @@ in {
       nix.enable = false;
       home = {
         packages = extraPackages;
-        sessionPath = [
-          "/nix/var/nix/profiles/default/bin"
-        ];
+        # sessionPath = [
+        #   "/nix/var/nix/profiles/default/bin"
+        # ];
         file = {
           # ".aerospace.toml".text = builtins.readFile ../../programs/dotfiles/aerospace/aerospace.toml;
           ".config/ghostty/config".text = builtins.readFile ../../programs/dotfiles/ghostty/config;

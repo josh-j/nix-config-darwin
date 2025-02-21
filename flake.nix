@@ -10,8 +10,8 @@
     # nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-24.11";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    nix-index.url = "github:nix-community/nix-index";
-    nix-index.inputs.nixpkgs.follows = "nixpkgs";
+    # nix-index.url = "github:nix-community/nix-index";
+    # nix-index.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     homebrew-core = {
@@ -88,8 +88,9 @@
                 {
                   nix-homebrew = {
                     enable = true;
-                    enableRosetta = true;
+                    enableRosetta = false;
                     user = username;
+                    autoMigrate = false;
 
                     # Add your taps
                     taps = {
@@ -97,6 +98,7 @@
                       "homebrew/homebrew-cask" = homebrew-cask;
                       "homebrew/homebrew-bundle" = homebrew-bundle;
                     };
+
                     mutableTaps = true; # Set to false if you want fully declarative tap management
                   };
                 }

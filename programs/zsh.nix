@@ -1,7 +1,7 @@
 {
-  config,
-  pkgs,
-  ...
+config,
+pkgs,
+...
 }: {
   programs.zsh = {
     enable = true;
@@ -143,11 +143,23 @@
     # '';
 
     initExtra = ''
-      bindkey -v
-      bindkey '^f' autosuggest-accept
-    '';
+  # Enable vi mode
+  bindkey -v
 
-    shellAliases = {
+  # Emacs-style history navigation in insert mode
+  bindkey -M viins '^p' _atuin_search_widget
+  bindkey -M viins '^n' down-line-or-history
+
+  # Keep your existing autosuggest binding
+  bindkey '^f' autosuggest-accept
+
+  # Add other common Emacs bindings that don't conflict with Vim
+  bindkey -M viins '^a' beginning-of-line
+  bindkey -M viins '^e' end-of-line
+  bindkey -M viins '^k' kill-line
+  bindkey -M viins '^u' backward-kill-line
+  bindkey -M viins '^w' backward-kill-word
+    '';    shellAliases = {
       # Keep your existing aliases
       "...." = "././..";
       cd = "z";
@@ -173,7 +185,7 @@
       dx = "docker exec -it";
       ls = "eza";
       dotfiles = "git --git-dir=$HOME/Projects/dotfiles/ --work-tree=$HOME";
-      switch = "darwin-rebuild switch --flake ~/Projects/dotfiles/nix-config/";
+      switch = "nix run nix-darwin/nix-darwin-24.11#darwin-rebuild -- switch --flake /Users/joshj/Projects/dotfiles/nix-config/#mbam1";
       svim = "nix run github:josh-j/siovim";
     };
   };

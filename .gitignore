@@ -6,3 +6,4 @@ result-*
 .DS_Store
 age.key
 secrets.json
+flake.lock

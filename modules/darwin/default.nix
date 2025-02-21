@@ -8,29 +8,29 @@ username,
   ];
 
   environment = {
-    # systemPackages = with pkgs; [
-    #   zsh
-    #   zsh-nix-shell
-    # ];
+    systemPackages = with pkgs; [
+      qmk
+      zsh
+      zsh-nix-shell
+    ];
 
     variables = {
       # TERMINFO_DIRS = "${pkgs.ncurses}/share/terminfo";
     };
   };
 
-  environment.systemPath = [
-    "/nix/var/nix/profiles/default/bin" # Determinate path
-  ] ++ config.environment.systemPath;
-
   # Determinate compatibility
-   # nix.extraOptions = ''
-   #   auto-optimise-store = true
-   #   experimental-features = nix-command flakes
-   # '';
-
+  # nix.extraOptions = ''
+  #   auto-optimise-store = true
+  #   experimental-features = nix-command flakes
+  # '';
 
   # # environment.shells = [pkgs.zsh];
-  environment.systemPackages = [ pkgs.qmk ];
+  # environment.systemPackages = [ pkgs.qmk ];
+
+  programs.nix-index.enable = true;
+
+  nix.enable = false; #determinate
   # nix.optimise.automatic = false;
   # nix.gc.automatic = false;
   nix.configureBuildUsers = false;
@@ -38,6 +38,7 @@ username,
 
   homebrew = {
     enable = true;
+    # brewPrefix = "/run/current-system/sw/bin/brew";
     onActivation = {
       autoUpdate = true;  # Changed from true to reduce rebuild time
       upgrade = true;     # Changed from true to reduce rebuild time
@@ -58,7 +59,8 @@ username,
     brews = [
       "openssl@3"
       "firefoxpwa"
-      # "qmk/qmk/qmk"
+
+      "unicorn"
     ];
 
     casks = [
@@ -69,6 +71,7 @@ username,
       }
       # "gcc-arm-embedded"
       "ghostty"
+      "parsec"
       # { name = "brave-browser"; greedy = true; }
       "scroll-reverser"
       # "steam"
@@ -88,7 +91,6 @@ username,
     };
   };
 
-  nix.enable = false;
   # nix.settings = {
   #   sandbox = false;
   #   build-users-group = "nixbld";
@@ -101,32 +103,29 @@ username,
   users.users.${username} = {
     name = "${username}";
     home = "/Users/${username}";
-    # shell = pkgs.zsh;
+    shell = pkgs.zsh;
   };
 
   security = {
     pam.enableSudoTouchIdAuth = true;
-    sudo.extraConfig = ''
-      ${username} ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/darwin-rebuild
-    '';
   };
 
   system = {
-    stateVersion = 5;
+    stateVersion = "24.11";
 
-    # # activationScripts are executed every time you boot the system or run
-    # # `nixos-rebuild` / `darwin-rebuild`.
-    # activationScripts.postUserActivation = {
-    #   text = ''
-    #   # activateSettings -u will reload the settings from the database and
-    #   # apply them to the current session, so we do not need to logout and
-    #   # login again to make the changes take effect.
-    #   /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-    #
-    #   # Disable spotlight indexing for faster rebuilds
-    #   sudo mdutil -i off / &>/dev/null || true
-    #   '';
-    # };
+    # activationScripts are executed every time you boot the system or run
+    # `nixos-rebuild` / `darwin-rebuild`.
+    activationScripts.postUserActivation = {
+      text = ''
+      # activateSettings -u will reload the settings from the database and
+      # apply them to the current session, so we do not need to logout and
+      # login again to make the changes take effect.
+      /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+
+      # Disable spotlight indexing for faster rebuilds
+      # sudo mdutil -i off / &>/dev/null || true
+      '';
+    };
 
     defaults = {
       loginwindow.GuestEnabled = false;
