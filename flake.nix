@@ -5,7 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     home-manager.url = "github:nix-community/home-manager/release-24.11";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    # home-manager.inputs.nixpkgs.follows = "nixpkgs";
     # nixos-wsl.url = "github:nix-community/NixOS-WSL";
     # nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-24.11";
@@ -26,26 +26,34 @@
       url = "github:homebrew/homebrew-bundle";
       flake = false;
     };
+    homebrew-services = {
+      url = "github:homebrew/homebrew-services";
+      flake = false;
+    };
 
     # Misc
+    # ghostty.url = "github:ghostty-org/ghostty";
     tmux-sessionx.url = "github:omerxx/tmux-sessionx";
     siovim.url = "github:josh-j/siovim";
     # siovim.inputs.nixpkgs.follows = "nixpkgs";
     mac-app-util.url = "github:hraban/mac-app-util";
   };
 
-  outputs = inputs:
-    with inputs; let
+  outputs =
+    inputs:
+    with inputs;
+    let
       defaultUser = "joshj";
 
       nixpkgsConfig = {
         allowUnfree = true;
         allowUnfreePredicate = _: true;
-        permittedInsecurePackages = [];
+        permittedInsecurePackages = [ ];
         allowBroken = false;
       };
 
-      mkPkgsWithOverlays = system:
+      mkPkgsWithOverlays =
+        system:
         import inputs.nixpkgs {
           inherit system;
           config = nixpkgsConfig;
@@ -67,71 +75,71 @@
         };
       };
 
-      mkSystem = {
-        system,
-        hostname,
-        username ? defaultUser,
-        extraModules ? [],
-      }:
-        if builtins.match ".*darwin" system != null
-        then
+      mkSystem =
+        {
+          system,
+          hostname,
+          username ? defaultUser,
+          extraModules ? [ ],
+        }:
+        if builtins.match ".*darwin" system != null then
           inputs.nix-darwin.lib.darwinSystem {
             inherit system;
             pkgs = mkPkgsWithOverlays system;
-            specialArgs = mkCommonArgs system // {inherit hostname username;};
-            modules =
-              [
-                # ./modules/common
-                ./modules/darwin
+            specialArgs = mkCommonArgs system // {
+              inherit hostname username;
+            };
+            modules = [
+              # ./modules/common
+              ./modules/darwin
 
-                nix-homebrew.darwinModules.nix-homebrew
-                {
-                  nix-homebrew = {
-                    enable = true;
-                    enableRosetta = false;
-                    user = username;
-                    autoMigrate = false;
+              nix-homebrew.darwinModules.nix-homebrew
+              {
+                nix-homebrew = {
+                  enable = true;
+                  enableRosetta = false;
+                  user = username;
+                  autoMigrate = true;
 
-                    # Add your taps
-                    taps = {
-                      "homebrew/homebrew-core" = homebrew-core;
-                      "homebrew/homebrew-cask" = homebrew-cask;
-                      "homebrew/homebrew-bundle" = homebrew-bundle;
-                    };
-
-                    mutableTaps = true; # Set to false if you want fully declarative tap management
+                  # Add your taps
+                  taps = {
+                    "homebrew/homebrew-core" = homebrew-core;
+                    "homebrew/homebrew-cask" = homebrew-cask;
+                    "homebrew/homebrew-bundle" = homebrew-bundle;
+                    "homebrew/homebrew-services" = homebrew-services;
                   };
-                }
 
-                mac-app-util.darwinModules.default
-                home-manager.darwinModules.home-manager
-                (
-                  _: {
-                    home-manager.sharedModules = [
-                      mac-app-util.homeManagerModules.default
-                    ];
-                  }
-                )
-                (import (./hosts + "/${hostname}"))
-              ]
-              ++ extraModules;
+                  mutableTaps = false; # Set to false if you want fully declarative tap management
+                };
+              }
+
+              mac-app-util.darwinModules.default
+              home-manager.darwinModules.home-manager
+              (_: {
+                home-manager.sharedModules = [
+                  mac-app-util.homeManagerModules.default
+                ];
+              })
+              (import (./hosts + "/${hostname}"))
+            ] ++ extraModules;
           }
-        else if builtins.match ".*linux" system != null
-        then
+        else if builtins.match ".*linux" system != null then
           inputs.nixpkgs.lib.nixosSystem {
             inherit system;
-            specialArgs = mkCommonArgs system // {inherit hostname username;};
-            modules =
-              [
-                ./modules/common
-                ./modules/linux
-                inputs.home-manager.nixosModules.home-manager
-                (import (./hosts + "/${hostname}"))
-              ]
-              ++ extraModules;
+            specialArgs = mkCommonArgs system // {
+              inherit hostname username;
+            };
+            modules = [
+              ./modules/common
+              ./modules/linux
+              inputs.home-manager.nixosModules.home-manager
+              (import (./hosts + "/${hostname}"))
+            ] ++ extraModules;
           }
-        else {};
-    in {
+        else
+          { };
+    in
+    {
       darwinConfigurations = {
         mbam1 = mkSystem {
           system = "aarch64-darwin";
@@ -143,8 +151,10 @@
         wslhost = mkSystem {
           system = "x86_64-linux";
           hostname = "wslhost";
-          extraModules = [inputs.nixos-wsl.nixosModules.wsl];
+          extraModules = [ inputs.nixos-wsl.nixosModules.wsl ];
         };
       };
+      # nix code formatter
+      formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
     };
 }

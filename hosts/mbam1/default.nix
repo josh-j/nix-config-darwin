@@ -3,7 +3,8 @@
   inputs,
   username,
   ...
-}: let
+}:
+let
   extraPackages = with pkgs; [
     # Development tools
     unstable.aider-chat
@@ -44,19 +45,20 @@
     nixd
     alejandra
     deadnix # nix
-    # nixfmt-rfc-style
+    nixfmt-rfc-style
     statix # nix
 
     # Powershell
     powershell
 
     # Python
-    urnicorn
+    # unicorn
     pyenv
     xz
     virtualenv
     python3
     python3Packages.pip
+    python3Packages.flake8
     black # python
     ruff # python
     uv
@@ -92,7 +94,8 @@
     spotify
     obsidian
   ];
-in {
+in
+{
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
@@ -100,32 +103,36 @@ in {
     extraSpecialArgs = {
       inherit username inputs;
     };
-    users.${username} = {...}: {
-      imports = [
-        ../home-common.nix
-        ../../programs/atuin.nix
-        ../../programs/bash.nix
-        ../../programs/direnv.nix
-        # ../../programs/fonts.nix
-        ../../programs/fzf.nix
-        ../../programs/starship.nix
-        ../../programs/tmux.nix
-        ../../programs/wezterm.nix
-        ../../programs/zellij.nix
-        ../../programs/zoxide.nix
-        ../../programs/zsh.nix
-      ];
-      nix.enable = false;
-      home = {
-        packages = extraPackages;
-        # sessionPath = [
-        #   "/nix/var/nix/profiles/default/bin"
-        # ];
-        file = {
-          # ".aerospace.toml".text = builtins.readFile ../../programs/dotfiles/aerospace/aerospace.toml;
-          ".config/ghostty/config".text = builtins.readFile ../../programs/dotfiles/ghostty/config;
+    users.${username} =
+      { ... }:
+      {
+        imports = [
+          ../home-common.nix
+          ../../programs/atuin.nix
+          ../../programs/bash.nix
+          ../../programs/direnv.nix
+          # ../../programs/ghostty.nix
+          # ../../programs/fonts.nix
+          ../../programs/fzf.nix
+          ../../programs/starship.nix
+          ../../programs/tmux.nix
+          ../../programs/wezterm.nix
+          ../../programs/zellij.nix
+          ../../programs/zoxide.nix
+          ../../programs/zsh.nix
+        ];
+        nix.enable = false;
+        home = {
+          packages = extraPackages;
+          # sessionPath = [
+          #   "/nix/var/nix/profiles/default/bin"
+          #   "/etc/profiles/per-user/${username}/bin"
+          # ];
+          # file = {
+          #   # ".aerospace.toml".text = builtins.readFile ../../programs/dotfiles/aerospace/aerospace.toml;
+            ".config/ghostty/config".text = builtins.readFile ../../programs/dotfiles/ghostty/config;
+          # };
         };
       };
-    };
   };
 }

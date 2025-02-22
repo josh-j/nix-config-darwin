@@ -2,11 +2,9 @@
   pkgs,
   username,
   ...
-}: let
-  homeDirectory =
-    if pkgs.stdenv.isDarwin
-    then "/Users/${username}"
-    else "/home/${username}";
+}:
+let
+  homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
 
   extraPackages = with pkgs; [
     # Development tools
@@ -55,7 +53,8 @@
     # zsh-autosuggestions
     # zsh-syntax-highlighting
   ];
-in {
+in
+{
   imports = [
     ../programs/git.nix
     ../programs/ssh.nix
@@ -64,24 +63,26 @@ in {
     inherit username homeDirectory;
 
     packages = extraPackages;
-    sessionPath = [
-      # "$HOME/.local/bin"
-      # "$HOME/.local/share/bin"
-      # "/opt/homebrew/bin" # FIXME don't add if not darwin
-    ];
+    # sessionPath = [
+    #   # "$HOME/.local/bin"
+    #   # "$HOME/.local/share/bin"
+    #   # "/opt/homebrew/bin" # FIXME don't add if not darwin
+    # ];
 
-    sessionVariables = let
-      getSecret = key: ''
-        $(if [ -f "$HOME/.secrets.json" ]; then
-          jq -r '.${key} // empty' "$HOME/.secrets.json"
-        fi)'';
-    in {
-      aiservice_API_KEY = getSecret "aiservice_api";
-      GITHUB_TOKEN = getSecret "github_token"; # Example of another secret
-      OPENAI_API_KEY = getSecret "openai_api"; # Another example
-      OPENROUTER_API_KEY = getSecret "openrouter_api"; # Another example
-      # Add as many secrets as you need
-    };
+    sessionVariables =
+      let
+        getSecret = key: ''
+          $(if [ -f "$HOME/.secrets.json" ]; then
+            jq -r '.${key} // empty' "$HOME/.secrets.json"
+          fi)'';
+      in
+      {
+        aiservice_API_KEY = getSecret "aiservice_api";
+        GITHUB_TOKEN = getSecret "github_token"; # Example of another secret
+        OPENAI_API_KEY = getSecret "openai_api"; # Another example
+        OPENROUTER_API_KEY = getSecret "openrouter_api"; # Another example
+        # Add as many secrets as you need
+      };
 
     stateVersion = "24.11";
   };

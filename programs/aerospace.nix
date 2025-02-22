@@ -1,4 +1,5 @@
-{lib, ...}: {
+{ lib, ... }:
+{
   services.aerospace = {
     enable = true;
     settings = {
@@ -24,7 +25,7 @@
         alt-shift-up = "join-with up";
         alt-shift-right = "join-with right";
 
-        alt-shift-space = "layout floating tiling";         # "floating toggle" in i3
+        alt-shift-space = "layout floating tiling"; # "floating toggle" in i3
         alt-x = "layout tiles horizontal vertical";
         alt-y = "layout accordion horizontal vertical";
 
@@ -73,35 +74,59 @@
         # Modes
         alt-shift-semicolon = "mode service";
         alt-r = "mode resize";
-        alt-shift-r =["flatten-workspace-tree" "mode main"]; # reset layout
+        alt-shift-r = [
+          "flatten-workspace-tree"
+          "mode main"
+        ]; # reset layout
 
         # Applications
         alt-b = "exec-and-forget open -a /Applications/Edge.app";
-        # alt-enter = "exec-and-forget open /Applications/Ghostty.app -n";
+        alt-shift-enter = "exec-and-forget open code -n";
         alt-enter = ''
-            exec-and-forget osascript -e 'if application "Ghostty" is not running then
-              tell applicatlon "Ghostty.app" to activate
-            else
-              tell application "Ghostty.app" to activate
-              tell application "System Events" to tell process "Ghostty" to click menu item "New Window" of menu "File" of menu bar 1
-            end if'
+          exec-and-forget osascript -e 'if application "Ghostty" is not running then
+            tell applicatlon "Ghostty.app" to activate
+          else
+            tell application "Ghostty.app" to activate
+            tell application "System Events" to tell process "Ghostty" to click menu item "New Window" of menu "File" of menu bar 1
+          end if'
         '';
 
       };
 
       mode.service.binding = {
-        esc = ["reload-config" "mode main"];
-        r = ["flatten-workspace-tree" "mode main"]; # reset layout
+        esc = [
+          "reload-config"
+          "mode main"
+        ];
+        r = [
+          "flatten-workspace-tree"
+          "mode main"
+        ]; # reset layout
         f = [
           "layout floating tiling"
           "mode main"
         ]; # Toggle between floating and tiling layout
-        backspace = ["close-all-windows-but-current" "mode main"];
+        backspace = [
+          "close-all-windows-but-current"
+          "mode main"
+        ];
 
-        alt-shift-h = ["join-with left" "mode main"];
-        alt-shift-j = ["join-with down" "mode main"];
-        alt-shift-k = ["join-with up" "mode main"];
-        alt-shift-l = ["join-with right" "mode main"];
+        alt-shift-h = [
+          "join-with left"
+          "mode main"
+        ];
+        alt-shift-j = [
+          "join-with down"
+          "mode main"
+        ];
+        alt-shift-k = [
+          "join-with up"
+          "mode main"
+        ];
+        alt-shift-l = [
+          "join-with right"
+          "mode main"
+        ];
       };
 
       mode.resize.binding = {

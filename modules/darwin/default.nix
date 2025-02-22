@@ -1,22 +1,20 @@
 {
-pkgs,
-username,
-...
-}: {
+  pkgs,
+  username,
+  ...
+}:
+{
   imports = [
     ../../programs/aerospace.nix
   ];
 
   environment = {
     systemPackages = with pkgs; [
+      # ghostty.packages.${pkgs.system}.default
       qmk
       zsh
       zsh-nix-shell
     ];
-
-    variables = {
-      # TERMINFO_DIRS = "${pkgs.ncurses}/share/terminfo";
-    };
   };
 
   # Determinate compatibility
@@ -30,27 +28,30 @@ username,
 
   programs.nix-index.enable = true;
 
-  nix.enable = false; #determinate
+  nix.enable = false; # determinate
   # nix.optimise.automatic = false;
   # nix.gc.automatic = false;
   nix.configureBuildUsers = false;
   nix.useDaemon = false; # Let Determinate manage the daemon
+  nix.settings.trustedUsers = [ username ];
 
   homebrew = {
     enable = true;
     # brewPrefix = "/run/current-system/sw/bin/brew";
     onActivation = {
-      autoUpdate = true;  # Changed from true to reduce rebuild time
-      upgrade = true;     # Changed from true to reduce rebuild time
-      cleanup = "zap";
-      extraFlags = [ "--force" ];
+      #autoUpdate = true;  # Changed from true to reduce rebuild time
+      #upgrade = true;     # Changed from true to reduce rebuild time
+      cleanup = "uninstall";
+      upgrade = true;
+      autoUpdate = false;
+      #extraFlags = [ "--force" ];
     };
 
     global = {
       # Automatically use the Brewfile that this module generates in the Nix store
       # https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.global.brewfile
       brewfile = true;
-      autoUpdate = true;
+      autoUpdate = false;
     };
 
     taps = [
@@ -59,11 +60,11 @@ username,
     brews = [
       "openssl@3"
       "firefoxpwa"
-
-      "unicorn"
+      "uvicorn"
     ];
 
     casks = [
+      # "font-sf-mono-nerd-font-ligaturized"
       "anki"
       {
         name = "microsoft-edge";
@@ -83,13 +84,13 @@ username,
     ];
   };
 
-  launchd.user.agents.ghostty = {
-    command = "/Applications/Ghostty.app";
-    serviceConfig = {
-      KeepAlive = true;
-      RunAtLoad = true;
-    };
-  };
+  # launchd.user.agents.ghostty = {
+  #   command = "/Applications/Ghostty.app";
+  #   serviceConfig = {
+  #     KeepAlive = true;
+  #     RunAtLoad = true;
+  #   };
+  # };
 
   # nix.settings = {
   #   sandbox = false;
@@ -117,13 +118,13 @@ username,
     # `nixos-rebuild` / `darwin-rebuild`.
     activationScripts.postUserActivation = {
       text = ''
-      # activateSettings -u will reload the settings from the database and
-      # apply them to the current session, so we do not need to logout and
-      # login again to make the changes take effect.
-      /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+        # activateSettings -u will reload the settings from the database and
+        # apply them to the current session, so we do not need to logout and
+        # login again to make the changes take effect.
+        /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
 
-      # Disable spotlight indexing for faster rebuilds
-      # sudo mdutil -i off / &>/dev/null || true
+        # Disable spotlight indexing for faster rebuilds
+        # sudo mdutil -i off / &>/dev/null || true
       '';
     };
 
@@ -207,7 +208,7 @@ username,
         NSNavPanelExpandedStateForSaveMode = true;
         NSNavPanelExpandedStateForSaveMode2 = true;
         NSWindowResizeTime = 0.001;
-        NSDocumentSaveNewDocumentsToCloud = false;  # Faster file operations
+        NSDocumentSaveNewDocumentsToCloud = false; # Faster file operations
         NSTextShowsControlCharacters = true;
         NSDisableAutomaticTermination = true;
         _HIHideMenuBar = true;
