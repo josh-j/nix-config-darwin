@@ -5,6 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     home-manager.url = "github:nix-community/home-manager/release-24.11";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
     # home-manager.inputs.nixpkgs.follows = "nixpkgs";
     # nixos-wsl.url = "github:nix-community/NixOS-WSL";
     # nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
@@ -14,6 +15,7 @@
     # nix-index.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+    nix-homebrew.inputs.nixpkgs.follows = "nixpkgs";
     homebrew-core = {
       url = "github:homebrew/homebrew-core";
       flake = false;
@@ -34,9 +36,11 @@
     # Misc
     # ghostty.url = "github:ghostty-org/ghostty";
     tmux-sessionx.url = "github:omerxx/tmux-sessionx";
+    tmux-sessionx.inputs.nixpkgs.follows = "nixpkgs";
     siovim.url = "github:josh-j/siovim";
-    # siovim.inputs.nixpkgs.follows = "nixpkgs";
+    siovim.inputs.nixpkgs.follows = "nixpkgs";
     mac-app-util.url = "github:hraban/mac-app-util";
+    mac-app-util.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
