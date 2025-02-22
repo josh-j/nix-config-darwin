@@ -1,12 +1,12 @@
 # ghostty +show-config --default --docs
 # ghostty +list-themes
 
-font-family                     = JetBrains Mono NR
-font-style                     = Medium
+font-family                    = Iosevka Nerd Font
+font-style                     = Regular
 font-feature                   = calt
 font-feature                   = dlig
 font-feature                   = ss05
-font-thicken                   = true
+font-thicken                   = false
 
 font-size                      = 12
 window-inherit-font-size       = true
@@ -90,5 +90,18 @@ shell-integration-features     = cursor,sudo,title
 # keybind                        = ctrl+shift+l=new_split:right
 # keybind                        = super+shift+enter=new_split:auto
 # keybind                        = super+shift+i=inspector:toggle
-keybind                        = ctrl+shift+r=reload_config
+# keybind                        = ctrl+shift+r=reload_config
 # keybind                        = super+t=new_tab
+
+
+keybind                        = ctrl+a>h=goto_split:left
+keybind                        = ctrl+a>j=goto_split:bottom
+keybind                        = ctrl+a>k=goto_split:top
+keybind                        = ctrl+a>l=goto_split:right
+keybind                        = ctrl+a>shift+h=new_split:left
+keybind                        = ctrl+a>shift+j=new_split:down
+keybind                        = ctrl+a>shift+k=new_split:up
+keybind                        = ctrl+a>shift+l=new_split:right
+keybind                        = ctrl+a>enter=new_split:auto
+keybind                        = ctrl+a>r=reload_config
+keybind                        = ctrl+a>n=new_window

@@ -72,8 +72,9 @@
       }
       # "gcc-arm-embedded"
       "ghostty"
-      "parsec"
-      # { name = "brave-browser"; greedy = true; }
+      # "parsec"
+      { name = "brave-browser"; greedy = true; }
+      { name = "google-chrome"; greedy = true; }
       "scroll-reverser"
       # "steam"
       {

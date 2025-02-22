@@ -84,7 +84,7 @@
         alt-shift-enter = "exec-and-forget open code -n";
         alt-enter = ''
           exec-and-forget osascript -e 'if application "Ghostty" is not running then
-            tell applicatlon "Ghostty.app" to activate
+            tell application "Ghostty.app" to activate
           else
             tell application "Ghostty.app" to activate
             tell application "System Events" to tell process "Ghostty" to click menu item "New Window" of menu "File" of menu bar 1

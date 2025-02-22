@@ -128,10 +128,9 @@ in
           #   "/nix/var/nix/profiles/default/bin"
           #   "/etc/profiles/per-user/${username}/bin"
           # ];
-          # file = {
-          #   # ".aerospace.toml".text = builtins.readFile ../../programs/dotfiles/aerospace/aerospace.toml;
+          file = {
             ".config/ghostty/config".text = builtins.readFile ../../programs/dotfiles/ghostty/config;
-          # };
+          };
         };
       };
   };

@@ -155,6 +155,6 @@
         };
       };
       # nix code formatter
-      formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
+      formatter.${system} = nixpkgs.${system}.alejandra;
     };
 }
