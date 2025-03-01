@@ -132,7 +132,7 @@ in
           # ];
           file = {
             ".config/ghostty/config".text = builtins.readFile ../../programs/dotfiles/ghostty/config;
-            ".config/ghostty/oxocarbon-light".text = builtins.readFile ../../programs/dotfiles/ghostty/themes/oxocarbon-light;
+            ".config/ghostty/themes/oxocarbon-light".text = builtins.readFile ../../programs/dotfiles/ghostty/themes/oxocarbon-light;
           };
         };
       };

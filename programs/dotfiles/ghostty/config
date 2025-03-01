@@ -8,9 +8,9 @@ font-style                     = Medium
 font-feature                   = calt
 font-feature                   = dlig
 font-feature                   = ss05
-font-thicken                   = false
+font-thicken                   = true
 
-font-size                      = 12
+font-size                      = 13
 window-inherit-font-size       = true
 
 # Look and Feel
@@ -43,7 +43,8 @@ quick-terminal-screen = mouse
 # theme = mellifluous
 #theme = gruber-darker
 # theme = oxocarbon
-theme = dark:oxocarbon,light:oxocarbon-light
+# theme = dark:oxocarbon,light:oxocarbon-light
+theme = dark:rose-pine-moon,light:rose-pine-dawn
 # theme = Builtin Solarized Light
 
 # palette = 0=#1c1c1c
