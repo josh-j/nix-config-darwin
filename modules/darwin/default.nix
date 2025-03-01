@@ -87,6 +87,7 @@ username,
 
     casks = [
       "font-sf-mono-nerd-font-ligaturized"
+      "nextcloud"
       "anki"
       {
         name = "microsoft-edge";

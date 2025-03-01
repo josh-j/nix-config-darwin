@@ -43,7 +43,7 @@ quick-terminal-screen = mouse
 # theme = mellifluous
 #theme = gruber-darker
 # theme = oxocarbon
-theme = dark:oxocarbon,light:Github-Light-Default
+theme = dark:oxocarbon,light:oxocarbon-light
 # theme = Builtin Solarized Light
 
 # palette = 0=#1c1c1c

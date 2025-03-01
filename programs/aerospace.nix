@@ -32,6 +32,8 @@
       ];
       mode = {
         main.binding = {
+          cmd-h = "[]"; # Disable "hide application"
+          cmd-alt-h = "[]"; # Disable "hide others"
           alt-shift-f = "fullscreen --no-outer-gaps";
           alt-shift-c = "reload-config";
           alt-q = "close --quit-if-last-window";
