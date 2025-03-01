@@ -7,3 +7,4 @@ result-*
 age.key
 secrets.json
 flake.lock
+.aider*
