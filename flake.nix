@@ -35,10 +35,15 @@
 
     # Misc
     # ghostty.url = "github:ghostty-org/ghostty";
+  
+    homebrew-sfmono = {
+      url = "github:shaunsingh/homebrew-SFMono-Nerd-Font-Ligaturized";
+      flake = false;
+    };
     tmux-sessionx.url = "github:omerxx/tmux-sessionx";
     tmux-sessionx.inputs.nixpkgs.follows = "nixpkgs";
     siovim.url = "github:josh-j/siovim";
-    siovim.inputs.nixpkgs.follows = "nixpkgs";
+    siovim.inputs.nixpkgs.follows = "nixpkgs-unstable";
     mac-app-util.url = "github:hraban/mac-app-util";
     mac-app-util.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -111,12 +116,19 @@
                     "homebrew/homebrew-cask" = homebrew-cask;
                     "homebrew/homebrew-bundle" = homebrew-bundle;
                     "homebrew/homebrew-services" = homebrew-services;
+                    "shaunsingh/homebrew-SFMono-Nerd-Font-Ligaturized" = homebrew-sfmono;
                   };
 
                   mutableTaps = false; # Set to false if you want fully declarative tap management
                 };
               }
-
+              # Align homebrew taps with nix-homebrew's taps
+              (
+                { config, ... }:
+                {
+                  homebrew.taps = builtins.attrNames config.nix-homebrew.taps;
+                }
+              )
               mac-app-util.darwinModules.default
               home-manager.darwinModules.home-manager
               (_: {

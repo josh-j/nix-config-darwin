@@ -1,7 +1,5 @@
 {
-  config,
   lib,
-  pkgs,
   ...
 }:
 {
@@ -14,9 +12,13 @@
     installVimSyntax = false; # No Nix package
 
     settings = {
-      theme = "oxocarbon";
+      # theme = "oxocarbon";
+      # theme = "rosepine-moon";
+      theme = "Builtin Solarized Light";
+
       window-vsync = true;
-      font-family = "Iosevka Nerd Font";
+      # font-family = "Iosevka Nerd Font";
+      font-family = "Liga SFMono Nerd Font";
       font-style = "medium";
       font-feature = [
         "calt"
@@ -24,7 +26,7 @@
         "ss05"
       ];
       font-thicken = true;
-      font-size = 12;
+      font-size = 13;
       window-inherit-font-size = true;
 
       adjust-cursor-thickness = 3;
@@ -62,7 +64,7 @@
   };
 
   # Override the onChange attributes using lib.mkForce
-  home.file."/Users/joshj/.config/ghostty/config".onChange = lib.mkForce "";
-  xdg.configFile."ghostty/themes".source = lib.mkForce { };
+  # home.file."/Users/joshj/.config/ghostty/config".onChange = lib.mkForce "";
+  # xdg.configFile."ghostty/themes".source = lib.mkForce { };
 
 }

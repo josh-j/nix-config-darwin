@@ -81,6 +81,7 @@ in
         GITHUB_TOKEN = getSecret "github_token"; # Example of another secret
         OPENAI_API_KEY = getSecret "openai_api"; # Another example
         OPENROUTER_API_KEY = getSecret "openrouter_api"; # Another example
+        GOOGLE_API_KEY = getSecret "googleai_api_key"; # Another example
         # Add as many secrets as you need
       };
 

@@ -7,7 +7,8 @@
 let
   extraPackages = with pkgs; [
     # Development tools
-    unstable.aider-chat
+    aider-chat
+    # flake8
     tree-sitter
     fx # JSON viewer in terminal
     git-crypt
@@ -31,6 +32,7 @@ let
     nodePackages.typescript-language-server
     nodePackages.yaml-language-server
     nodePackages.vscode-langservers-extracted # html, css, json, eslint
+    # unstable.nodePackages.assist-code
 
     # LSP
     neocmakelsp

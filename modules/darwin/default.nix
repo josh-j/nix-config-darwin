@@ -1,7 +1,7 @@
 {
-  pkgs,
-  username,
-  ...
+pkgs,
+username,
+...
 }:
 {
   imports = [
@@ -28,12 +28,32 @@
 
   programs.nix-index.enable = true;
 
-  nix.enable = false; # determinate
-  # nix.optimise.automatic = false;
-  # nix.gc.automatic = false;
-  nix.configureBuildUsers = false;
-  nix.useDaemon = false; # Let Determinate manage the daemon
-  nix.settings.trustedUsers = [ username ];
+  nix = {
+    enable = false; # determinate
+    # nix.optimise.automatic = false;
+    # nix.gc.automatic = false;
+    configureBuildUsers = false;
+    useDaemon = false; # Let Determinate manage the daemon
+      settings = {
+        trusted-users = [ username ];
+        access-tokens =
+          let
+            getSecret = key: ''
+              $(if [ -f "$HOME/.secrets.json" ]; then
+                jq -r '.${key} // empty' "$HOME/.secrets.json"
+              fi)'';
+          in [
+            "github.com=${getSecret "github_pat_token"}"
+          ];
+      };
+  };
+
+  services.jankyborders = {
+    enable = true;
+    active_color = "0xaa05f5e5";
+    inactive_color = "";
+    width = 5.0;
+  };
 
   homebrew = {
     enable = true;
@@ -43,7 +63,7 @@
       #upgrade = true;     # Changed from true to reduce rebuild time
       cleanup = "uninstall";
       upgrade = true;
-      autoUpdate = false;
+      autoUpdate = true;
       #extraFlags = [ "--force" ];
     };
 
@@ -51,20 +71,22 @@
       # Automatically use the Brewfile that this module generates in the Nix store
       # https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.global.brewfile
       brewfile = true;
-      autoUpdate = false;
+      autoUpdate = true;
     };
 
     taps = [
       # "qmk/qmk"
+      # "FelixKratz/formulae"
     ];
     brews = [
       "openssl@3"
       "firefoxpwa"
       "uvicorn"
+      # "jankyborders"
     ];
 
     casks = [
-      # "font-sf-mono-nerd-font-ligaturized"
+      "font-sf-mono-nerd-font-ligaturized"
       "anki"
       {
         name = "microsoft-edge";
@@ -226,6 +248,12 @@
     keyboard = {
       enableKeyMapping = true;
       remapCapsLockToControl = true;
+      userKeyMapping = [
+        {
+          HIDKeyboardModifierMappingSrc = 29360128100; # The function key
+          HIDKeyboardModifierMappingDst = 64424509440; # Hyper key   }
+        }
+      ];
     };
   };
 }

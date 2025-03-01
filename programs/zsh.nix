@@ -159,14 +159,16 @@ pkgs,
   bindkey -M viins '^k' kill-line
   bindkey -M viins '^u' backward-kill-line
   bindkey -M viins '^w' backward-kill-word
-    '';    shellAliases = {
+    '';
+
+  shellAliases = {
       # Keep your existing aliases
       "...." = "././..";
       cd = "z";
       gc = "nix-collect-garbage --delete-old";
       refresh = "source ${config.home.homeDirectory}/.zshrc";
       show_path = "echo $PATH | tr ':' '\n'";
-      # Git aliases
+      show_fonts = "system_profiler SPFontsDataType | grep 'Family: ' | awk -F': ' '{print \$2}' | grep -i mono | sort -u";
       gapa = "git add --patch";
       grpa = "git reset --patch";
       gst = "git status";
