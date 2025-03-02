@@ -8,7 +8,7 @@ let
     owner = "yazi-rs";
     repo = "plugins";
     rev = "main";
-    hash = "sha256-LxWc0hFSj1cp9/aWmN2mmojcQnvFl3meZ96CIbTt2f0=";
+    hash = "sha256-Cw5iMljJJkxOzAGjWGIlCa7gnItvBln60laFMf6PSPM=";
   };
 
 in
