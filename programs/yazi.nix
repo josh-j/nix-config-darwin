@@ -7,8 +7,8 @@ let
   yazi-plugins = pkgs.fetchFromGitHub {
     owner = "yazi-rs";
     repo = "plugins";
-    rev = "main";
-    hash = "sha256-DPud1Mfagl2z490f5L69ZPnZmVCa0ROXtFeDbEegBBU=";
+    rev = "5186af7984aa8cb0550358aefe751201d7a6b5a8";
+    hash = "sha256-Cw5iMljJJkxOzAGjWGIlCa7gnItvBln60laFMf6PSPM=";
   };
 
 in
@@ -22,19 +22,6 @@ in
       full-border = "${yazi-plugins}/full-border.yazi";
       git = "${yazi-plugins}/git.yazi";
       smart-filter = "${yazi-plugins}/smart-filter.yazi";
-      glow = pkgs.fetchFromGitHub {
-        owner = "Reledia";
-        repo = "glow.yazi";
-        rev = "main";
-        hash = "sha256-fKJ5ld5xc6HsM/h5j73GABB5i3nmcwWCs+QSdDPA9cU=";
-      };
-      hexyl = pkgs.fetchFromGitHub {
-        owner = "Reledia";
-        repo = "hexyl.yazi";
-        rev = "main";
-        hash = "sha256-9rPJcgMYtSY5lYnFQp3bAhaOBdNUkBaN1uMrjen6Z8g=";
-      };
-
     };
 
     settings = {
