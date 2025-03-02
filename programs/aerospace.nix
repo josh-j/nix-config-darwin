@@ -4,7 +4,7 @@
     enable = true;
     settings = {
       accordion-padding = 30;
-      automatically-unhide-macos-hidden-apps = false;
+      automatically-unhide-macos-hidden-apps = true;
 			on-focused-monitor-changed = ["move-mouse monitor-lazy-center"];
       enable-normalization-flatten-containers = false;
 			enable-normalization-opposite-orientation-for-nested-containers = false;
@@ -32,8 +32,9 @@
       ];
       mode = {
         main.binding = {
-          cmd-h = []; # Disable "hide application"
-          cmd-alt-h = []; # Disable "hide others"
+          # cmd-h = []; # Disable "hide application"
+          # cmd-alt-h = []; # Disable "hide others"
+
           alt-shift-f = "fullscreen --no-outer-gaps";
           alt-shift-c = "reload-config";
           alt-q = "close --quit-if-last-window";
