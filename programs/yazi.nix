@@ -18,11 +18,11 @@ in
     enable = true;
     enableZshIntegration = true;
 
-    plugins = {
-      full-border = "${yazi-plugins}/full-border.yazi";
-      git = "${yazi-plugins}/git.yazi";
-      smart-filter = "${yazi-plugins}/smart-filter.yazi";
-    };
+    # plugins = {
+    #   full-border = "${yazi-plugins}/full-border.yazi";
+    #   git = "${yazi-plugins}/git.yazi";
+    #   smart-filter = "${yazi-plugins}/smart-filter.yazi";
+    # };
 
     settings = {
       manager = {
