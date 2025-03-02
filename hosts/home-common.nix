@@ -30,7 +30,7 @@ let
     unzip
     # evil-helix # better no-config vim
     wget
-    yazi
+    # yazi
     zip
 
     # Terminal and shell

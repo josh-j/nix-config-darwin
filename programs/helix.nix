@@ -1,8 +1,8 @@
-{ config, pkgs, ... }: {
-  home-manager.users.${config.user}.programs.helix = with pkgs; {
+{ pkgs, ... }: {
+  programs.helix = with pkgs; {
     enable = true;
     defaultEditor = true;
-    package = pkgs.evil-helix;
+    # package = pkgs.unstable.evil-helix;
     extraPackages = [
       bash-language-server
       biome
@@ -13,7 +13,6 @@
       golangci-lint-langserver
       gopls
       gotools
-      helix-gpt
       marksman
       nil
       nixd
@@ -36,12 +35,14 @@
     ];
 
     settings = {
-      theme = "gruvbox_community";
+      theme = "flatwhite";
 
       editor = {
         color-modes = true;
         cursorline = true;
         bufferline = "multiple";
+        # mouse = false; # macos fix / terminal conflicts
+
 
         soft-wrap.enable = true;
 
@@ -105,9 +106,42 @@
         args = [ "lsp-proxy" ];
       };
 
-      language-server.gpt = {
-        command = "helix-gpt";
-        args = [ "--handler" "copilot" ];
+      language-server.lsp-ai = {
+        command = "lsp-ai";
+        config = {
+          memory.file_store = { };
+          models.model1 = {
+            type = "open_ai";
+            chat_endpoint = "https://openrouter.ai/api/v1/chat/completions";
+            model = "aiservice/assist-3.7-sonnet";
+            auth_token_env_var_name = "OPENROUTER_API_KEY";
+          };
+          models.model2 = {
+            type = "open_ai";
+            chat_endpoint = "https://openrouter.ai/api/v1/chat/completions";
+            model = "google/gemini-2.0-flash-001";
+            auth_token_env_var_name = "OPENROUTER_API_KEY";
+          };
+          completion = {
+            model = "model2";
+            parameters = {
+              max_tokens = 64;
+              max_context = 1024;
+            };
+          };
+          chat = [
+            {
+              trigger = "!C";
+              action_display_name = "Chat";
+              model = "model2";
+              parameters = {
+                max_context = 4096;
+                max_tokens = 1024;
+                system = "You are a helpful assistant.";
+              };
+            }
+          ];
+        };
       };
 
       language-server.rust-analyzer.config.check = {
@@ -125,7 +159,7 @@
       language = [
         {
           name = "css";
-          language-servers = [ "vscode-css-language-server" "gpt" ];
+          language-servers = [ "vscode-css-language-server" "lsp-ai" ];
           formatter = {
             command = "prettier";
             args = [ "--stdin-filepath" "file.css" ];
@@ -134,7 +168,7 @@
         }
         {
           name = "go";
-          language-servers = [ "gopls" "golangci-lint-lsp" "gpt" ];
+          language-servers = [ "gopls" "golangci-lint-lsp" "lsp-ai" ];
           formatter = {
             command = "goimports";
           };
@@ -142,7 +176,7 @@
         }
         {
           name = "html";
-          language-servers = [ "vscode-html-language-server" "gpt" ];
+          language-servers = [ "vscode-html-language-server" "lsp-ai" ];
           formatter = {
             command = "prettier";
             args = [ "--stdin-filepath" "file.html" ];
@@ -154,7 +188,7 @@
           language-servers = [
             { name = "typescript-language-server"; except-features = [ "format" ]; }
             "biome"
-            "gpt"
+            "lsp-ai"
           ];
           auto-format = true;
         }
@@ -188,7 +222,7 @@
           language-servers = [
             { name = "typescript-language-server"; except-features = [ "format" ]; }
             "biome"
-            "gpt"
+            "lsp-ai"
           ];
           formatter = {
             command = "biome";
@@ -198,7 +232,7 @@
         }
         {
           name = "markdown";
-          language-servers = [ "marksman" "gpt" ];
+          language-servers = [ "marksman" "lsp-ai" ];
           formatter = {
             command = "prettier";
             args = [ "--stdin-filepath" "file.md" ];
@@ -207,14 +241,13 @@
         }
         {
           name = "nix";
-          formatter = {
-            command = "nixpkgs-fmt";
-          };
+          language-servers = [ "nixd" ];
+          formatter.command = "${pkgs.alejandra}/bin/alejandra";
           auto-format = true;
         }
         {
           name = "python";
-          language-servers = [ "pylsp" "gpt" ];
+          language-servers = [ "pylsp" "lsp-ai" ];
           formatter = {
             command = "sh";
             args = [ "-c" "ruff check --select I --fix - | ruff format --line-length 88 -" ];
@@ -223,12 +256,12 @@
         }
         {
           name = "rust";
-          language-servers = [ "rust-analyzer" "gpt" ];
+          language-servers = [ "rust-analyzer" "lsp-ai" ];
           auto-format = true;
         }
         {
           name = "scss";
-          language-servers = [ "vscode-css-language-server" "gpt" ];
+          language-servers = [ "vscode-css-language-server" "lsp-ai" ];
           formatter = {
             command = "prettier";
             args = [ "--stdin-filepath" "file.scss" ];
@@ -237,7 +270,7 @@
         }
         {
           name = "sql";
-          language-servers = [ "gpt" ];
+          language-servers = [ "lsp-ai" ];
           formatter = {
             command = "sql-formatter";
             args = [ "-l" "postgresql" "-c" "{\"keywordCase\": \"lower\", \"dataTypeCase\": \"lower\", \"functionCase\": \"lower\", \"expressionWidth\": 120, \"tabWidth\": 4}" ];
@@ -258,7 +291,7 @@
           language-servers = [
             { name = "typescript-language-server"; except-features = [ "format" ]; }
             "biome"
-            "gpt"
+            "lsp-ai"
           ];
           formatter = {
             command = "biome";
@@ -271,7 +304,7 @@
           language-servers = [
             { name = "typescript-language-server"; except-features = [ "format" ]; }
             "biome"
-            "gpt"
+            "lsp-ai"
           ];
           formatter = {
             command = "biome";
