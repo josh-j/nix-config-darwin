@@ -2,7 +2,8 @@
 # ghostty +list-themes
 
 # font-family                    = Iosevka Nerd Font
-font-family                   = Liga SFMono Nerd Font
+# font-family                   = Liga SFMono Nerd Font
+font-family                   = Intel One Mono
 
 font-style                     = Medium
 font-feature                   = calt
@@ -44,7 +45,7 @@ quick-terminal-screen = mouse
 #theme = gruber-darker
 # theme = oxocarbon
 # theme = dark:oxocarbon,light:oxocarbon-light
-theme = dark:sio-ocean,light:rose-pine-dawn
+theme = dark:rose-pin-moon,light:sio-ocean
 # theme = Builtin Solarized Light
 
 
@@ -72,20 +73,6 @@ shell-integration-features     = cursor,sudo,title
 # command = ~/.config/ghostty/restore_ghostty_tmux.sh
 
 # Key bindings
-# keybind                        = ctrl+h=goto_split:left
-# keybind                        = ctrl+j=goto_split:bottom
-# keybind                        = ctrl+k=goto_split:top
-# keybind                        = ctrl+l=goto_split:right
-# keybind                        = ctrl+shift+h=new_split:left
-# keybind                        = ctrl+shift+j=new_split:down
-# keybind                        = ctrl+shift+k=new_split:up
-# keybind                        = ctrl+shift+l=new_split:right
-# keybind                        = super+shift+enter=new_split:auto
-# keybind                        = super+shift+i=inspector:toggle
-# keybind                        = ctrl+shift+r=reload_config
-# keybind                        = super+t=new_tab
-
-
 keybind                        = ctrl+a>h=goto_split:left
 keybind                        = ctrl+a>j=goto_split:bottom
 keybind                        = ctrl+a>k=goto_split:top
@@ -94,6 +81,11 @@ keybind                        = ctrl+a>shift+h=new_split:left
 keybind                        = ctrl+a>shift+j=new_split:down
 keybind                        = ctrl+a>shift+k=new_split:up
 keybind                        = ctrl+a>shift+l=new_split:right
-keybind                        = ctrl+a>enter=new_split:auto
+keybind                        = ctrl+a>_=resize_split:down,50
+keybind                        = ctrl+a>+=resize_split:up,50
+keybind                        = ctrl+a>-=resize_split:left,50
+keybind                        = ctrl+a>==resize_split:right,50
+keybind                        = ctrl+a>z=toggle_split_zoom
+keybind                        = global:ctrl+a>enter=toggle_quick_terminal
 keybind                        = ctrl+a>r=reload_config
 keybind                        = ctrl+a>n=new_window
