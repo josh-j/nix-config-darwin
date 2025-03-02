@@ -28,7 +28,7 @@ let
     ripgrep
     sd # better sed and awk
     unzip
-    evil-helix # better no-config vim
+    # evil-helix # better no-config vim
     wget
     yazi
     zip

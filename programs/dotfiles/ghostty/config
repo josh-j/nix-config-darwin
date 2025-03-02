@@ -8,9 +8,9 @@ font-style                     = Medium
 font-feature                   = calt
 font-feature                   = dlig
 font-feature                   = ss05
-font-thicken                   = true
+font-thicken                   = false
 
-font-size                      = 13
+font-size                      = 12
 window-inherit-font-size       = true
 
 # Look and Feel

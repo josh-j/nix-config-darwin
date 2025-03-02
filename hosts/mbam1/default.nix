@@ -116,6 +116,7 @@ in
           # ../../programs/ghostty.nix
           # ../../programs/fonts.nix
           ../../programs/fzf.nix
+          ../../programs/helix.nix
           ../../programs/starship.nix
           ../../programs/tmux.nix
           ../../programs/wezterm.nix

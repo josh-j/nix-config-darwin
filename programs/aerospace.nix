@@ -54,7 +54,7 @@
           alt-y = "split vertical ";
           alt-shift-x = "layout h_accordion";
           alt-shift-y = "layout v_accordion";
-          alt-c = "layout tiles horizontal vertical";
+          alt-e = "layout tiles horizontal vertical";
 
           alt-shift-minus = "resize smart -50";
           alt-shift-equal = "resize smart +50";
