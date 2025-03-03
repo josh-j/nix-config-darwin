@@ -1,28 +1,28 @@
 # ghostty +show-config --default --docs
 # ghostty +list-themes
 
+font-family                   = Jetbrains Mono
 # font-family                    = Iosevka Nerd Font
 # font-family                   = Liga SFMono Nerd Font
-font-family                   = Intel One Mono
+# font-family                   = Intel One Mono
 
-font-style                     = Medium
+font-style                     = Regular
 font-feature                   = calt
 font-feature                   = dlig
 font-feature                   = ss05
-font-thicken                   = false
+font-thicken                   = true
 
-font-size                      = 12
-window-inherit-font-size       = true
-
+font-size                      = 14
+window-inherit-font-size       = false
 # Look and Feel
 adjust-cursor-thickness        = 3
 adjust-underline-position      = 3
-background-opacity             = 0.9
+background-opacity             = 0.95
 background-blur-radius         = 20
 window-decoration              = true
 window-padding-x               = 4
 window-padding-y               = 4
-window-padding-color           = extend-always
+window-padding-color           = extend
 window-padding-balance         = false
 window-theme                   = auto
 
@@ -45,9 +45,9 @@ quick-terminal-screen = mouse
 #theme = gruber-darker
 # theme = oxocarbon
 # theme = dark:oxocarbon,light:oxocarbon-light
-theme = dark:rose-pin-moon,light:sio-ocean
+# theme = dark:rose-pine-moon,light:sio-ocean
+theme = dark:rose-pine-moon,light:rose-pine-dawn
 # theme = Builtin Solarized Light
-
 
 
 window-vsync                   = true
@@ -81,11 +81,12 @@ keybind                        = ctrl+a>shift+h=new_split:left
 keybind                        = ctrl+a>shift+j=new_split:down
 keybind                        = ctrl+a>shift+k=new_split:up
 keybind                        = ctrl+a>shift+l=new_split:right
-keybind                        = ctrl+a>_=resize_split:down,50
-keybind                        = ctrl+a>+=resize_split:up,50
-keybind                        = ctrl+a>-=resize_split:left,50
-keybind                        = ctrl+a>==resize_split:right,50
+keybind                        = ctrl+a>minus=resize_split:down,50
+keybind                        = ctrl+a>equal=resize_split:up,50
+keybind                        = ctrl+a>left_bracket=resize_split:left,50
+keybind                        = ctrl+a>right_bracket=resize_split:right,50
 keybind                        = ctrl+a>z=toggle_split_zoom
-keybind                        = global:ctrl+a>enter=toggle_quick_terminal
+keybind                        = global:ctrl+`=toggle_quick_terminal
 keybind                        = ctrl+a>r=reload_config
 keybind                        = ctrl+a>n=new_window
+keybind                        = ctrl+a>q=close_surface

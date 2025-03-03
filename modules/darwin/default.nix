@@ -176,7 +176,7 @@ username,
           FXDefaultSearchScope = "SCcf";
         };
         "com.apple.spaces" = {
-          "spans-displays" = 0; # Display have seperate spaces
+          "spans-displays" = true;
         };
       };
 
@@ -185,6 +185,7 @@ username,
         autohide-delay = 0.0;
         autohide-time-modifier = 0.1;
         expose-animation-duration = 0.1;
+        expose-group-apps = true;
         launchanim = false;
         mru-spaces = false;
         orientation = "bottom";
@@ -235,6 +236,7 @@ username,
         NSDocumentSaveNewDocumentsToCloud = false; # Faster file operations
         NSTextShowsControlCharacters = true;
         NSDisableAutomaticTermination = true;
+        NSWindowShouldDragOnGesture = true;
         _HIHideMenuBar = true;
       };
 

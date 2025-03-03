@@ -4,10 +4,13 @@
     enable = true;
     settings = {
       accordion-padding = 30;
-      automatically-unhide-macos-hidden-apps = true;
-			on-focused-monitor-changed = ["move-mouse monitor-lazy-center"];
-      enable-normalization-flatten-containers = false;
-			enable-normalization-opposite-orientation-for-nested-containers = false;
+      # automatically-unhide-macos-hidden-apps = true;
+			# on-focused-monitor-changed = ["move-mouse monitor-lazy-center"]; # i3
+      on-focus-changed = ["move-mouse window-lazy-center"];
+      enable-normalization-flatten-containers = true;
+			enable-normalization-opposite-orientation-for-nested-containers = true;
+      default-root-container-layout = "tiles";
+      default-root-container-orientation = "auto";
 
       # after-startup-command = [
       #   "exec-and-forget borders active_color=0xfcba03aa inactive_color=0x2b2b2baa width=2.0"
@@ -32,62 +35,54 @@
       ];
       mode = {
         main.binding = {
-          # cmd-h = []; # Disable "hide application"
-          # cmd-alt-h = []; # Disable "hide others"
-
+          # General
           alt-shift-f = "fullscreen --no-outer-gaps";
           alt-shift-c = "reload-config";
           alt-q = "close --quit-if-last-window";
+          alt-shift-t = "enable toggle";
+          alt-shift-minus = "resize smart -50";
+          alt-shift-equal = "resize smart +50";
+          # cmd-h = []; # Disable "hide application"
+          # cmd-alt-h = []; # Disable "hide others"
+          alt-shift-r = [
+            "flatten-workspace-tree"
+            "mode main"
+          ]; # reset layout
 
-          # alt-shift-left = "join-with left";
-          # alt-shift-down = "join-with down";
-          # alt-shift-up = "join-with up";
-          # alt-shift-right = "join-with right";
-
+          # Layouts
           alt-shift-space = "layout floating tiling"; # "floating toggle" in i3
           # alt-x = "layout tiles horizontal vertical";
           # alt-y = "layout accordion horizontal vertical";
           # alt-x = "split horizontal";
           # alt-y = "split vertical";
-
-
-          alt-x = "split horizontal";
-          alt-y = "split vertical ";
-          alt-shift-x = "layout h_accordion";
-          alt-shift-y = "layout v_accordion";
+          alt-x = "layout tiles horizontal";
+          alt-y = "layout tiles vertical";
+          alt-shift-x = "layout accordion h_accordion";
+          alt-shift-y = "layout accordion v_accordion";
           alt-e = "layout tiles horizontal vertical";
-
-          alt-shift-minus = "resize smart -50";
-          alt-shift-equal = "resize smart +50";
 
           # # Focus
           alt-h = "focus --boundaries-action wrap-around-the-workspace left";
           alt-j = "focus --boundaries-action wrap-around-the-workspace down";
           alt-k = "focus --boundaries-action wrap-around-the-workspace up";
           alt-l = "focus --boundaries-action wrap-around-the-workspace right";
-          #
-          # # Join with adjacent windows
-          # alt-shift-h = ["join-with left" "mode main"];
-          # alt-shift-j = ["join-with down" "mode main"];
-          # alt-shift-k = ["join-with up" "mode main"];
-          # alt-shift-l = ["join-with right" "mode main"];
 
-          # alt-shift-h = "join-with left";
-          # alt-shift-j = "join-with down";
-          # alt-shift-k = "join-with up";
-          # alt-shift-l = "join-with right";
 
-          # See: https://nikitabobko.github.io/AeroSpace/commands#focus
-          # alt-h = "focus left";
-          # alt-j = "focus down";
-          # alt-k = "focus up";
-          # alt-l = "focus right";
-
-          # See: https://nikitabobko.github.io/AeroSpace/commands#move
+          # Move
           alt-shift-h = "move left";
           alt-shift-j = "move down";
           alt-shift-k = "move up";
           alt-shift-l = "move right";
+
+          # Join
+          alt-shift-left = ["join-with left" "mode main"];
+          alt-shift-down = ["join-with down" "mode main"];
+          alt-shift-up = ["join-with up" "mode main"];
+          alt-shift-right = ["join-with right" "mode main"];
+          # alt-shift-left = "join-with left";
+          # alt-shift-down = "join-with down";
+          # alt-shift-up = "join-with up";
+          # alt-shift-right = "join-with right";
 
           # Workspace
           alt-1 = "workspace 1";
@@ -110,10 +105,6 @@
           # Modes
           alt-shift-semicolon = "mode service";
           alt-r = "mode resize";
-          alt-shift-r = [
-            "flatten-workspace-tree"
-            "mode main"
-          ]; # reset layout
 
           # Applications
           alt-b = "exec-and-forget open -a \"/Applications/Microsoft Edge.app\"";

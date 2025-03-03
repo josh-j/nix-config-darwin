@@ -3,8 +3,7 @@
   inputs,
   username,
   ...
-}:
-let
+}: let
   extraPackages = with pkgs; [
     # Development tools
     aider-chat
@@ -96,8 +95,7 @@ let
     spotify
     obsidian
   ];
-in
-{
+in {
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
@@ -105,39 +103,38 @@ in
     extraSpecialArgs = {
       inherit username inputs;
     };
-    users.${username} =
-      { ... }:
-      {
-        imports = [
-          ../home-common.nix
-          ../../programs/atuin.nix
-          ../../programs/bash.nix
-          ../../programs/direnv.nix
-          # ../../programs/ghostty.nix
-          # ../../programs/fonts.nix
-          ../../programs/fzf.nix
-          ../../programs/helix.nix
-          ../../programs/starship.nix
-          ../../programs/tmux.nix
-          ../../programs/wezterm.nix
-          ../../programs/yazi.nix
-          ../../programs/zellij.nix
-          ../../programs/zoxide.nix
-          ../../programs/zsh.nix
-        ];
-        nix.enable = false;
-        home = {
-          packages = extraPackages;
-          # sessionPath = [
-          #   "/nix/var/nix/profiles/default/bin"
-          #   "/etc/profiles/per-user/${username}/bin"
-          # ];
-          file = {
-            ".config/ghostty/config".text = builtins.readFile ../../programs/dotfiles/ghostty/config;
-            ".config/ghostty/themes/oxocarbon-light".text = builtins.readFile ../../programs/dotfiles/ghostty/themes/oxocarbon-light;
-            ".config/ghostty/themes/sio-ocean".text = builtins.readFile ../../programs/dotfiles/ghostty/themes/sio-ocean;
-          };
+    users.${username} = {...}: {
+      imports = [
+        ../home-common.nix
+        ../../programs/aichat.nix
+        ../../programs/atuin.nix
+        ../../programs/bash.nix
+        ../../programs/direnv.nix
+        # ../../programs/ghostty.nix
+        # ../../programs/fonts.nix
+        ../../programs/fzf.nix
+        ../../programs/helix.nix
+        ../../programs/starship.nix
+        ../../programs/tmux.nix
+        ../../programs/wezterm.nix
+        ../../programs/yazi.nix
+        ../../programs/zellij.nix
+        ../../programs/zoxide.nix
+        ../../programs/zsh.nix
+      ];
+      nix.enable = false;
+      home = {
+        packages = extraPackages;
+        # sessionPath = [
+        #   "/nix/var/nix/profiles/default/bin"
+        #   "/etc/profiles/per-user/${username}/bin"
+        # ];
+        file = {
+          ".config/ghostty/config".text = builtins.readFile ../../programs/dotfiles/ghostty/config;
+          ".config/ghostty/themes/oxocarbon-light".text = builtins.readFile ../../programs/dotfiles/ghostty/themes/oxocarbon-light;
+          ".config/ghostty/themes/sio-ocean".text = builtins.readFile ../../programs/dotfiles/ghostty/themes/sio-ocean;
         };
       };
+    };
   };
 }
