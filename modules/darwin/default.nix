@@ -58,12 +58,10 @@
     enable = true;
     # brewPrefix = "/run/current-system/sw/bin/brew";
     onActivation = {
-      #autoUpdate = true;  # Changed from true to reduce rebuild time
-      #upgrade = true;     # Changed from true to reduce rebuild time
-      cleanup = "uninstall";
+      cleanup = "zap";
       upgrade = true;
       autoUpdate = true;
-      #extraFlags = [ "--force" ];
+      extraFlags = ["--force"];
     };
 
     global = {
@@ -71,6 +69,7 @@
       # https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.global.brewfile
       brewfile = true;
       autoUpdate = true;
+      lockfiles = false;
     };
 
     taps = [
@@ -85,8 +84,8 @@
     ];
 
     casks = [
-      "font-sf-mono-nerd-font-ligaturized"
-      "nextcloud"
+      # "font-sf-mono-nerd-font-ligaturized"
+      # "nextcloud"
       "anki"
       {
         name = "microsoft-edge";
