@@ -27,14 +27,17 @@ if platform().is_mac then
   -- config.default_prog = {"tmux", "attach", "||", "tmux"}
 
   config.font_size = 13
-  config.window_background_opacity = 0.85
+  config.window_background_opacity = 0.90
   config.macos_window_background_blur = 30
 elseif platform().is_win then
   config.font_size = 9
   config.default_prog = { "C:\\Program Files\\PowerShell\\7\\pwsh.exe", "-l" }
 end
 
-config.front_end = "WebGpu"
+config.front_end = "OpenGL"
+config.max_fps = 30
+config.animation_fps = 10
+config_enable_wayland = false
 config.window_close_confirmation = "NeverPrompt"
 
 -- This is where you actually apply your config choices
@@ -82,10 +85,9 @@ config.default_workspace = "home"
 config.hide_tab_bar_if_only_one_tab = true
 config.use_dead_keys = false
 -- config.disable_default_key_bindings = true
-config.leader = {
-  key = "o",
-  mods = "CTRL|SHIFT",
-}
+
+
+
 config.enable_scroll_bar = false
 config.inactive_pane_hsb = {
   saturation = 0.5,
@@ -99,28 +101,43 @@ config.window_padding = {
   bottom = 5,
 }
 
+config.leader = { key = 'a', mods = 'CTRL', timeout_milliseconds = 1000 }
+
 config.keys = {
-  {
-    key = "l",
-    mods = "CTRL|ALT",
-    action = wezterm.action.ShowLauncher,
-  },
-  {
-    key = "Home",
-    mods = "NONE",
-    action = act.SendKey({
-      mods = "CTRL",
-      key = "a",
-    }),
-  },
-  {
-    key = "End",
-    mods = "NONE",
-    action = act.SendKey({
-      mods = "CTRL",
-      key = "e",
-    }),
-  },
+  -- Pane navigation
+  { key = 'h', mods = 'LEADER', action = wezterm.action.ActivatePaneDirection 'Left' },
+  { key = 'j', mods = 'LEADER', action = wezterm.action.ActivatePaneDirection 'Down' },
+  { key = 'k', mods = 'LEADER', action = wezterm.action.ActivatePaneDirection 'Up' },
+  { key = 'l', mods = 'LEADER', action = wezterm.action.ActivatePaneDirection 'Right' },
+
+  -- Pane creation
+  { key = 'H', mods = 'LEADER|SHIFT', action = wezterm.action.SplitPane { direction = 'Left' } },
+  { key = 'J', mods = 'LEADER|SHIFT', action = wezterm.action.SplitPane { direction = 'Down' } },
+  { key = 'K', mods = 'LEADER|SHIFT', action = wezterm.action.SplitPane { direction = 'Up' } },
+  { key = 'L', mods = 'LEADER|SHIFT', action = wezterm.action.SplitPane { direction = 'Right' } },
+
+  -- Resize panes
+  { key = '-', mods = 'LEADER', action = wezterm.action.AdjustPaneSize { 'Down', 5 } },
+  { key = '=', mods = 'LEADER', action = wezterm.action.AdjustPaneSize { 'Up', 5 } },
+  { key = '[', mods = 'LEADER', action = wezterm.action.AdjustPaneSize { 'Left', 5 } },
+  { key = ']', mods = 'LEADER', action = wezterm.action.AdjustPaneSize { 'Right', 5 } },
+
+  -- Window management
+  { key = 'z', mods = 'LEADER', action = wezterm.action.TogglePaneZoomState },
+  { key = 'n', mods = 'LEADER', action = wezterm.action.SpawnWindow },
+  { key = 'q', mods = 'LEADER', action = wezterm.action.CloseCurrentPane { confirm = true } },
+
+  -- Configuration
+  { key = 'r', mods = 'LEADER', action = wezterm.action.ReloadConfiguration },
+}
+
+-- Additional global keybinds
+config.key_tables = {
+  quick_terminal = {
+    { key = '`', mods = 'CTRL', action = wezterm.action_callback(function(window, pane)
+        window:perform_action(wezterm.action.TogglePaneZoomState, pane)
+      end) },
+  }
 }
 
 return config

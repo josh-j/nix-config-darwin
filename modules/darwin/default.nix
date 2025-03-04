@@ -1,9 +1,8 @@
 {
-pkgs,
-username,
-...
-}:
-{
+  pkgs,
+  username,
+  ...
+}: {
   imports = [
     ../../programs/aerospace.nix
   ];
@@ -34,23 +33,23 @@ username,
     # nix.gc.automatic = false;
     configureBuildUsers = false;
     useDaemon = false; # Let Determinate manage the daemon
-      settings = {
-        trusted-users = [ username ];
-        access-tokens =
-          let
-            getSecret = key: ''
-              $(if [ -f "$HOME/.secrets.json" ]; then
-                jq -r '.${key} // empty' "$HOME/.secrets.json"
-              fi)'';
-          in [
-            "github.com=${getSecret "github_pat_token"}"
-          ];
-      };
+    settings = {
+      trusted-users = [username];
+      access-tokens = let
+        getSecret = key: ''
+          $(if [ -f "$HOME/.secrets.json" ]; then
+            jq -r '.${key} // empty' "$HOME/.secrets.json"
+          fi)'';
+      in [
+        "github.com=${getSecret "github_pat_token"}"
+      ];
+    };
   };
 
   services.jankyborders = {
     enable = true;
-    active_color = "0xaa05f5e5";
+    # active_color = "0xaa05f5e5";
+    active_color = "0xaaFFFFFF";
     inactive_color = "";
     width = 5.0;
   };
@@ -96,8 +95,14 @@ username,
       # "gcc-arm-embedded"
       "ghostty"
       # "parsec"
-      { name = "brave-browser"; greedy = true; }
-      { name = "google-chrome"; greedy = true; }
+      {
+        name = "brave-browser";
+        greedy = true;
+      }
+      {
+        name = "google-chrome";
+        greedy = true;
+      }
       "scroll-reverser"
       # "steam"
       {
