@@ -1,8 +1,4 @@
-{
-  lib,
-  ...
-}:
-{
+{lib, ...}: {
   programs.ghostty = {
     enable = true;
     package = null; # You're using Homebrew
@@ -31,7 +27,7 @@
 
       adjust-cursor-thickness = 3;
       adjust-underline-position = 3;
-      background-opacity = 0.9;
+      background-opacity = 0.93;
       background-blur-radius = 20;
       window-decoration = true;
       window-padding-x = 4;
@@ -66,5 +62,4 @@
   # Override the onChange attributes using lib.mkForce
   # home.file."/Users/joshj/.config/ghostty/config".onChange = lib.mkForce "";
   # xdg.configFile."ghostty/themes".source = lib.mkForce { };
-
 }

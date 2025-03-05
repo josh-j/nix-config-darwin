@@ -49,7 +49,7 @@
   services.jankyborders = {
     enable = true;
     # active_color = "0xaa05f5e5";
-    active_color = "0xaaFFFFFF";
+    active_color = "0xaa999999";
     inactive_color = "";
     width = 5.0;
   };

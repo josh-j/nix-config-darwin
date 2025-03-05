@@ -1,4 +1,18 @@
-{pkgs, ...}: {
+{pkgs, ...}: let
+  yaziPicker = pkgs.writeShellScriptBin "yazi-picker" ''
+    paths=$(${pkgs.yazi}/bin/yazi --chooser-file=/dev/stdout | while read -r; do printf "%q " "$REPLY"; done)
+
+    if [[ -n "$paths" ]]; then
+    	${pkgs.zellij}/bin/zellij action toggle-floating-panes
+    	${pkgs.zellij}/bin/zellij action write 27 # send <Escape> key
+    	${pkgs.zellij}/bin/zellij action write-chars ":open $paths"
+    	${pkgs.zellij}/bin/zellij action write 13 # send <Enter> key
+    	${pkgs.zellij}/bin/zellij action toggle-floating-panes
+    fi
+
+    ${pkgs.zellij}/bin/zellij action close-pane
+  '';
+in {
   programs.helix = with pkgs; {
     enable = true;
     defaultEditor = true;
@@ -36,7 +50,8 @@
     ];
 
     settings = {
-      theme = "booberry_mod2";
+      # theme = "base16_transparent";
+      theme = "boo_berry_mod";
 
       editor = {
         auto-completion = true;
@@ -136,7 +151,23 @@
         select.C-c = select.esc;
 
         normal = {
-          space.space = "file_picker";
+          # space = {
+          #   space = "file_picker";
+          #   n = mkIf cfg.ide ":sh zellij action focus-next-pane"; # set focus to file tree
+          #   o = mkIf cfg.ide {
+          #     n = "file_browser";
+          #     N = "file_browser_in_current_buffer_directory";
+          #     # git
+          #     g = ":sh zellij run --name Git -fc -- bash -c \"TERM=xterm-direct emacsclient -nw --eval '(magit-status)'\""; # open magit in floating pane
+          #     # terminal
+          #     t = ":sh zellij action new-pane -c -d down -- bash -c \"for _ in {1..6}; do zellij action resize decrease up; done; nu\"";
+          #     # help
+          #     h = ":sh zellij action new-pane -fp file:~/.config/zellij/plugins/zellij_forgot.wasm";
+          #   };
+          # };
+
+          "C-y" = ":sh ${pkgs.zellij}/bin/zellij run -f -n yazi-picker -x 10% -y 10% --width 80% --height 80% -- ${yaziPicker}/bin/yazi-picker";
+          # space.space = "file_picker";
           # C-h = "select_prev_sibling";
           # C-j = "shrink_selection";
           # C-k = "expand_selection";
@@ -274,10 +305,25 @@
         "ui.background" = {};
       };
 
-      booberry_mod = {
+      boo_berry_mod = let
+        black_bg = "#1e1e1e";
+        lilac_dark = "#897e9c";
+        lilac_darker = "#5b516b";
+      in {
         inherits = "boo_berry";
-        "ui.selection" = {bg = "#7a718a";};
+        "ui.statusline" = {bg = "";};
         "ui.background" = {};
+        "ui.bufferline" = {bg = "";};
+        "ui.bufferline.active" = {bg = "#3e3e3e";};
+        "ui.help" = {bg = "";};
+        "ui.menu" = {bg = "";};
+        "ui.menu.selected" = {bg = lilac_darker;};
+        "ui.popup" = {bg = black_bg;};
+        "ui.window" = {bg = "";};
+        "ui.selection" = {bg = "";};
+        "ui.selection.primary" = {bg = "#443952";};
+        "ui.linenr" = {fg = lilac_dark;};
+        "comment" = {fg = lilac_dark;};
       };
     };
 
