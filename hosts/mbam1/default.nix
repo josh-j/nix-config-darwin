@@ -134,6 +134,7 @@ in {
           ".config/ghostty/themes/oxocarbon-light".text = builtins.readFile ../../programs/dotfiles/ghostty/themes/oxocarbon-light;
           ".config/ghostty/themes/sio-ocean".text = builtins.readFile ../../programs/dotfiles/ghostty/themes/sio-ocean;
           ".config/ghostty/themes/boo_berry_mod".text = builtins.readFile ../../programs/dotfiles/ghostty/themes/boo_berry_mod;
+          ".config/ghostty/themes/boo_berry_mod2".text = builtins.readFile ../../programs/dotfiles/ghostty/themes/boo_berry_mod2;
         };
       };
     };

@@ -1,0 +1,30 @@
+inherits = "boo_berry"
+
+"ui.statusline" = { bg = "" }
+"ui.background" = {}
+"ui.bufferline" = { bg = "" }
+"ui.bufferline.active" = { bg = "#3e3e3e" }
+"ui.help" = { bg = "" }
+"ui.menu" = { bg = "" }
+"ui.menu.selected" = { bg = "lilac_darker" }
+"ui.popup" = { bg = "black_bg" }
+"ui.window" = { bg = "" }
+"ui.selection" = { bg = "" }
+"ui.selection.primary" = { bg = "#443952" }
+"ui.linenr" = { fg = "lilac_dark" }
+"comment" = { fg = "lilac_dark" }
+
+[palette]
+black_bg = "#1e1e1e"
+lilac_dark = "#897e9c"
+lilac_darker = "#5b516b"
+berry = "#3A2A4D"
+berry_fade = "#5A3D6E"
+berry_dim = "#47345E"
+berry_saturated = "#2B1C3D"
+berry_desaturated = "#886C9C"
+bubblegum = "#D678B5"
+gold = "#E3C0A8"
+lilac = "#C7B8E0"
+mint = "#7FC9AB"
+violet = "#C78DFC"
