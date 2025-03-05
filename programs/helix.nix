@@ -36,19 +36,20 @@
     ];
 
     settings = {
-      theme = "booberry_mod";
+      theme = "booberry_mod2";
 
       editor = {
         auto-completion = true;
-        end-of-line-diagnostics = "hint";
+        auto-info = true;
+        bufferline = "multiple";
         color-modes = true;
+        # completion-replace = true;
+        completion-timeout = 5;
         completion-trigger-len = 2;
         cursorline = false;
-        bufferline = "multiple";
-        completion-timeout = 5;
+        end-of-line-diagnostics = "hint";
+        popup-border = "all";
         preview-completion-insert = true;
-        completion-replace = true;
-
         mouse = true;
         line-number = "relative";
         text-width = 120;
@@ -114,9 +115,9 @@
         # };
 
         statusline = {
-          left = ["mode" "file-name" "spinner" "read-only-indicator" "file-modification-indicator" "version-control"];
-          right = ["diagnostics" "selections" "register" "file-type" "file-line-ending" "position"];
-          mode.normal = "";
+          left = ["mode" "file-name" "read-only-indicator" "file-modification-indicator" "version-control" "spinner"];
+          right = ["file-encoding" "diagnostics" "selections" "register" "file-type" "file-line-ending" "position" "position-percentage"];
+          mode.normal = "N";
           mode.insert = "I";
           mode.select = "S";
         };
@@ -151,8 +152,8 @@
           # X = "extend_line_above";
           V = ["select_mode" "extend_to_line_bounds"];
           G = "goto_file_end";
-          H = "extend_to_line_start";
-          L = "extend_to_line_end";
+          H = "goto_line_end";
+          L = "goto_line_start";
           g.q = ":reflow";
           S = "surround_add";
 
@@ -229,8 +230,8 @@
           "}" = ["extend_to_line_bounds" "goto_next_paragraph"];
           "0" = "goto_line_start";
           G = "goto_file_end";
-          H = "extend_to_line_start";
-          L = "extend_to_line_end";
+          H = "goto_line_end";
+          L = "goto_line_start";
           # D = ["extend_to_line_bounds" "delete_selection" "normal_mode"];
           # C = ["goto_line_start" "extend_to_line_bounds" "change_selection"];
           S = "surround_add"; # Basically 99% of what I use vim-surround for
@@ -326,6 +327,21 @@
 
       language-server.powershell-editor-services = {
         command = "pwsh";
+
+        config = {
+          powershell = {
+            codeFormatting = {
+              Preset = "OTBS";
+              autoCorrectAliases = true;
+              avoidSemicolonsAsLineTerminators = true;
+              trimWhitespaceAroundPipe = true;
+              useConstantStrings = true;
+              useCorrectCasing = true;
+              whitespaceBetweenParameters = true;
+              pipelineIdentationStyle = "IncreaseIdentationForFirstPipeline";
+            };
+          };
+        };
         args = [
           "-NoLogo"
           "-NoProfile"

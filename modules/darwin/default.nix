@@ -31,8 +31,8 @@
     enable = false; # determinate
     # nix.optimise.automatic = false;
     # nix.gc.automatic = false;
-    configureBuildUsers = false;
-    useDaemon = false; # Let Determinate manage the daemon
+    # configureBuildUsers = false;
+    # useDaemon = false; # Let Determinate manage the daemon
     settings = {
       trusted-users = [username];
       access-tokens = let
@@ -135,9 +135,9 @@
     shell = pkgs.zsh;
   };
 
-  security = {
-    pam.enableSudoTouchIdAuth = true;
-  };
+  # security = {
+  #   pam.enableSudoTouchIdAuth = true;
+  # };
 
   system = {
     stateVersion = "24.11";

@@ -2,10 +2,9 @@
   config,
   pkgs,
   ...
-}:
-{
+}: {
   programs.zellij = {
-    enable = true;
+    enable = false;
     settings = {
       theme = "mydracula";
       on_force_close = "detach";

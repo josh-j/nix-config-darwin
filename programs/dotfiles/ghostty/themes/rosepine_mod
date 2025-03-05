@@ -1,0 +1,24 @@
+## Color Palette (0-15)
+palette = 0=#504A73
+palette = 1=#EB6F92
+palette = 2=#47A4C9
+palette = 3=#DEC097
+palette = 4=#8EBCC4
+palette = 5=#C4A7E7
+palette = 6=#BBB6F2
+palette = 7=#D3D1E6
+palette = 8=#8783A3
+palette = 9=#EB6F92
+palette = 10=#50B8E3
+palette = 11=#F6D499
+palette = 12=#9CCFD8
+palette = 13=#C4A7E7
+palette = 14=#C5C0FF
+palette = 15=#EAE8FF
+
+## Theme Settings
+background = #2A2A2A
+foreground = #FFF1E8
+cursor-color = #57526B
+selection-background = #555175
+selection-foreground = #FFF1E8

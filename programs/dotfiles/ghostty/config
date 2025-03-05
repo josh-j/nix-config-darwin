@@ -45,7 +45,8 @@ quick-terminal-screen = mouse
 #theme = gruber-darker
 # theme = oxocarbon
 # theme = dark:oxocarbon,light:oxocarbon-light
-theme = dark:boo_berry_mod,light:rose-pine-dawn
+# theme = dark:boo_berry_mod,light:rose-pine-dawn
+theme = dark:rosepine_mod,light:rose-pine-dawn
 # theme = dark:rose-pine-moon,light:rose-pine-dawn
 # theme = Builtin Solarized Light
 
