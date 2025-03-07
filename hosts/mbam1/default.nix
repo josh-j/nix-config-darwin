@@ -7,6 +7,9 @@
   extraPackages = with pkgs; [
     # Development tools
     aider-chat
+    gitui
+    yq
+    envsubst
     # flake8
     tree-sitter
     fx # JSON viewer in terminal
@@ -125,16 +128,19 @@ in {
       nix.enable = false;
       home = {
         packages = extraPackages;
-        # sessionPath = [
-        #   "/nix/var/nix/profiles/default/bin"
-        #   "/etc/profiles/per-user/${username}/bin"
-        # ];
+        sessionPath = [
+          #   "/nix/var/nix/profiles/default/bin"
+          #   "/etc/profiles/per-user/${username}/bin"
+          "/Users/${username}/Bin"
+          "/Users/${username}/.local/bin"
+        ];
         file = {
           ".config/ghostty/config".text = builtins.readFile ../../programs/dotfiles/ghostty/config;
           ".config/ghostty/themes/oxocarbon-light".text = builtins.readFile ../../programs/dotfiles/ghostty/themes/oxocarbon-light;
           ".config/ghostty/themes/sio-ocean".text = builtins.readFile ../../programs/dotfiles/ghostty/themes/sio-ocean;
           ".config/ghostty/themes/boo_berry_mod".text = builtins.readFile ../../programs/dotfiles/ghostty/themes/boo_berry_mod;
           ".config/ghostty/themes/rosepine_mod".text = builtins.readFile ../../programs/dotfiles/ghostty/themes/rosepine_mod;
+          ".config/.helix-wezterm.yaml".text = builtins.readFile ../../programs/dotfiles/wezterm/helix-wezterm.yaml;
         };
       };
     };

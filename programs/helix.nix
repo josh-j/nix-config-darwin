@@ -1,34 +1,34 @@
-{pkgs, ...}: let
-  yaziPicker = pkgs.writeShellScriptBin "yazi-picker" ''
-    paths=$(${pkgs.yazi}/bin/yazi --chooser-file=/dev/stdout | while read -r; do printf "%q " "$REPLY"; done)
-
-    if [[ -n "$paths" ]]; then
-    	${pkgs.zellij}/bin/zellij action toggle-floating-panes
-    	${pkgs.zellij}/bin/zellij action write 27 # send <Escape> key
-    	${pkgs.zellij}/bin/zellij action write-chars ":open $paths"
-    	${pkgs.zellij}/bin/zellij action write 13 # send <Enter> key
-    	${pkgs.zellij}/bin/zellij action toggle-floating-panes
-    fi
-
-    ${pkgs.zellij}/bin/zellij action close-pane
-  '';
-in {
+{pkgs, ...}: {
   programs.helix = with pkgs; {
     enable = true;
     defaultEditor = true;
     package = pkgs.unstable.helix;
     extraPackages = [
       bash-language-server
+      bat
       biome
+      dprint
       clang-tools
       docker-compose-language-service
       dockerfile-language-server-nodejs
+      gh
+      glow
+      gum
+      hurl
+      lazysql
+      mods
+      navi
+      presenterm
+      ripgrep
+      slumber
+      tig
       golangci-lint
       golangci-lint-langserver
       gopls
       gotools
       lsp-ai
       marksman
+      markdown-oxide
       nil
       nixd
       nixpkgs-fmt
@@ -47,10 +47,10 @@ in {
       typescript
       vscode-langservers-extracted
       yaml-language-server
+      yq
     ];
 
     settings = {
-      # theme = "base16_transparent";
       theme = "boo_berry_mod";
 
       editor = {
@@ -118,17 +118,6 @@ in {
           enable = true;
         };
 
-        # whitespace = {
-        #   render.space = "all";
-        #   render.tab = "all";
-        #   render.newline = "all";
-        #   characters.space = " ";
-        #   characters.nbsp = "⍽";
-        #   characters.tab = "→";
-        #   characters.newline = "⏎";
-        #   characters.tabpad = "-";
-        # };
-
         statusline = {
           left = ["mode" "file-name" "read-only-indicator" "file-modification-indicator" "version-control" "spinner"];
           right = ["file-encoding" "diagnostics" "selections" "register" "file-type" "file-line-ending" "position" "position-percentage"];
@@ -166,8 +155,9 @@ in {
           #   };
           # };
 
-          "C-y" = ":sh ${pkgs.zellij}/bin/zellij run -f -n yazi-picker -x 10% -y 10% --width 80% --height 80% -- ${yaziPicker}/bin/yazi-picker";
-          # space.space = "file_picker";
+          "-" = ":sh tmux new-window -n fx '~/Bin/yazi-picker.sh open'";
+
+          space.space = "file_picker";
           # C-h = "select_prev_sibling";
           # C-j = "shrink_selection";
           # C-k = "expand_selection";
@@ -178,40 +168,32 @@ in {
           "{" = ["goto_prev_paragraph" "collapse_selection"];
           "}" = ["goto_next_paragraph" "collapse_selection"];
 
-          # C = ["extend_to_line_end" "yank_main_selection_to_clipboard" "delete_selection" "insert_mode"];
-          # D = ["extend_to_line_end" "yank_main_selection_to_clipboard" "delete_selection"];
-          # X = "extend_line_above";
+          D = ["extend_to_line_end" "yank_main_selection_to_clipboard" "delete_selection"];
+          X = "extend_line_above";
           V = ["select_mode" "extend_to_line_bounds"];
           G = "goto_file_end";
-          H = "goto_line_end";
-          L = "goto_line_start";
+          H = "goto_line_start";
+          L = "goto_line_end";
           g.q = ":reflow";
           S = "surround_add";
 
           # Make j and k behave as they do Vim when soft-wrap is enabled
           # j = "move_line_down";
           # k = "move_line_up";
+          # i = ["insert_mode" "collapse_selection"];
+          # a = ["append_mode" "collapse_selection"];
+          # u = ["undo" "collapse_selection"];
 
-          # "*" = ["move_char_right" "move_prev_word_start" "move_next_word_end" "search_selection" "search_next"];
-          # "#" = ["move_char_right" "move_prev_word_start" "move_next_word_end" "search_selection" "search_prev"];
-
-          # x = "delete_selection";
-
-          # p = ["paste_clipboard_after" "collapse_selection"];
-          # P = ["paste_clipboard_before" "collapse_selection"];
-          # Y = ["extend_to_line_end" "yank_main_selection_to_clipboard" "collapse_selection"];
-          i = ["insert_mode" "collapse_selection"];
-          a = ["append_mode" "collapse_selection"];
-
-          u = ["undo" "collapse_selection"];
           "0" = "goto_line_start";
-          # "$" = "goto_line_end";
+          "$" = "goto_line_end";
+
           space = {
-            # w = ":write";
+            o = ":write";
             q = ":quit";
             l.f = ":format";
             l.r = ":lsp-restart";
             l.g = ":sh gh browse";
+            # w.g = ":sh tmux new-window -n gitui";
           };
 
           "+" = {
@@ -223,37 +205,20 @@ in {
             t = ":pipe aichat -r refactor-assist";
             y = [":pipe-to tee /tmp/helix-tmp-explain" ":sh aichat -f /tmp/helix-tmp-explain -r explain-assist"];
           };
-
-          #   d = {
-          #     d = ["extend_to_line_bounds" "yank_main_selection_to_clipboard" "delete_selection"];
-          #     t = ["extend_till_char"];
-          #     s = ["surround_delete"];
-          #     i = ["select_textobject_inner"];
-          #     a = ["select_textobject_around"];
-          #     j = ["select_mode" "extend_to_line_bounds" "extend_line_below" "yank_main_selection_to_clipboard" "delete_selection" "normal_mode"];
-          #     down = ["select_mode" "extend_to_line_bounds" "extend_line_below" "yank_main_selection_to_clipboard" "delete_selection" "normal_mode"];
-          #     k = ["select_mode" "extend_to_line_bounds" "extend_line_above" "yank_main_selection_to_clipboard" "delete_selection" "normal_mode"];
-          #     up = ["select_mode" "extend_to_line_bounds" "extend_line_above" "yank_main_selection_to_clipboard" "delete_selection" "normal_mode"];
-          #     G = ["select_mode" "extend_to_line_bounds" "goto_last_line" "extend_to_line_bounds" "yank_main_selection_to_clipboard" "delete_selection" "normal_mode"];
-          #     w = ["move_next_word_start" "yank_main_selection_to_clipboard" "delete_selection"];
-          #     W = ["move_next_long_word_start" "yank_main_selection_to_clipboard" "delete_selection"];
-          #     g = {
-          #       g = ["select_mode" "extend_to_line_bounds" "goto_file_start" "extend_to_line_bounds" "yank_main_selection_to_clipboard" "delete_selection" "normal_mode"];
-          #     };
-          #   };
-          #   y = {
-          #     y = ["extend_to_line_bounds" "yank_main_selection_to_clipboard" "normal_mode" "collapse_selection"];
-          #     j = ["select_mode" "extend_to_line_bounds" "extend_line_below" "yank_main_selection_to_clipboard" "collapse_selection" "normal_mode"];
-          #     down = ["select_mode" "extend_to_line_bounds" "extend_line_below" "yank_main_selection_to_clipboard" "collapse_selection" "normal_mode"];
-          #     k = ["select_mode" "extend_to_line_bounds" "extend_line_above" "yank_main_selection_to_clipboard" "collapse_selection" "normal_mode"];
-          #     up = ["select_mode" "extend_to_line_bounds" "extend_line_above" "yank_main_selection_to_clipboard" "collapse_selection" "normal_mode"];
-          #     G = ["select_mode" "extend_to_line_bounds" "goto_last_line" "extend_to_line_bounds" "yank_main_selection_to_clipboard" "collapse_selection" "normal_mode"];
-          #     w = ["move_next_word_start" "yank_main_selection_to_clipboard" "collapse_selection" "normal_mode"];
-          #     W = ["move_next_long_word_start" "yank_main_selection_to_clipboard" "collapse_selection" "normal_mode"];
-          #     g = {
-          #       g = ["select_mode" "extend_to_line_bounds" "goto_file_start" "extend_to_line_bounds" "yank_main_selection_to_clipboard" "collapse_selection" "normal_mode"];
-          #     };
-          #   };
+          "," = {
+            b = ":sh helix-wezterm.sh blame";
+            c = ":sh helix-wezterm.sh check";
+            e = ":sh helix-wezterm.sh explorer";
+            g = ":sh helix-wezterm.sh gitui";
+            o = ":sh helix-wezterm.sh open";
+            q = ":sh helix-wezterm.sh query";
+            r = ":sh helix-wezterm.sh run";
+            s = ":sh helix-wezterm.sh slumber";
+            m = ":sh helix-wezterm.sh mock";
+            n = ":sh helix-wezterm.sh navi";
+            p = ":sh helix-wezterm.sh present";
+            t = ":sh helix-wezterm.sh test";
+          };
         };
 
         select = {
@@ -263,23 +228,10 @@ in {
           G = "goto_file_end";
           H = "goto_line_end";
           L = "goto_line_start";
-          # D = ["extend_to_line_bounds" "delete_selection" "normal_mode"];
-          # C = ["goto_line_start" "extend_to_line_bounds" "change_selection"];
           S = "surround_add"; # Basically 99% of what I use vim-surround for
 
           i = "select_textobject_inner";
           a = "select_textobject_around";
-
-          # Clipboards over registers ye ye
-          # d = ["yank_main_selection_to_clipboard" "delete_selection"];
-          # x = ["yank_main_selection_to_clipboard" "delete_selection"];
-          # y = ["yank_main_selection_to_clipboard" "normal_mode" "flip_selections" "collapse_selection"];
-          # Y = ["extend_to_line_bounds" "yank_main_selection_to_clipboard" "goto_line_start" "collapse_selection" "normal_mode"];
-          # p = "replace_selections_with_clipboard"; # No life without this
-          # P = "paste_clipboard_before";
-
-          # tab = ["insert_mode" "collapse_selection"];
-          # C-a = ["append_mode" "collapse_selection"];
 
           k = ["extend_line_up" "extend_to_line_bounds"];
           j = ["extend_line_down" "extend_to_line_bounds"];
@@ -400,14 +352,6 @@ in {
         command = "clippy";
       };
 
-      language-server.yaml-language-server.config.yaml.schemas = {
-        kubernetes = "k8s/*.yaml";
-      };
-
-      language-server.typescript-language-server.config.tsserver = {
-        path = "${pkgs.typescript}/lib/node_modules/typescript/lib/tsserver.js";
-      };
-
       grammar = [
         {
           name = "powershell";
@@ -489,27 +433,11 @@ in {
           auto-format = true;
         }
         {
-          name = "jsx";
-          language-servers = [
-            {
-              name = "typescript-language-server";
-              except-features = ["format"];
-            }
-            "biome"
-            "lsp-ai"
-          ];
-          formatter = {
-            command = "biome";
-            args = ["format" "--indent-style" "space" "--stdin-file-path" "file.jsx"];
-          };
-          auto-format = true;
-        }
-        {
           name = "markdown";
           language-servers = ["marksman" "lsp-ai"];
           formatter = {
-            command = "prettier";
-            args = ["--stdin-filepath" "file.md"];
+            command = "dprint";
+            args = ["fmt" "--stdin" "md"];
           };
           auto-format = true;
         }
@@ -535,10 +463,6 @@ in {
             tab-width = 2;
             unit = "  ";
           };
-          # formatter = {
-          #   command = "sh";
-          #   args = ["-c" "ruff check --select I --fix - | ruff format --line-length 88 -"];
-          # };
           auto-format = true;
         }
         {

@@ -41,6 +41,10 @@
     #   url = "github:shaunsingh/homebrew-SFMono-Nerd-Font-Ligaturized";
     #   flake = false;
     # };
+    zjstatus = {
+      url = "github:dj95/zjstatus";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     tmux-sessionx.url = "github:omerxx/tmux-sessionx";
     tmux-sessionx.inputs.nixpkgs.follows = "nixpkgs";
     siovim.url = "github:josh-j/siovim";

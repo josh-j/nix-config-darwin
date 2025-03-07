@@ -47,11 +47,46 @@ config.window_close_confirmation = "NeverPrompt"
 -- config.color_scheme = "oxocarbon"
 -- config.color_scheme = "BlueBerryPie"
 -- config.color_scheme = "Tokyo Night"
-config.color_scheme = "PaperColor Dark (base16)"
+-- config.color_scheme = "PaperColor Dark (base16)"
 -- config.color_scheme = "Wryan"
 -- config.color_scheme = "Papercolor Dark (Gogh)"
 -- config.color_scheme = "Pencil Dark (Gogh)"
 -- config.color_scheme = "Oxocarbon Dark (Gogh)"
+config.color_schemes = {
+  ['MyCustomTheme'] = {
+    background = "#282828",
+    foreground = "#FFF1E8",
+    cursor_bg = "#57526B",
+    cursor_fg = "#57526B",
+    cursor_border = "#57526B",
+    selection_bg = "#3A374D",
+    selection_fg = "#FFF1E8",
+    ansi = {
+      "#504A73",  -- black
+      "#BA506E",  -- red
+      "#3D87A4",  -- green
+      "#BA9C73",  -- yellow
+      "#618f97",  -- blue
+      "#9476B7",  -- magenta
+      "#605d84",  -- cyan
+      "#D3D1E6",  -- white
+    },
+    brights = {
+      "#8783A3",  -- bright black
+      "#A3A1B1",  -- bright red
+      "#50B8E3",  -- bright green
+      "#F6D499",  -- bright yellow
+      "#9CCFD8",  -- bright blue
+      "#C4A7E7",  -- bright magenta
+      "#C5C0FF",  -- bright cyan
+      "#EAE8FF",  -- bright white
+    },
+  }
+}
+
+-- Set it as the active color scheme
+config.color_scheme = 'MyCustomTheme'
+
 config.font = wezterm.font_with_fallback({
   {
     family = "JetBrainsMono Nerd Font",

@@ -1,7 +1,7 @@
 {
-config,
-pkgs,
-...
+  config,
+  pkgs,
+  ...
 }: {
   programs.zsh = {
     enable = true;
@@ -143,25 +143,34 @@ pkgs,
     # '';
 
     initExtra = ''
-  # Enable vi mode
-  bindkey -v
+      # Enable vi mode
+      bindkey -v
 
-  # Emacs-style history navigation in insert mode
-  bindkey -M viins '^p' _atuin_search_widget
-  bindkey -M viins '^n' down-line-or-history
+      # Emacs-style history navigation in insert mode
+      bindkey -M viins '^p' _atuin_search_widget
+      bindkey -M viins '^n' down-line-or-history
 
-  # Keep your existing autosuggest binding
-  bindkey '^f' autosuggest-accept
+      # Keep your existing autosuggest binding
+      bindkey '^f' autosuggest-accept
 
-  # Add other common Emacs bindings that don't conflict with Vim
-  bindkey -M viins '^a' beginning-of-line
-  bindkey -M viins '^e' end-of-line
-  bindkey -M viins '^k' kill-line
-  bindkey -M viins '^u' backward-kill-line
-  bindkey -M viins '^w' backward-kill-word
+      # Add other common Emacs bindings that don't conflict with Vim
+      bindkey -M viins '^a' beginning-of-line
+      bindkey -M viins '^e' end-of-line
+      bindkey -M viins '^k' kill-line
+      bindkey -M viins '^u' backward-kill-line
+      bindkey -M viins '^w' backward-kill-word
+
+      function y() {
+      	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+      	yazi "$@" --cwd-file="$tmp"
+      	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+      		builtin cd -- "$cwd"
+      	fi
+      	rm -f -- "$tmp"
+      }
     '';
 
-  shellAliases = {
+    shellAliases = {
       # Keep your existing aliases
       "...." = "././..";
       cd = "z";
