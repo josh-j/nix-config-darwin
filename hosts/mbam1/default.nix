@@ -6,6 +6,7 @@
 }: let
   extraPackages = with pkgs; [
     # Development tools
+    nushell
     aider-chat
     gitui
     yq

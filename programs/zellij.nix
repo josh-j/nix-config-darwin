@@ -131,8 +131,8 @@ in {
         require("no-status"):setup()
       '';
 
-    "zellij/layouts/helix.kdl".source = "dotfiles/zellij/helix.kdl";
-    "zellij/layouts/helix.swap.kdl".source = "dotfiles/zellij/helix.swap.kdl";
+    "zellij/layouts/helix.kdl".source = "${toString ../dotfiles}/zellij/helix.kdl";
+    "zellij/layouts/helix.swap.kdl".source = "${toString ../dotfiles}/zellij/helix.swap.kdl";
 
     "zellij/yazi/open_file.nu".text =
       # nu
