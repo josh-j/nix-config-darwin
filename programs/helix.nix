@@ -206,18 +206,18 @@
             y = [":pipe-to tee /tmp/helix-tmp-explain" ":sh aichat -f /tmp/helix-tmp-explain -r explain-assist"];
           };
           "," = {
-            b = ":sh helix-wezterm.sh blame";
-            c = ":sh helix-wezterm.sh check";
-            e = ":sh helix-wezterm.sh explorer";
-            g = ":sh helix-wezterm.sh gitui";
-            o = ":sh helix-wezterm.sh open";
-            q = ":sh helix-wezterm.sh query";
-            r = ":sh helix-wezterm.sh run";
-            s = ":sh helix-wezterm.sh slumber";
-            m = ":sh helix-wezterm.sh mock";
-            n = ":sh helix-wezterm.sh navi";
-            p = ":sh helix-wezterm.sh present";
-            t = ":sh helix-wezterm.sh test";
+            b = ":sh helix-wezterm blame";
+            c = ":sh helix-wezterm check";
+            e = ":sh helix-wezterm explorer";
+            g = ":sh helix-wezterm gitui";
+            o = ":sh helix-wezterm open";
+            q = ":sh helix-wezterm query";
+            r = ":sh helix-wezterm run";
+            s = ":sh helix-wezterm slumber";
+            m = ":sh helix-wezterm mock";
+            n = ":sh helix-wezterm navi";
+            p = ":sh helix-wezterm present";
+            t = ":sh helix-wezterm test";
           };
         };
 

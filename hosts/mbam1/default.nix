@@ -96,7 +96,7 @@
     vscode
     siovim
     spotify
-    obsidian
+    # obsidian
   ];
 in {
   home-manager = {
