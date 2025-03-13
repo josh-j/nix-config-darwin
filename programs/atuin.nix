@@ -1,7 +1,7 @@
 _: {
   programs.atuin = {
     enable = true;
-    enableZshIntegration = true;
+    enableZshIntegration = false;
     enableNushellIntegration = true;
     # daemon.enable = true;
     settings = {

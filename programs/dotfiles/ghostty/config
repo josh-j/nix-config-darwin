@@ -67,7 +67,7 @@ clipboard-paste-protection     = true
 clipboard-trim-trailing-spaces = true
 copy-on-select                 = true
 scrollback-limit               = 100000
-shell-integration              = zsh
+shell-integration              = none
 shell-integration-features     = cursor,sudo,title
 
 # Startup

@@ -36,7 +36,6 @@
     zip
 
     # Terminal and shell
-    # atuin
     carapace # multi-environment shell completion
     eza
     fzf
@@ -67,6 +66,7 @@ in {
     sessionPath = [
       "$HOME/.local/bin"
       "$HOME/.local/share/bin"
+      "/run/current-system/sw/bin"
       "/nix/var/nix/profiles/default/bin"
       "/etc/profiles/per-user/${username}/bin"
       # "/opt/homebrew/bin" # FIXME don't add if not darwin
@@ -85,6 +85,7 @@ in {
       GOOGLE_API_KEY = getSecret "googleai_api_key"; # Another example
       # Add as many secrets as you need
     };
+    shell.enableNushellIntegration = true;
 
     stateVersion = "24.11";
   };
@@ -95,7 +96,7 @@ in {
     };
     nix-index = {
       enable = true;
-      enableZshIntegration = true;
+      enableZshIntegration = false;
     };
   };
 }

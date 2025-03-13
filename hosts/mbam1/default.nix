@@ -110,7 +110,7 @@ in {
       imports = [
         ../home-common.nix
         ../../programs/aichat.nix
-        ../../programs/atuin.nix
+        # ../../programs/atuin.nix
         ../../programs/bash.nix
         ../../programs/direnv.nix
         # ../../programs/ghostty.nix
@@ -124,7 +124,7 @@ in {
         ../../programs/yazi.nix
         ../../programs/zellij.nix
         ../../programs/zoxide.nix
-        ../../programs/zsh.nix
+        # ../../programs/zsh.nix
       ];
       nix.enable = false;
       home = {

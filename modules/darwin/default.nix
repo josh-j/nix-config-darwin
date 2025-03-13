@@ -11,8 +11,8 @@
     systemPackages = with pkgs; [
       # ghostty.packages.${pkgs.system}.default
       qmk
-      zsh
-      zsh-nix-shell
+      # zsh
+      # zsh-nix-shell
     ];
   };
 
@@ -23,7 +23,8 @@
   '';
 
   programs.nix-index.enable = true;
-  programs.zsh.enable = true; # breaks everything is removed
+  programs.zsh.enable = false; # breaks /run/current-system/sw/bin
+  # programs.nu.enable = true;
 
   nix = {
     enable = false; # determinate
@@ -113,7 +114,7 @@
   users.users.${username} = {
     name = "${username}";
     home = "/Users/${username}";
-    shell = pkgs.zsh;
+    shell = pkgs.nushell;
   };
 
   system = {
