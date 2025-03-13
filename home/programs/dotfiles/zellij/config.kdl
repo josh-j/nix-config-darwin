@@ -270,7 +270,7 @@ plugins {
 // Choose what to do when zellij receives SIGTERM, SIGINT, SIGQUIT or SIGHUP
 on_force_close "quit"
 simplified_ui true
-// default_shell "fish"
+default_shell "nu"
 pane_frames false
 default_layout "helix"
 default_mode "locked"

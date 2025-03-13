@@ -29,13 +29,13 @@ in {
       show_banner = false;
     };
     plugins = [
-      pkgs.nushellPlugins.gstat
-      pkgs.custom.nu_plugin_audio_hook
-      pkgs.custom.nu_plugin_clipboard
-      pkgs.custom.nu_plugin_desktop_notifications
+      # pkgs.nushellPlugins.gstat
+      # pkgs.custom.nu_plugin_audio_hook
+      # pkgs.custom.nu_plugin_clipboard
+      # pkgs.custom.nu_plugin_desktop_notifications
       # nu_plugin_dns
-      pkgs.custom.nu_plugin_emoji
-      pkgs.custom.nu_plugin_file
+      # pkgs.custom.nu_plugin_emoji
+      # pkgs.custom.nu_plugin_file
     ];
     # extraEnv = ''
     #   use std "path add"

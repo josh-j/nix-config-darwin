@@ -54,10 +54,10 @@
           # alt-y = "layout accordion horizontal vertical";
           # alt-x = "split horizontal";
           # alt-y = "split vertical";
-          alt-x = "layout tiles horizontal";
-          alt-y = "layout tiles vertical";
-          alt-shift-x = "layout accordion h_accordion";
-          alt-shift-y = "layout accordion v_accordion";
+          alt-s = "layout tiles horizontal";
+          alt-v = "layout tiles vertical";
+          alt-shift-s = "layout accordion h_accordion";
+          alt-shift-v = "layout accordion v_accordion";
           alt-e = "layout tiles horizontal vertical";
 
           # # Focus

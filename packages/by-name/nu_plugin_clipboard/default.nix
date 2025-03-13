@@ -11,7 +11,6 @@ rustPlatform.buildRustPackage {
     rev = "a2f982e09fd72d83207772c393a311abb07c19d1";
     hash = "sha256-qS8dOtOLq8grhmori9w1d/zrhu1X3Qk51y+v/LTAxO8=";
   };
-  cargoHash = "sha256-ErmfPqK89q+SNk/THaz0RzptaV/abflbfs8h0ebTKpw=";
+  cargoHash = "sha256-VkXBsopL3ESSaJOMeToVw3UG/eTSTfyWLHTZOdnqwHU=";
   meta.mainProgram = "nu_plugin_clipboard";
-
 }
