@@ -6,7 +6,6 @@
 }: let
   extraPackages = with pkgs; [
     # Development tools
-    nushell
     aider-chat
     gitui
     yq
@@ -15,7 +14,7 @@
     tree-sitter
     fx # JSON viewer in terminal
     git-crypt
-    zed-editor
+    # zed-editor
 
     # C/CPP
     gcc
@@ -95,8 +94,8 @@
 
     # UI
     vscode
-    siovim
-    spotify
+    # siovim
+    # spotify
     # obsidian
   ];
 in {
@@ -118,8 +117,9 @@ in {
         # ../../programs/fonts.nix
         ../../programs/fzf.nix
         ../../programs/helix.nix
+        ../../programs/nushell.nix
         ../../programs/starship.nix
-        ../../programs/tmux.nix
+        # ../../programs/tmux.nix
         ../../programs/wezterm.nix
         ../../programs/yazi.nix
         ../../programs/zellij.nix
@@ -129,12 +129,6 @@ in {
       nix.enable = false;
       home = {
         packages = extraPackages;
-        sessionPath = [
-          #   "/nix/var/nix/profiles/default/bin"
-          #   "/etc/profiles/per-user/${username}/bin"
-          "/Users/${username}/Bin"
-          "/Users/${username}/.local/bin"
-        ];
         file = {
           ".config/ghostty/config".text = builtins.readFile ../../programs/dotfiles/ghostty/config;
           ".config/ghostty/themes/oxocarbon-light".text = builtins.readFile ../../programs/dotfiles/ghostty/themes/oxocarbon-light;

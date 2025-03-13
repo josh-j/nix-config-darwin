@@ -1,91 +1,52 @@
 {
   description = "NixOS and Darwin System Configurations";
-
+  nixConfig = {
+    substituters = [
+      "https://cache.nixos.org"
+    ];
+  };
   inputs = {
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    # home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    # nixos-wsl.url = "github:nix-community/NixOS-WSL";
-    # nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     nix-darwin.url = "github:LnL7/nix-darwin/master";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs-unstable";
-    # nix-index.url = "github:nix-community/nix-index";
-    # nix-index.inputs.nixpkgs.follows = "nixpkgs";
-
-    # nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-    # nix-homebrew.inputs.nixpkgs.follows = "nixpkgs";
-    # homebrew-core = {
-    #   url = "github:homebrew/homebrew-core";
-    #   flake = false;
-    # };
-    # homebrew-cask = {
-    #   url = "github:homebrew/homebrew-cask";
-    #   flake = false;
-    # };
-    # homebrew-bundle = {
-    #   url = "github:homebrew/homebrew-bundle";
-    #   flake = false;
-    # };
-    # homebrew-services = {
-    #   url = "github:homebrew/homebrew-services";
-    #   flake = false;
-    # };
-
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     # Misc
-    # ghostty.url = "github:ghostty-org/ghostty";
-
-    # homebrew-sfmono = {
-    #   url = "github:shaunsingh/homebrew-SFMono-Nerd-Font-Ligaturized";
-    #   flake = false;
-    # };
-    zjstatus = {
-      url = "github:dj95/zjstatus";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    tmux-sessionx.url = "github:omerxx/tmux-sessionx";
-    tmux-sessionx.inputs.nixpkgs.follows = "nixpkgs";
-    siovim.url = "github:josh-j/siovim";
-    siovim.inputs.nixpkgs.follows = "nixpkgs-unstable";
-    mac-app-util.url = "github:hraban/mac-app-util";
-    mac-app-util.inputs.nixpkgs.follows = "nixpkgs";
+    zjstatus.url = "github:dj95/zjstatus";
+    zjstatus.inputs.nixpkgs.follows = "nixpkgs";
+    # siovim.url = "github:josh-j/siovim";
+    # siovim.inputs.nixpkgs.follows = "nixpkgs";
   };
-
   outputs = inputs:
     with inputs; let
       defaultUser = "joshj";
-
       nixpkgsConfig = {
         allowUnfree = true;
         allowUnfreePredicate = _: true;
         permittedInsecurePackages = [];
         allowBroken = false;
       };
-
       mkPkgsWithOverlays = system:
         import inputs.nixpkgs {
           inherit system;
           config = nixpkgsConfig;
           overlays = [
             (_: prev: {
-              unstable = import inputs.nixpkgs-unstable {
-                inherit (prev) system;
-                config = nixpkgsConfig;
-              };
+              # unstable = import inputs.nixpkgs-unstable {
+              #   inherit (prev) system;
+              #   config = nixpkgsConfig;
+              # };
             })
             (import ./overlays inputs)
           ];
         };
-
       mkCommonArgs = system: {
         inherit inputs self system;
         channels = {
-          inherit nixpkgs nixpkgs-unstable;
+          inherit nixpkgs;
+          nixpkgs-unstable = nixpkgs; # Since you're only using unstable
         };
       };
-
       mkSystem = {
         system,
         hostname,
@@ -104,60 +65,19 @@
               };
             modules =
               [
-                # ./modules/common
-                ./modules/darwin
-
-                # nix-homebrew.darwinModules.nix-homebrew
-                # {
-                #   nix-homebrew = {
-                #     enable = true;
-                #     enableRosetta = false;
-                #     user = username;
-                #     autoMigrate = true;
-
-                #     # Add your taps
-                #     taps = {
-                #       "homebrew/homebrew-core" = homebrew-core;
-                #       "homebrew/homebrew-cask" = homebrew-cask;
-                #       "homebrew/homebrew-bundle" = homebrew-bundle;
-                #       "homebrew/homebrew-services" = homebrew-services;
-                #       "shaunsingh/homebrew-SFMono-Nerd-Font-Ligaturized" = homebrew-sfmono;
-                #     };
-
-                #     mutableTaps = false; # Set to false if you want fully declarative tap management
-                #   };
-                # }
-                # Align homebrew taps with nix-homebrew's taps
-                # (
-                #   {config, ...}: {
-                #     homebrew.taps = builtins.attrNames config.nix-homebrew.taps;
-                #   }
-                # )
-                mac-app-util.darwinModules.default
-                home-manager.darwinModules.home-manager
-                (_: {
-                  home-manager.sharedModules = [
-                    mac-app-util.homeManagerModules.default
-                  ];
-                })
-                (import (./hosts + "/${hostname}"))
-              ]
-              ++ extraModules;
-          }
-        else if builtins.match ".*linux" system != null
-        then
-          inputs.nixpkgs.lib.nixosSystem {
-            inherit system;
-            specialArgs =
-              mkCommonArgs system
-              // {
-                inherit hostname username;
-              };
-            modules =
-              [
                 ./modules/common
-                ./modules/linux
-                inputs.home-manager.nixosModules.home-manager
+                ./modules/darwin
+                # home-manager.darwinModules.home-manager
+                # (import (./hosts + "/${hostname}"))
+                home-manager.darwinModules.home-manager
+                {
+                  home-manager.useGlobalPkgs = true;
+                  home-manager.useUserPackages = true;
+                  home-manager.extraSpecialArgs = mkCommonArgs system // {inherit hostname username;};
+                  # home-manager.users.${username} = import (./hosts + "/${hostname}");
+
+                  # home-manager.users.${username} = import (./hosts + "/${hostname}/default.nix");
+                }
                 (import (./hosts + "/${hostname}"))
               ]
               ++ extraModules;
@@ -170,15 +90,7 @@
           hostname = "mbam1";
         };
       };
-
-      nixosConfigurations = {
-        wslhost = mkSystem {
-          system = "x86_64-linux";
-          hostname = "wslhost";
-          extraModules = [inputs.nixos-wsl.nixosModules.wsl];
-        };
-      };
       # nix code formatter
-      formatter.${system} = nixpkgs.${system}.alejandra;
+      formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.alejandra;
     };
 }

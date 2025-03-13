@@ -17,10 +17,10 @@ palette = 14=#C5C0FF
 palette = 15=#EAE8FF
 
 ## Theme Settings
-background = #282828
+background = #2a2a2a
 foreground = #FFF1E8
 cursor-color = #57526B
-selection-background = #3A374D
+selection-background = #5A576D
 selection-foreground = #FFF1E8
 
 

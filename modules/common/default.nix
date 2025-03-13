@@ -1,17 +1,17 @@
 {
-inputs,
-username,
-lib,  # Add lib to the arguments
-...
+  inputs,
+  config,
+  username,
+  lib, # Add lib to the arguments
+  ...
 }: {
   nix = {
     enable = lib.mkDefault true;
-    configureBuildUsers = lib.mkDefault true;
-    gc = {
+    gc = lib.mkIf config.nix.enable {
       automatic = lib.mkDefault true;
       options = lib.mkDefault "--delete-older-than 7d";
     };
-    optimise.automatic = lib.mkDefault true;
+    optimise.automatic = lib.mkIf config.nix.enable (lib.mkDefault true);
     registry.nixpkgs.flake = lib.mkDefault inputs.nixpkgs;
     settings = {
       experimental-features = lib.mkDefault ["nix-command" "flakes"];
@@ -38,12 +38,12 @@ lib,  # Add lib to the arguments
       ];
       keep-outputs = lib.mkDefault true;
       keep-derivations = lib.mkDefault true;
-      system-features = lib.mkDefault [ "big-parallel" "kvm" "nixos-test" ];
+      system-features = lib.mkDefault ["big-parallel" "kvm" "nixos-test"];
       fallback = lib.mkDefault true;
       connect-timeout = lib.mkDefault 5;
     };
     buildMachines = lib.mkDefault [];
-    useDaemon = lib.mkDefault true;
+    # useDaemon = lib.mkDefault true;
     extraOptions = lib.mkDefault ''
       min-free = ${toString (100 * 1024 * 1024)}
       max-free = ${toString (1024 * 1024 * 1024)}
@@ -51,5 +51,5 @@ lib,  # Add lib to the arguments
       keep-derivations = true
     '';
   };
-  services.nix-daemon.enable = lib.mkDefault true;
+  # services.nix-daemon.enable = lib.mkDefault true;
 }

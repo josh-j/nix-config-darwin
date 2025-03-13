@@ -2,7 +2,7 @@
   programs.helix = with pkgs; {
     enable = true;
     defaultEditor = true;
-    package = pkgs.unstable.helix;
+    package = pkgs.helix;
     extraPackages = [
       bash-language-server
       bat
@@ -132,7 +132,7 @@
         insert.esc = ["collapse_selection" "normal_mode"];
         select.esc = ["collapse_selection" "keep_primary_selection" "normal_mode"];
         # normal.j.k = normal.esc;
-        insert.j.k = insert.esc;
+        insert.j.k = "normal_mode";
         # select.j.k = select.esc;
 
         normal.C-c = normal.esc;
@@ -226,8 +226,8 @@
           "}" = ["extend_to_line_bounds" "goto_next_paragraph"];
           "0" = "goto_line_start";
           G = "goto_file_end";
-          H = "goto_line_end";
-          L = "goto_line_start";
+          H = "goto_line_start";
+          L = "goto_line_end";
           S = "surround_add"; # Basically 99% of what I use vim-surround for
 
           i = "select_textobject_inner";

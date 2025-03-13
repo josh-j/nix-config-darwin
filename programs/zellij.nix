@@ -1,80 +1,135 @@
 # programs/zellij.nix
 {
-  config,
   pkgs,
   inputs,
-  lib,
   ...
 }: let
   plugin_zjstatus = inputs.zjstatus.outputs.packages.${pkgs.stdenv.hostPlatform.system}.default;
   yazi-plugins = pkgs.fetchFromGitHub {
     owner = "yazi-rs";
     repo = "plugins";
-    rev = "600614a9dc59a12a63721738498c5541c7923873";
-    hash = "sha256-mQkivPt9tOXom78jgvSwveF/8SD8M2XCXxGY8oijl+o=";
+    rev = "687f6f2a97ef7c691d623d910989f1a8dfdc0d7e";
+    hash = "sha256-tiJ/eDvUPqux33owjE4y5eLGJeT9GW4qQItPSC5i/nc=";
   };
 in {
   programs.nushell.shellAliases = {
-    he = "zellij -s $'($env.PWD | path basename)-(random int)' --new-session-with-layout /home/joshj/.config/zellij/layouts/helix.kdl";
+    he = "zellij -s $'($env.PWD | path basename)-(random int)' --new-session-with-layout /users/joshj/.config/zellij/layouts/helix.kdl";
   };
+  # programs.zellij = {
+  #   enable = true;
+  #   enableZshIntegration = true;
+  #   settings = {
+  #     default_shell = "zsh";
+  #     pane_frames = false;
+  #     default_layout = "default_zjstatus";
+  #     default_mode = "locked";
+  #     on_force_close = "quit";
+  #     simplified_ui = true;
+  #     theme = "dracula";
+  #     ui.pane_frames.hide_session_name = true;
+  #     themes.dracula = {
+  #       fg = [248 248 242];
+  #       bg = [40 42 54];
+  #       black = [0 0 0];
+  #       red = [255 85 85];
+  #       green = [80 250 123];
+  #       yellow = [241 250 140];
+  #       blue = [98 114 164];
+  #       magenta = [255 121 198];
+  #       cyan = [139 233 253];
+  #       white = [255 255 255];
+  #       orange = [255 184 108];
+  #     };
+  #   };
+  # };
+
   programs.zellij = {
     enable = true;
-    enableZshIntegration = true;
-    settings = {
-      default_shell = "zsh";
-      pane_frames = false;
-      default_layout = "default_zjstatus";
-      default_mode = "locked";
-      on_force_close = "quit";
-      simplified_ui = true;
-      theme = "dracula";
-      ui.pane_frames.hide_session_name = true;
-      themes.dracula = {
-        fg = [248 248 242];
-        bg = [40 42 54];
-        black = [0 0 0];
-        red = [255 85 85];
-        green = [80 250 123];
-        yellow = [241 250 140];
-        blue = [98 114 164];
-        magenta = [255 121 198];
-        cyan = [139 233 253];
-        white = [255 255 255];
-        orange = [255 184 108];
-      };
-    };
+    enableBashIntegration = false;
+    enableFishIntegration = false;
+    enableZshIntegration = false;
   };
 
   # Files go into xdg.configFile
+
   xdg.configFile = {
-    "zellij/layouts/default_zjstatus.kdl".text = ''
-      layout {
-        pane {}
-        pane size=1 borderless=true {
-          plugin location="file:${plugin_zjstatus}/bin/zjstatus.wasm" {
-            format_left  "{mode} #[fg=#ffffff,bold]{session} {tabs}"
-            format_right "{datetime}"
-            format_space "|"
-            hide_frame_for_single_pane "true"
-            mode_normal  "#[bg=#1e1e1e,fg=#ffffff] "
-            mode_tmux    "#[bg=#1e1e1e,fg=#ffffff] tmux "
-            mode_locked  "#[bg=#1e1e1e,fg=#ffffff] locked "
-            border_enabled   "false"
-            border_char      "─"
-            border_format    "#[fg=#ffffff]"
-            border_position  "top"
-            tab_normal              "#[fg=#6C7086] {name} "
-            tab_normal_fullscreen   "#[fg=#6C7086] {name} [] "
-            tab_normal_sync         "#[fg=#6C7086] {name} <> "
-            tab_active              "#[bg=#6C7086,fg=#ffffff,bold] {name} "
-            tab_active_fullscreen   "#[bg=#6C7086,fg=#ffffff] {name} [] "
-            tab_active_sync         "#[bg=#6C7086,fg=#ffffff,bold] {name} <> "
-            datetime          "#[fg=#6C7086] {format} "
-            datetime_format   "%Y-%m-%d %H:%M"
-            datetime_timezone "Europe/Berlin"
+    "zellij/config.kdl".text =
+      builtins.readFile "${toString ../programs/dotfiles}/zellij/helix.kdl"
+      + ''
+        theme "catppuccin-mocha"
+        on_force_close "quit"
+        simplified_ui true
+        pane_frames true
+        ui {
+          pane_frames {
+            hide_session_name true
+            rounded_corners true
           }
         }
-      }
+      '';
+    "zellij/layouts/default_zjstatus.kdl".text = ''
+      layout {
+           default_tab_template {
+               pane size=2 borderless=true {
+                   plugin location="file://${plugin_zjstatus}/bin/zjstatus.wasm" {
+                       format_left   "{mode}#[bg=#1e1e2e] {tabs}"
+                       format_center ""
+                       format_right  "#[bg=#1e1e2e,fg=#89b4fa]#[bg=#89b4fa,fg=#181825,bold] #[bg=#313244,fg=#cdd6f4,bold] {session} #[bg=#45475a,fg=#cdd6f4,bold]"
+                       format_space  ""
+                       format_hide_on_overlength "true"
+                       format_precedence "crl"
+
+                       border_enabled  "false"
+                       border_char     "─"
+                       border_format   "#[fg=#6C7086]{char}"
+                       border_position "top"
+
+                       mode_normal        "#[bg=#a6e3a1,fg=#181825,bold] NORMAL#[bg=#45475a,fg=#a6e3a1]█"
+                       mode_locked        "#[bg=#585b70,fg=#181825,bold] LOCKED #[bg=#45475a,fg=#585b70]█"
+                       mode_resize        "#[bg=#f38ba8,fg=#181825,bold] RESIZE#[bg=#45475a,fg=#f38ba8]█"
+                       mode_pane          "#[bg=#89b4fa,fg=#181825,bold] PANE#[bg=#45475a,fg=#89b4fa]█"
+                       mode_tab           "#[bg=#b4befe,fg=#181825,bold] TAB#[bg=#45475a,fg=#b4befe]█"
+                       mode_scroll        "#[bg=#f9e2af,fg=#181825,bold] SCROLL#[bg=#45475a,fg=#f9e2af]█"
+                       mode_enter_search  "#[bg=#89b4fa,fg=#181825,bold] ENT-SEARCH#[bg=#45475a,fg=#89b4fa]█"
+                       mode_search        "#[bg=#89b4fa,fg=#181825,bold] SEARCHARCH#[bg=#45475a,fg=#89b4fa]█"
+                       mode_rename_tab    "#[bg=#b4befe,fg=#181825,bold] RENAME-TAB#[bg=#45475a,fg=#b4befe]█"
+                       mode_rename_pane   "#[bg=#89b4fa,fg=#181825,bold] RENAME-PANE#[bg=#45475a,fg=#89b4fa]█"
+                       mode_session       "#[bg=#cba6f7,fg=#181825,bold] SESSION#[bg=#45475a,fg=#cba6f7]█"
+                       mode_move          "#[bg=#f2cdcd,fg=#181825,bold] MOVE#[bg=#45475a,fg=#f2cdcd]█"
+                       mode_prompt        "#[bg=#89b4fa,fg=#181825,bold] PROMPT#[bg=#45475a,fg=#89b4fa]█"
+                       mode_tmux          "#[bg=#fab387,fg=#181825,bold] TMUX#[bg=#45475a,fg=#fab387]█"
+
+                       // formatting for inactive tabs
+                       tab_normal              "#[bg=#45475a,fg=#89b4fa]█#[bg=#89b4fa,fg=#181825,bold]{index} #[bg=#313244,fg=#cdd6f4,bold] {name}{floating_indicator}#[bg=#45475a,fg=#313244,bold]█"
+                       tab_normal_fullscreen   "#[bg=#45475a,fg=#89b4fa]█#[bg=#89b4fa,fg=#181825,bold]{index} #[bg=#313244,fg=#cdd6f4,bold] {name}{fullscreen_indicator}#[bg=#45475a,fg=#313244,bold]█"
+                       tab_normal_sync         "#[bg=#45475a,fg=#89b4fa]█#[bg=#89b4fa,fg=#181825,bold]{index} #[bg=#313244,fg=#cdd6f4,bold] {name}{sync_indicator}#[bg=#45475a,fg=#313244,bold]█"
+
+                       // formatting for the current active tab
+                       tab_active              "#[bg=#45475a,fg=#fab387]█#[bg=#fab387,fg=#181825,bold]{index} #[bg=#313244,fg=#cdd6f4,bold] {name}{floating_indicator}#[bg=#45475a,fg=#313244,bold]█"
+                       tab_active_fullscreen   "#[bg=#45475a,fg=#fab387]█#[bg=#fab387,fg=#181825,bold]{index} #[bg=#313244,fg=#cdd6f4,bold] {name}{fullscreen_indicator}#[bg=#45475a,fg=#313244,bold]█"
+                       tab_active_sync         "#[bg=#45475a,fg=#fab387]█#[bg=#fab387,fg=#181825,bold]{index} #[bg=#313244,fg=#cdd6f4,bold] {name}{sync_indicator}#[bg=#45475a,fg=#313244,bold]█"
+
+                       // separator between the tabs
+                       tab_separator           "#[bg=#1e1e2e] "
+
+                       // indicators
+                       tab_sync_indicator       " "
+                       tab_fullscreen_indicator " 󰊓"
+                       tab_floating_indicator   " 󰹙"
+
+                       command_git_branch_command     "git rev-parse --abbrev-ref HEAD"
+                       command_git_branch_format      "#[fg=blue] {stdout} "
+                       command_git_branch_interval    "10"
+                       command_git_branch_rendermode  "static"
+
+                       datetime        "#[fg=#6C7086,bold] {format} "
+                       datetime_format "%A, %d %b %Y %H:%M"
+                       datetime_timezone "Europe/London"
+                   }
+               }
+               children
+           }
+       }
     '';
 
     "zellij/plugins/zellij_forgot.wasm".source = pkgs.fetchurl {
@@ -122,17 +177,20 @@ in {
       '';
     "zellij/yazi/plugins/no-status.yazi".source = "${yazi-plugins}/no-status.yazi";
     "zellij/yazi/plugins/smart-filter.yazi".source = "${yazi-plugins}/smart-filter.yazi";
-    "zellij/yazi/theme.toml".source = "${pkgs.catppuccin-yazi}/themes/mocha/catppuccin-mocha-mauve.toml";
-    "zellij/yazi/Catppuccin-mocha.tmTheme".source = "${pkgs.catppuccin-bat}/themes/Catppuccin Mocha.tmTheme";
+    # "zellij/yazi/theme.toml".source = "${pkgs.catppuccin-yazi}/themes/mocha/catppuccin-mocha-mauve.toml";
+    # "zellij/yazi/Catppuccin-mocha.tmTheme".source = "${pkgs.catppuccin-bat}/themes/Catppuccin Mocha.tmTheme";
 
-    "zellij/yazi/init.lua".text =
+    "zellij/yazi/main.lua".text =
       # lua
       ''
         require("no-status"):setup()
       '';
 
-    "zellij/layouts/helix.kdl".source = "${toString ../dotfiles}/zellij/helix.kdl";
-    "zellij/layouts/helix.swap.kdl".source = "${toString ../dotfiles}/zellij/helix.swap.kdl";
+    # "zellij/layouts/helix.kdl".source = ./dotfiles/zellij/helix.kdl;
+    # "zellij/layouts/helix.swap.kdl".source = ./dotfiles/zellij/helix.swap.kdl;
+
+    "zellij/layouts/helix.kdl".source = "${toString ../programs/dotfiles}/zellij/helix.kdl";
+    "zellij/layouts/helix.swap.kdl".source = "${toString ../programs/dotfiles}/zellij/helix.swap.kdl";
 
     "zellij/yazi/open_file.nu".text =
       # nu
