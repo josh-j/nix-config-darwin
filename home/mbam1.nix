@@ -109,6 +109,7 @@ in {
     users.${username} = {...}: {
       imports = [
         ./default.nix
+        ./programs/aerospace.nix
         ./programs/aichat.nix
         # ../../programs/atuin.nix
         ./programs/bash.nix
@@ -130,28 +131,34 @@ in {
       home = {
         packages = extraPackages;
         file = let
-          # Function to copy a directory structure recursively
-          copyDir = dir: prefix: let
-            # Get all entries in the current directory
+          dotfilesDir = ./programs/dotfiles;
+
+          # List of files to exclude (those causing conflicts)
+          excludeFiles = [
+            "wezterm/wezterm.lua"
+            # "zellij/config.kdl"
+          ];
+
+          # Function to check if a file should be excluded
+          shouldExclude = path:
+            builtins.any (exclude: path == exclude) excludeFiles;
+
+          # Function to copy files from a directory
+          copyFiles = dir: prefix: let
             entries = builtins.readDir dir;
-            # Map each entry to the appropriate Nix config
-            entryToFile = name: type:
-              if type == "regular"
-              then
-                # If it's a regular file, add it to the configuration
-                {"${prefix}/${name}" = {source = dir + "/${name}";};}
+            processEntry = name: type:
+              if type == "regular" && !shouldExclude "${prefix}${name}"
+              then {".config/${prefix}${name}" = {source = dir + "/${name}";};}
               else if type == "directory"
-              then
-                # If it's a directory, recursively process it
-                copyDir (dir + "/${name}") "${prefix}/${name}"
+              then copyFiles (dir + "/${name}") "${prefix}${name}/"
               else {};
           in
             builtins.foldl' (
               acc: name:
-                acc // (entryToFile name (builtins.getAttr name entries))
+                acc // (processEntry name (builtins.getAttr name entries))
             ) {} (builtins.attrNames entries);
         in
-          copyDir ./programs/dotfiles ".config";
+          copyFiles dotfilesDir "";
       };
     };
   };

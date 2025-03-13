@@ -4,7 +4,7 @@
   ...
 }: {
   imports = [
-    # ../../programs/aerospace.nix
+    # ./programs/aerospace.nix
   ];
 
   environment = {

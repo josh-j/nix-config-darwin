@@ -23,56 +23,40 @@ in {
       show_banner = false;
     };
 
-    # extraConfig = ''
-    #   let-env PATH = ([
-    #     "${config.home.homeDirectory}/bin"
-    #     "${config.home.homeDirectory}/.local/bin"
-    #     "${config.home.homeDirectory}/go/bin"
-    #     "/usr/local/bin"
-    #     "${config.home.homeDirectory}/.nix-profile/bin"
-    #     "/etc/profiles/per-user/${config.home.username}/bin"
-    #     "/run/current-system/sw/bin"
-    #     "/nix/var/nix/profiles/default/bin"
-
-    #     ($env.PATH | split row (char esep))
-    #   ] | flatten)
-    # '';
-
     extraEnv = ''
       use std "path add"
       # Local bin
       path add $"($env.HOME | path join ".local/bin")"
-      path add $"($env.HOME | path join ".local/bin")"
 
-      # ssh-agent
-      do --env {
-          let ssh_agent_file = (
-              $nu.temp-path | path join $"ssh-agent-($env.USER).nuon"
-          )
+      # # ssh-agent
+      # do --env {
+      #     let ssh_agent_file = (
+      #         $nu.temp-path | path join $"ssh-agent-($env.USER).nuon"
+      #     )
 
-          if ($ssh_agent_file | path exists) {
-              let ssh_agent_env = open ($ssh_agent_file)
-              if ($"/proc/($ssh_agent_env.SSH_AGENT_PID)" | path exists) {
-                  load-env $ssh_agent_env
-                  return
-              } else {
-                  rm $ssh_agent_file
-              }
-          }
+      #     if ($ssh_agent_file | path exists) {
+      #         let ssh_agent_env = open ($ssh_agent_file)
+      #         if ($"/proc/($ssh_agent_env.SSH_AGENT_PID)" | path exists) {
+      #             load-env $ssh_agent_env
+      #             return
+      #         } else {
+      #             rm $ssh_agent_file
+      #         }
+      #     }
 
-          let ssh_agent_env = ^ssh-agent -c
-              | lines
-              | first 2
-              | parse "setenv {name} {value};"
-              | transpose --header-row
-              | into record
-          load-env $ssh_agent_env
-          $ssh_agent_env | save --force $ssh_agent_file
-      }
+      #     let ssh_agent_env = ^ssh-agent -c
+      #         | lines
+      #         | first 2
+      #         | parse "setenv {name} {value};"
+      #         | transpose --header-row
+      #         | into record
+      #     load-env $ssh_agent_env
+      #     $ssh_agent_env | save --force $ssh_agent_file
+      # }
 
-      # Add keys to ssh-agent
-      use std
-      try { ^ssh-add o+e> (std null-device) }
+      # # Add keys to ssh-agent
+      # use std
+      # try { ^ssh-add o+e> (std null-device) }
     '';
     shellAliases = {
       vi = "hx";

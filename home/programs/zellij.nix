@@ -1,10 +1,10 @@
 # programs/zellij.nix
 {
   pkgs,
-  # inputs,
+  inputs,
   ...
 }: let
-  # plugin_zjstatus = inputs.zjstatus.outputs.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  plugin_zjstatus = inputs.zjstatus.outputs.packages.${pkgs.stdenv.hostPlatform.system}.default;
   yazi-plugins = pkgs.fetchFromGitHub {
     owner = "yazi-rs";
     repo = "plugins";
@@ -25,10 +25,9 @@ in {
 
   # Files go into xdg.configFile
 
+  # builtins.readFile "${toString ../programs/dotfiles}/zellij/helix.kdl"
   xdg.configFile = {
-    # "zellij/config.kdl".text =
-    #   builtins.readFile "${toString ../programs/dotfiles}/zellij/helix.kdl"
-    #   + ''
+    # "zellij/config.kdl".text += ''
     #     theme "catppuccin-mocha"
     #     on_force_close "quit"
     #     simplified_ui true
@@ -44,12 +43,10 @@ in {
       url = "https://github.com/karimould/zellij-forgot/releases/download/0.4.1/zellij_forgot.wasm";
       sha256 = "1pxwy5ld3affpzf20i1zvn3am12vs6jwp06wbshw4g1xw8drj4ch";
     };
-
+    "zellij/plugins/zjstatus.wasm".source = "${plugin_zjstatus}/bin/zjstatus.wasm";
     "zellij/yazi/plugins/no-status.yazi".source = "${yazi-plugins}/no-status.yazi";
     "zellij/yazi/plugins/smart-filter.yazi".source = "${yazi-plugins}/smart-filter.yazi";
-    # "zellij/yazi/theme.toml".source = "${pkgs.catppuccin-yazi}/themes/mocha/catppuccin-mocha-mauve.toml";
-    # "zellij/yazi/Catppuccin-mocha.tmTheme".source = "${pkgs.catppuccin-bat}/themes/Catppuccin Mocha.tmTheme";
-    # "zellij/layouts/helix.kdl".source = "${toString ../programs/dotfiles}/zellij/helix.kdl";
-    # "zellij/layouts/helix.swap.kdl".source = "${toString ../programs/dotfiles}/zellij/helix.swap.kdl";
+    "zellij/yazi/theme.toml".source = "${pkgs.custom.catppuccin-yazi}/themes/mocha/catppuccin-mocha-mauve.toml";
+    "zellij/yazi/Catppuccin-mocha.tmTheme".source = "${pkgs.custom.catppuccin-bat}/themes/Catppuccin Mocha.tmTheme";
   };
 }

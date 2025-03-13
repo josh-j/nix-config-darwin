@@ -248,14 +248,14 @@ load_plugins {
 //   - detach (Default)
 //   - quit
 //
-// on_force_close "quit"
+on_force_close "quit"
 
 //  Send a request for a simplified ui (without arrow fonts) to plugins
 //  Options:
 //    - true
 //    - false (Default)
 //
-// simplified_ui true
+simplified_ui true
 
 // Choose the path to the default shell that zellij will use for opening new panes
 // Default: $SHELL
@@ -410,6 +410,7 @@ scrollback_editor "hx"
 
 ui {
     pane_frames {
+        hide_session_name true
         rounded_corners true
     }
 }

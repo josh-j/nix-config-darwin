@@ -1,21 +1,20 @@
-{ lib, ... }:
-{
-  services.aerospace = {
+{lib, ...}: {
+  programs.aerospace = {
     enable = true;
-    settings = {
+    userSettings = {
       accordion-padding = 30;
       # automatically-unhide-macos-hidden-apps = true;
-			# on-focused-monitor-changed = ["move-mouse monitor-lazy-center"]; # i3
+      # on-focused-monitor-changed = ["move-mouse monitor-lazy-center"]; # i3
       on-focus-changed = ["move-mouse window-lazy-center"];
       enable-normalization-flatten-containers = true;
-			enable-normalization-opposite-orientation-for-nested-containers = true;
+      enable-normalization-opposite-orientation-for-nested-containers = true;
       default-root-container-layout = "tiles";
       default-root-container-orientation = "auto";
+      start-at-login = true;
 
       # after-startup-command = [
       #   "exec-and-forget borders active_color=0xfcba03aa inactive_color=0x2b2b2baa width=2.0"
       # ];
-
 
       gaps = {
         inner.horizontal = 10;
@@ -66,7 +65,6 @@
           alt-j = "focus --boundaries-action wrap-around-the-workspace down";
           alt-k = "focus --boundaries-action wrap-around-the-workspace up";
           alt-l = "focus --boundaries-action wrap-around-the-workspace right";
-
 
           # Move
           alt-shift-h = "move left";
@@ -124,7 +122,6 @@
               tell application "System Events" to tell process "Ghostty" to click menu item "New Window" of menu "File" of menu bar 1
             end if'
           '';
-
         };
 
         service.binding = {
