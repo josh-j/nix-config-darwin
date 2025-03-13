@@ -108,35 +108,50 @@ in {
     };
     users.${username} = {...}: {
       imports = [
-        ../home-common.nix
-        ../../programs/aichat.nix
+        ./default.nix
+        ./programs/aichat.nix
         # ../../programs/atuin.nix
-        ../../programs/bash.nix
-        ../../programs/direnv.nix
+        ./programs/bash.nix
+        ./programs/direnv.nix
         # ../../programs/ghostty.nix
         # ../../programs/fonts.nix
-        ../../programs/fzf.nix
-        ../../programs/helix.nix
-        ../../programs/nushell.nix
-        ../../programs/starship.nix
+        ./programs/fzf.nix
+        ./programs/helix.nix
+        ./programs/nushell.nix
+        ./programs/starship.nix
         # ../../programs/tmux.nix
-        ../../programs/wezterm.nix
-        ../../programs/yazi.nix
-        ../../programs/zellij.nix
-        ../../programs/zoxide.nix
+        ./programs/wezterm.nix
+        ./programs/yazi.nix
+        ./programs/zellij.nix
+        ./programs/zoxide.nix
         # ../../programs/zsh.nix
       ];
       nix.enable = false;
       home = {
         packages = extraPackages;
-        file = {
-          ".config/ghostty/config".text = builtins.readFile ../../programs/dotfiles/ghostty/config;
-          ".config/ghostty/themes/oxocarbon-light".text = builtins.readFile ../../programs/dotfiles/ghostty/themes/oxocarbon-light;
-          ".config/ghostty/themes/sio-ocean".text = builtins.readFile ../../programs/dotfiles/ghostty/themes/sio-ocean;
-          ".config/ghostty/themes/boo_berry_mod".text = builtins.readFile ../../programs/dotfiles/ghostty/themes/boo_berry_mod;
-          ".config/ghostty/themes/rosepine_mod".text = builtins.readFile ../../programs/dotfiles/ghostty/themes/rosepine_mod;
-          ".config/.helix-wezterm.yaml".text = builtins.readFile ../../programs/dotfiles/wezterm/helix-wezterm.yaml;
-        };
+        file = let
+          # Function to copy a directory structure recursively
+          copyDir = dir: prefix: let
+            # Get all entries in the current directory
+            entries = builtins.readDir dir;
+            # Map each entry to the appropriate Nix config
+            entryToFile = name: type:
+              if type == "regular"
+              then
+                # If it's a regular file, add it to the configuration
+                {"${prefix}/${name}" = {source = dir + "/${name}";};}
+              else if type == "directory"
+              then
+                # If it's a directory, recursively process it
+                copyDir (dir + "/${name}") "${prefix}/${name}"
+              else {};
+          in
+            builtins.foldl' (
+              acc: name:
+                acc // (entryToFile name (builtins.getAttr name entries))
+            ) {} (builtins.attrNames entries);
+        in
+          copyDir ./programs/dotfiles ".config";
       };
     };
   };

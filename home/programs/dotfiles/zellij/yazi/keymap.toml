@@ -1,0 +1,20 @@
+# keymap.toml
+[[manager.prepend_keymap]]
+desc = "Smart filter"
+on = ["F"]
+run = "plugin smart-filter"
+
+[[manager.prepend_keymap]]
+desc = "Jump to a file/directory via fzf"
+on = ["f"]
+run = "plugin fzf"
+
+[[manager.prepend_keymap]]
+desc = "Search files by content via ripgrep"
+on = ["z"]
+run = "search --via=rg"
+
+[[manager.prepend_keymap]]
+desc = "Jump to a directory via zoxide"
+on = ["j"]
+run = "plugin zoxide"

@@ -78,7 +78,7 @@
 
                   # home-manager.users.${username} = import (./hosts + "/${hostname}/default.nix");
                 }
-                (import (./hosts + "/${hostname}"))
+                (import (./home + "/${hostname}.nix"))
               ]
               ++ extraModules;
           }

@@ -56,8 +56,8 @@
   ];
 in {
   imports = [
-    ../programs/git.nix
-    ../programs/ssh.nix
+    ./programs/git.nix
+    ./programs/ssh.nix
   ];
   home = {
     inherit username homeDirectory;
@@ -97,6 +97,7 @@ in {
     nix-index = {
       enable = true;
       enableZshIntegration = false;
+      # enableNushellIntegration = true;
     };
   };
 }
