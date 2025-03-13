@@ -35,13 +35,13 @@ in {
         desc = "Search files by content via ripgrep";
       }
       {
-        on = singleton "j";
+        on = singleton "J";
         run = "plugin zoxide";
         desc = "Jump to a directory via zoxide";
       }
     ];
     initLua = ''
-      require("full-border"):setup()
+      require("no-status"):setup()
     '';
   };
   # xdg.configFile."yazi/theme.toml".source = "${pkgs.catppuccin-yazi}/themes/mocha/catppuccin-mocha-lavender.toml";

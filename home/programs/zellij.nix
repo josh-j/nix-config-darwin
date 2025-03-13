@@ -23,22 +23,7 @@ in {
     enableZshIntegration = false;
   };
 
-  # Files go into xdg.configFile
-
-  # builtins.readFile "${toString ../programs/dotfiles}/zellij/helix.kdl"
   xdg.configFile = {
-    # "zellij/config.kdl".text += ''
-    #     theme "catppuccin-mocha"
-    #     on_force_close "quit"
-    #     simplified_ui true
-    #     pane_frames true
-    #     ui {
-    #       pane_frames {
-    #         hide_session_name true
-    #         rounded_corners true
-    #       }
-    #     }
-    #   '';
     "zellij/plugins/zellij_forgot.wasm".source = pkgs.fetchurl {
       url = "https://github.com/karimould/zellij-forgot/releases/download/0.4.1/zellij_forgot.wasm";
       sha256 = "1pxwy5ld3affpzf20i1zvn3am12vs6jwp06wbshw4g1xw8drj4ch";
