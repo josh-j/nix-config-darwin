@@ -1,15 +1,5 @@
--- Taken from nix-darwin dotfiles
--- Pull in the wezterm API
--- https://github.com/KevinSilvester/wezterm-config/
-local act = wezterm.action
--- This table will hold the configuration.
-local config = {}
-
--- In newer versions of wezterm, use the config_builder which will
--- help provide clearer error messages
-if wezterm.config_builder then
-  config = wezterm.config_builder()
-end
+local wezterm = require 'wezterm'
+local config = wezterm.config_builder()
 
 local function is_found(str, pattern)
   return string.find(str, pattern) ~= nil
@@ -25,24 +15,22 @@ end
 
 if platform().is_mac then
   -- config.default_prog = {"tmux", "attach", "||", "tmux"}
-
   config.font_size = 13
   config.window_background_opacity = 0.90
   config.macos_window_background_blur = 30
+  config.front_end = "WebGpu"
+  config.webgpu_power_preference = "LowPower"
 elseif platform().is_win then
+  config.front_end = "opengl"
   config.font_size = 9
   config.default_prog = { "C:\\Program Files\\PowerShell\\7\\pwsh.exe", "-l" }
 end
 
-config.front_end = "OpenGL"
 config.max_fps = 30
 config.animation_fps = 10
-config_enable_wayland = false
+config.enable_wayland = false
 config.window_close_confirmation = "NeverPrompt"
 
--- This is where you actually apply your config choices
-
--- For example, changing the color scheme:
 -- config.color_scheme = "Whimsy"
 -- config.color_scheme = "oxocarbon"
 -- config.color_scheme = "BlueBerryPie"
@@ -53,8 +41,8 @@ config.window_close_confirmation = "NeverPrompt"
 -- config.color_scheme = "Pencil Dark (Gogh)"
 -- config.color_scheme = "Oxocarbon Dark (Gogh)"
 config.color_schemes = {
-  ['MyCustomTheme'] = {
-    background = "#282828",
+  ['sio-rose'] = {
+    background = "#2a282a",
     foreground = "#FFF1E8",
     cursor_bg = "#57526B",
     cursor_fg = "#57526B",
@@ -84,8 +72,7 @@ config.color_schemes = {
   }
 }
 
--- Set it as the active color scheme
-config.color_scheme = 'MyCustomTheme'
+config.color_scheme = 'sio-rose'
 
 config.font = wezterm.font_with_fallback({
   {
@@ -112,21 +99,16 @@ config.font = wezterm.font_with_fallback({
 config.use_fancy_tab_bar = true
 config.tab_bar_at_bottom = false
 config.status_update_interval = 1000
--- config.integrated_title_buttons = { "Hide", "Maximize", "Close" }
--- config.window_decorations = "INTEGRATED_BUTTONS|RESIZE|MACOS_FORCE_ENABLE_SHADOW"
-config.window_decorations = "RESIZE|MACOS_FORCE_ENABLE_SHADOW"
+config.window_decorations = "RESIZE"
 config.scrollback_lines = 10000
 config.default_workspace = "home"
 config.hide_tab_bar_if_only_one_tab = true
 config.use_dead_keys = false
 -- config.disable_default_key_bindings = true
-
-
-
 config.enable_scroll_bar = false
 config.inactive_pane_hsb = {
-  saturation = 0.5,
-  brightness = 0.5,
+  saturation = 0.9,
+  brightness = 0.9,
 }
 
 config.window_padding = {
@@ -151,6 +133,13 @@ config.keys = {
   { key = 'K', mods = 'LEADER|SHIFT', action = wezterm.action.SplitPane { direction = 'Up' } },
   { key = 'L', mods = 'LEADER|SHIFT', action = wezterm.action.SplitPane { direction = 'Right' } },
 
+  { key = 'LeftArrow', mods = 'LEADER|SHIFT', action = wezterm.action.SplitPane { direction = 'Left' } },
+  { key = 'DownArrow', mods = 'LEADER|SHIFT', action = wezterm.action.SplitPane { direction = 'Down' } },
+  { key = 'UpArrow', mods = 'LEADER|SHIFT', action = wezterm.action.SplitPane { direction = 'Up' } },
+  { key = 'RightArrow', mods = 'LEADER|SHIFT', action = wezterm.action.SplitPane { direction = 'Right' } },
+
+  { key = 's', mods = 'LEADER', action = wezterm.action.SplitPane { direction = 'Down' } },
+  { key = 'v', mods = 'LEADER', action = wezterm.action.SplitPane { direction = 'Right' } },
   -- Resize panes
   { key = '-', mods = 'LEADER', action = wezterm.action.AdjustPaneSize { 'Down', 5 } },
   { key = '=', mods = 'LEADER', action = wezterm.action.AdjustPaneSize { 'Up', 5 } },
@@ -161,8 +150,12 @@ config.keys = {
   { key = 'z', mods = 'LEADER', action = wezterm.action.TogglePaneZoomState },
   { key = 'n', mods = 'LEADER', action = wezterm.action.SpawnWindow },
   { key = 'q', mods = 'LEADER', action = wezterm.action.CloseCurrentPane { confirm = true } },
+  { key = '\'', mods = 'LEADER', action = wezterm.action.ShowLauncherArgs { flags = 'FUZZY|TABS'},
+  },
 
   -- Configuration
+  { key = '\\', mods = 'LEADER', action = wezterm.action.ShowDebugOverlay },
+  { key = ';', mods = 'LEADER', action = wezterm.action.ShowLauncher },
   { key = 'r', mods = 'LEADER', action = wezterm.action.ReloadConfiguration },
 }
 

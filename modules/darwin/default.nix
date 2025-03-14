@@ -23,7 +23,7 @@
   '';
 
   programs.nix-index.enable = true;
-  programs.zsh.enable = false; # breaks /run/current-system/sw/bin
+  programs.zsh.enable = true; # breaks /run/current-system/sw/bin
   # programs.nu.enable = true;
 
   nix = {

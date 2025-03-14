@@ -155,7 +155,8 @@
           #   };
           # };
 
-          "-" = ":sh tmux new-window -n fx '~/Bin/yazi-picker.sh open'";
+          # "-" = ":sh wezterm cli split-pane --left --percent 30 -- ~/.config/helix/wezilix.sh $WEZTERM_PANE open zoom > /dev/null";
+          "-" = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- bash ~/.config/helix/yazi-picker.sh open";
 
           space.space = "file_picker";
           # C-h = "select_prev_sibling";

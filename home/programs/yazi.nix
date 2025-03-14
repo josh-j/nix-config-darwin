@@ -40,9 +40,9 @@ in {
         desc = "Jump to a directory via zoxide";
       }
     ];
-    initLua = ''
-      require("no-status"):setup()
-    '';
+    # initLua = ''
+    #   require("no-status"):setup()
+    # '';
   };
   # xdg.configFile."yazi/theme.toml".source = "${pkgs.catppuccin-yazi}/themes/mocha/catppuccin-mocha-lavender.toml";
 }

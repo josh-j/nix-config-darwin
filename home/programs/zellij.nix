@@ -21,29 +21,6 @@ in {
     enableBashIntegration = false;
     enableFishIntegration = false;
     enableZshIntegration = false;
-    settings = {
-      default_shell = "zsh";
-      pane_frames = false;
-      default_layout = "default";
-      default_mode = "locked";
-      on_force_close = "quit";
-      simplified_ui = true;
-      theme = "dracula";
-      ui.pane_frames.hide_session_name = true;
-      themes.dracula = {
-        fg = [248 248 242];
-        bg = [40 42 54];
-        black = [0 0 0];
-        red = [255 85 85];
-        green = [80 250 123];
-        yellow = [241 250 140];
-        blue = [98 114 164];
-        magenta = [255 121 198];
-        cyan = [139 233 253];
-        white = [255 255 255];
-        orange = [255 184 108];
-      };
-    };
   };
 
   xdg.configFile = {
