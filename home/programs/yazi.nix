@@ -18,28 +18,28 @@ in {
       full-border = "${plugins}/full-border.yazi";
       smart-filter = "${plugins}/smart-filter.yazi";
     };
-    keymap.manager.prepend_keymap = [
-      {
-        on = singleton "F";
-        run = "plugin smart-filter";
-        desc = "Smart filter";
-      }
-      {
-        on = singleton "f";
-        run = "plugin fzf";
-        desc = "Jump to a file/directory via fzf";
-      }
-      {
-        on = singleton "z";
-        run = "search --via=rg";
-        desc = "Search files by content via ripgrep";
-      }
-      {
-        on = singleton "J";
-        run = "plugin zoxide";
-        desc = "Jump to a directory via zoxide";
-      }
-    ];
+    # keymap.manager.prepend_keymap = [
+    #   {
+    #     on = singleton "F";
+    #     run = "plugin smart-filter";
+    #     desc = "Smart filter";
+    #   }
+    #   {
+    #     on = singleton "f";
+    #     run = "plugin fzf";
+    #     desc = "Jump to a file/directory via fzf";
+    #   }
+    #   {
+    #     on = singleton "z";
+    #     run = "search --via=rg";
+    #     desc = "Search files by content via ripgrep";
+    #   }
+    #   {
+    #     on = singleton "J";
+    #     run = "plugin zoxide";
+    #     desc = "Jump to a directory via zoxide";
+    #   }
+    # ];
     # initLua = ''
     #   require("no-status"):setup()
     # '';

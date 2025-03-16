@@ -51,7 +51,7 @@
     ];
 
     settings = {
-      theme = "boo_berry_mod";
+      theme = "sio_rose_light";
 
       editor = {
         auto-completion = true;
@@ -68,6 +68,7 @@
         mouse = true;
         line-number = "relative";
         text-width = 120;
+        shell = ["nu" "-c"];
         true-color = true;
 
         auto-save = {
@@ -156,7 +157,7 @@
           # };
 
           # "-" = ":sh wezterm cli split-pane --left --percent 30 -- ~/.config/helix/wezilix.sh $WEZTERM_PANE open zoom > /dev/null";
-          "-" = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- bash ~/.config/helix/yazi-picker.sh open";
+          "-" = ":sh zellij run -c -f -x 10% -y 10% --width 80% --height 80% -- nu ~/.config/helix/yazi-picker.nu open";
 
           space.space = "file_picker";
           # C-h = "select_prev_sibling";
@@ -258,7 +259,7 @@
         "ui.background" = {};
       };
 
-      boo_berry_mod = let
+      sio_rose = let
         black_bg = "#1e1e1e";
         lilac_dark = "#897e9c";
         lilac_darker = "#5b516b";
@@ -277,6 +278,158 @@
         "ui.selection.primary" = {bg = "#443952";};
         "ui.linenr" = {fg = lilac_dark;};
         "comment" = {fg = lilac_dark;};
+      };
+
+      sio_rose_light = let
+        black_bg = "#ecebe8";
+        lilac_dark = "#b1afa8";
+        lilac_darker = "#322c3b";
+        berry = "#2F2240";
+        berry_fade = "#482F58";
+        berry_dim = "#392A4B";
+        berry_saturated = "#e8d3ff";
+        berry_desaturated = "#6D567D";
+        bubblegum = "#ab717d";
+        gold = "#B69A86";
+        lilac = "#7e758e";
+        mint = "#66A189";
+        violet = "#9F71CA";
+      in {
+        "comment" = {fg = lilac_dark;};
+        "constant" = {fg = gold;};
+        "function" = {fg = mint;};
+        "function.macro" = {fg = bubblegum;};
+        "keyword" = {fg = bubblegum;};
+        "operator" = {fg = bubblegum;};
+        "punctuation" = {fg = lilac;};
+        "string" = {fg = gold;};
+        "type" = {fg = violet;};
+        "variable" = {fg = lilac;};
+        "variable.builtin" = {fg = violet;};
+        "tag" = {fg = gold;};
+        "label" = {fg = gold;};
+        "attribute" = {fg = lilac;};
+        "namespace" = {fg = lilac;};
+        "module" = {fg = lilac;};
+        "markup.heading" = {
+          fg = gold;
+          modifiers = ["bold"];
+        };
+        "markup.heading.marker" = {fg = berry_desaturated;};
+        "markup.list" = {fg = bubblegum;};
+        "markup.bold" = {modifiers = ["bold"];};
+        "markup.italic" = {modifiers = ["italic"];};
+        "markup.strikethrough" = {modifiers = ["crossed_out"];};
+        "markup.link.url" = {
+          fg = violet;
+          modifiers = ["underlined"];
+        };
+        "markup.link.text" = {fg = violet;};
+        "markup.quote" = {fg = berry_desaturated;};
+        "markup.raw" = {fg = mint;};
+        "ui.background" = {};
+        "ui.cursor" = {
+          fg = berry;
+          bg = lilac;
+        };
+        "ui.cursor.match" = {
+          fg = berry;
+          bg = berry_desaturated;
+        };
+        "ui.cursor.select" = {
+          fg = berry;
+          bg = violet;
+        };
+        "ui.cursor.insert" = {
+          fg = berry;
+          bg = mint;
+        };
+        "ui.linenr" = {fg = lilac_dark;};
+        "ui.linenr.selected" = {fg = lilac;};
+        "ui.cursorline" = {
+          fg = lilac;
+          bg = berry_dim;
+        };
+        "ui.statusline" = {bg = "";};
+        "ui.statusline.inactive" = {
+          fg = berry_desaturated;
+          bg = berry_saturated;
+        };
+        "ui.statusline.normal" = {
+          fg = berry_saturated;
+          bg = lilac;
+        };
+        "ui.statusline.insert" = {
+          fg = berry_saturated;
+          bg = mint;
+        };
+        "ui.statusline.select" = {
+          fg = berry_saturated;
+          bg = violet;
+        };
+        "ui.popup" = {
+          fg = lilac;
+          bg = black_bg;
+        };
+        "ui.window" = {
+          fg = berry_desaturated;
+          bg = "";
+        };
+        "ui.help" = {
+          fg = lilac;
+          bg = "";
+        };
+        "ui.text" = {fg = lilac;};
+        "ui.text.focus" = {fg = mint;};
+        "ui.menu" = {
+          fg = lilac;
+          bg = "";
+        };
+        "ui.menu.selected" = {
+          fg = mint;
+          bg = lilac_darker;
+        };
+        "ui.selection" = {bg = "";};
+        "ui.selection.primary" = {bg = "#dccbf8";};
+        "ui.bufferline" = {bg = "";};
+        "ui.bufferline.active" = {bg = "#ecebe8";};
+        "ui.virtual.whitespace" = {fg = berry_desaturated;};
+        "ui.virtual.ruler" = {bg = berry_dim;};
+        "ui.virtual.indent-guide" = {fg = berry_fade;};
+        "ui.virtual.inlay-hint" = {fg = berry_desaturated;};
+        "diff.plus" = {fg = mint;};
+        "diff.delta" = {fg = gold;};
+        "diff.minus" = {fg = bubblegum;};
+        "error" = {fg = bubblegum;};
+        "warning" = {fg = gold;};
+        "info" = {fg = lilac;};
+        "hint" = {fg = lilac;};
+        "diagnostic.warning" = {
+          underline = {
+            color = bubblegum;
+            style = "curl";
+          };
+        };
+        "diagnostic.error" = {
+          underline = {
+            color = gold;
+            style = "curl";
+          };
+        };
+        "diagnostic.info" = {
+          underline = {
+            color = lilac;
+            style = "curl";
+          };
+        };
+        "diagnostic.hint" = {
+          underline = {
+            color = lilac;
+            style = "curl";
+          };
+        };
+        "diagnostic.unnecessary" = {modifiers = ["dim"];};
+        "diagnostic.deprecated" = {modifiers = ["crossed_out"];};
       };
     };
 

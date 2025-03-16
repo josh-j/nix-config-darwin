@@ -1,0 +1,28 @@
+## Color Palette (0-15)
+palette = 0=#504A73  # berry / lilac_darker - deep purple
+palette = 1=#BA506E  # bubblegum - rose pink
+palette = 2=#3D87A4  # (no direct match, closest to mint)
+palette = 3=#BA9C73  # gold - soft gold
+palette = 4=#618f97  # mint - teal
+palette = 5=#9476B7  # berry_desaturated / violet - lavender purple
+palette = 6=#605d84  # berry_fade - muted purple
+palette = 7=#D3D1E6  # (no direct match, lighter than berry_saturated)
+palette = 8=#8783A3  # lilac / berry_dim - muted lavender
+palette = 9=#A3A1B1  # lilac_dark - light gray-purple
+palette = 10=#50B8E3  # (no direct match in your scheme)
+palette = 11=#F6D499  # (brighter variant of gold)
+palette = 12=#9CCFD8  # (lighter variant of mint)
+palette = 13=#C4A7E7  # (lighter variant of violet)
+palette = 14=#C5C0FF  # berry_saturated - bright lavender
+palette = 15=#EAE8FF  # black_bg - nearly white background
+
+## Theme Settings
+background = #faf9f5
+foreground = #7e758e
+cursor-color = #392A4B
+selection-background = #dccbf8
+selection-foreground = #FFF1E8
+
+
+
+

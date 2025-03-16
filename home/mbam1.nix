@@ -119,14 +119,14 @@ in {
         # ../../programs/fonts.nix
         ./programs/fzf.nix
         ./programs/helix.nix
-        # ./programs/nushell.nix
+        ./programs/nushell.nix
         ./programs/starship.nix
         # ../../programs/tmux.nix
         ./programs/wezterm.nix
         ./programs/yazi.nix
         ./programs/zellij.nix
         ./programs/zoxide.nix
-        ./programs/zsh.nix
+        # ./programs/zsh.nix
       ];
       nix.enable = false;
       home = {
