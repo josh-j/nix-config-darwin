@@ -47,7 +47,7 @@
 
   services.jankyborders = {
     enable = true;
-    active_color = "0xaa05f5e5";
+    active_color = "0x7705f5e5";
     # active_color = "0xaaff9999";
     inactive_color = "";
     width = 5.0;
@@ -93,6 +93,7 @@
       # "gcc-arm-embedded"
       "ghostty"
       # "parsec"
+      "obsidian"
       {
         name = "brave-browser";
         greedy = true;
@@ -210,7 +211,7 @@
         NSTextShowsControlCharacters = true;
         NSDisableAutomaticTermination = true;
         NSWindowShouldDragOnGesture = true;
-        _HIHideMenuBar = true;
+        # _HIHideMenuBar = true;
       };
 
       screencapture.location = "~/Pictures/screenshots";

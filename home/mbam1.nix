@@ -96,8 +96,8 @@
     vscode
     zed
     # siovim
-    # spotify
-    # obsidian
+    spotify
+    # obsidian # Not working on ARM?
   ];
 in {
   home-manager = {

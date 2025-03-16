@@ -2,10 +2,11 @@
   programs.aerospace = {
     enable = true;
     userSettings = {
-      accordion-padding = 30;
+      accordion-padding = 90;
       # automatically-unhide-macos-hidden-apps = true;
       # on-focused-monitor-changed = ["move-mouse monitor-lazy-center"]; # i3
-      on-focus-changed = ["move-mouse window-lazy-center"];
+      # on-focus-changed = ["move-mouse window-lazy-center"];
+      on-focused-monitor-changed = ["move-mouse monitor-lazy-center"];
       enable-normalization-flatten-containers = true;
       enable-normalization-opposite-orientation-for-nested-containers = true;
       default-root-container-layout = "tiles";
@@ -17,13 +18,13 @@
       # ];
 
       gaps = {
-        inner.horizontal = 10;
-        inner.vertical = 10;
+        inner.horizontal = 15;
+        inner.vertical = 15;
         outer = {
-          left = 10;
-          bottom = 10;
-          top = 10;
-          right = 10;
+          left = 15;
+          bottom = 15;
+          top = 15;
+          right = 15;
         };
       };
       on-window-detected = [
@@ -73,10 +74,10 @@
           alt-shift-l = "move right";
 
           # Join
-          alt-shift-left = ["join-with left" "mode main"];
-          alt-shift-down = ["join-with down" "mode main"];
-          alt-shift-up = ["join-with up" "mode main"];
-          alt-shift-right = ["join-with right" "mode main"];
+          # alt-shift-h = ["join-with left" "mode main"];
+          # alt-shift-j = ["join-with down" "mode main"];
+          # alt-shift-k = ["join-with up" "mode main"];
+          # alt-shift-l = ["join-with right" "mode main"];
           # alt-shift-left = "join-with left";
           # alt-shift-down = "join-with down";
           # alt-shift-up = "join-with up";
@@ -88,14 +89,12 @@
           alt-3 = "workspace 3";
           alt-4 = "workspace 4";
           alt-5 = "workspace 5";
-          alt-6 = "workspace 6";
 
           alt-shift-1 = "move-node-to-workspace 1";
           alt-shift-2 = "move-node-to-workspace 2";
           alt-shift-3 = "move-node-to-workspace 3";
           alt-shift-4 = "move-node-to-workspace 4";
           alt-shift-5 = "move-node-to-workspace 5";
-          alt-shift-6 = "move-node-to-workspace 6";
 
           # alt-tab = "workspace-back-and-forth";
           # alt-shift-tab = "move-workspace-to-monitor --wrap-around next";

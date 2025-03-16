@@ -27,8 +27,8 @@
 
       adjust-cursor-thickness = 3;
       adjust-underline-position = 3;
-      background-opacity = 0.93;
-      background-blur-radius = 20;
+      # background-opacity = 0.93;
+      # background-blur-radius = 20;
       window-decoration = true;
       window-padding-x = 4;
       window-padding-y = 4;

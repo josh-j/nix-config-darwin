@@ -17,8 +17,8 @@ window-inherit-font-size       = false
 # Look and Feel
 adjust-cursor-thickness        = 3
 adjust-underline-position      = 3
-background-opacity             = 0.92
-background-blur-radius         = 20
+background-opacity             = 0.96
+background-blur-radius         = 40
 window-decoration              = true
 window-padding-x               = 4
 window-padding-y               = 4
@@ -72,6 +72,8 @@ shell-integration-features     = cursor,sudo,title
 
 # Startup
 # command = ~/.config/ghostty/restore_ghostty_tmux.sh
+# command = /etc/profiles/per-user/joshj/bin/zellij -l welcome
+command = /etc/profiles/per-user/joshj/bin/zellij
 
 keybind=clear
 # Key bindings
@@ -92,3 +94,5 @@ keybind=clear
 # keybind                        = super+a>r=reload_config
 # keybind                        = super+a>n=new_window
 # keybind                        = super+a>q=close_surface
+keybind = cmd+period=text:\x03
+keybind = ctrl+period=text:\x03

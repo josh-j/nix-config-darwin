@@ -51,7 +51,7 @@
     ];
 
     settings = {
-      theme = "sio_rose_light";
+      theme = "sio_rose_dark";
 
       editor = {
         auto-completion = true;
@@ -93,12 +93,13 @@
           "line-numbers"
           "spacer"
           "diff"
+          "spacer"
         ];
 
         indent-guides = {
           character = "┊";
-          render = false;
-          skip-levels = 3;
+          render = true;
+          skip-levels = 1;
         };
 
         inline-diagnostics = {
@@ -259,7 +260,7 @@
         "ui.background" = {};
       };
 
-      sio_rose = let
+      sio_rose_dark = let
         black_bg = "#1e1e1e";
         lilac_dark = "#897e9c";
         lilac_darker = "#5b516b";
@@ -280,20 +281,40 @@
         "comment" = {fg = lilac_dark;};
       };
 
+      # berry = "#835fb0"
+      # berry_fade = ##a786cf"
+      # berry_dim = "#684694"
+      # berry_saturated = "#2B1C3D"
+      # berry_desaturated = "#886C9C"
+      # bubblegum = "#D678B5"
+      # gold = "#E3C0A8"
+      # lilac = "#C7B8E0"
+      # mint = "#7FC9AB"
+      # violet = "#C78DFC"
+
       sio_rose_light = let
         black_bg = "#ecebe8";
         lilac_dark = "#b1afa8";
         lilac_darker = "#322c3b";
-        berry = "#2F2240";
-        berry_fade = "#482F58";
-        berry_dim = "#392A4B";
-        berry_saturated = "#e8d3ff";
-        berry_desaturated = "#6D567D";
-        bubblegum = "#ab717d";
-        gold = "#B69A86";
+        berry = "#835fb0";
+        berry_fade = "#a786cf";
+        berry_dim = "#6b40a6";
+        blue_dark = "#1fb8cd";
+        blue_light = "#e2ecea";
+        # berry = "#2F2240";
+        # berry_fade = "#482F58";
+        # berry_dim = "#392A4B";
+        berry_saturated = "#632cab";
+        berry_desaturated = "#c2afe0";
+        # bubblegum = "#ab717d";
+        bubblegum = "#e37b91";
+        gold = "#ae9482";
+        # gold = "#B69A86";
         lilac = "#7e758e";
         mint = "#66A189";
         violet = "#9F71CA";
+        meh = "#e8e8e3";
+        # #d15ec4
       in {
         "comment" = {fg = lilac_dark;};
         "constant" = {fg = gold;};
@@ -329,19 +350,19 @@
         "markup.raw" = {fg = mint;};
         "ui.background" = {};
         "ui.cursor" = {
-          fg = berry;
-          bg = lilac;
+          fg = blue_light;
+          bg = blue_dark;
         };
         "ui.cursor.match" = {
-          fg = berry;
-          bg = berry_desaturated;
+          fg = blue_light;
+          bg = blue_dark;
         };
         "ui.cursor.select" = {
-          fg = berry;
-          bg = violet;
+          fg = blue_light;
+          bg = blue_dark;
         };
         "ui.cursor.insert" = {
-          fg = berry;
+          fg = lilac;
           bg = mint;
         };
         "ui.linenr" = {fg = lilac_dark;};
@@ -350,14 +371,15 @@
           fg = lilac;
           bg = berry_dim;
         };
-        "ui.statusline" = {bg = "";};
+        "ui.statusline" = {bg = meh;};
         "ui.statusline.inactive" = {
-          fg = berry_desaturated;
-          bg = berry_saturated;
+          # fg = berry_desaturated;
+          # bg = berry_saturated;
+          bg = "";
         };
         "ui.statusline.normal" = {
-          fg = berry_saturated;
-          bg = lilac;
+          fg = blue_dark;
+          bg = blue_light;
         };
         "ui.statusline.insert" = {
           fg = berry_saturated;
@@ -390,9 +412,12 @@
           bg = lilac_darker;
         };
         "ui.selection" = {bg = "";};
-        "ui.selection.primary" = {bg = "#dccbf8";};
+        "ui.selection.primary" = {
+          fg = blue_dark;
+          bg = blue_light;
+        };
         "ui.bufferline" = {bg = "";};
-        "ui.bufferline.active" = {bg = "#ecebe8";};
+        "ui.bufferline.active" = {bg = meh;};
         "ui.virtual.whitespace" = {fg = berry_desaturated;};
         "ui.virtual.ruler" = {bg = berry_dim;};
         "ui.virtual.indent-guide" = {fg = berry_fade;};

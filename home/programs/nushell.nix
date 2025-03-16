@@ -26,7 +26,7 @@ in {
     #   source ${hmSessionVars}
     # '';
 
-    extraLogin = ''
+    extraEnv = ''
       source ${hmSessionVars}
       $env.__NIX_DARWIN_SET_ENVIRONMENT_DONE = 1
 
@@ -84,6 +84,20 @@ in {
     '';
     settings = {
       show_banner = false;
+      use_kitty_protocol = true;
+      use_ansi_coloring = true;
+      shell_integration = {
+        osc2 = false;
+        osc7 = true;
+        osc8 = true;
+        osc133 = true;
+        osc633 = true;
+        reset_application_mode = true;
+      };
+      ls = {
+        use_ls_colors = false;
+        clickable_links = true;
+      };
     };
     plugins = [
       # pkgs.nushellPlugins.gstat
