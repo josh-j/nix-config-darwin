@@ -129,19 +129,14 @@
         };
       };
 
-      keys = rec {
-        normal.esc = ["collapse_selection" "keep_primary_selection"];
-        insert.esc = ["collapse_selection" "normal_mode"];
-        select.esc = ["collapse_selection" "keep_primary_selection" "normal_mode"];
-        # normal.j.k = normal.esc;
-        insert.j.k = "normal_mode";
-        # select.j.k = select.esc;
-
-        normal.C-c = normal.esc;
-        insert.C-c = insert.esc;
-        select.C-c = select.esc;
+      keys = {
+        insert = {
+          esc = ["collapse_selection" "normal_mode"];
+          j = {k = "normal_mode";};
+        };
 
         normal = {
+          esc = ["collapse_selection" "keep_primary_selection"];
           # space = {
           #   space = "file_picker";
           #   n = mkIf cfg.ide ":sh zellij action focus-next-pane"; # set focus to file tree
@@ -225,6 +220,7 @@
         };
 
         select = {
+          esc = ["collapse_selection" "keep_primary_selection" "normal_mode"];
           "{" = ["extend_to_line_bounds" "goto_prev_paragraph"];
           "}" = ["extend_to_line_bounds" "goto_next_paragraph"];
           "0" = "goto_line_start";
