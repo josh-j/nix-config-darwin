@@ -3,7 +3,8 @@
   inputs,
   username,
   ...
-}: let
+}:
+let
   extraPackages = with pkgs; [
     # Development tools
     aider-chat
@@ -62,6 +63,7 @@
     virtualenv
     python3
     python3Packages.pip
+    python3Packages.cst-lsp
     python3Packages.flake8
     black # python
     ruff # python
@@ -94,12 +96,13 @@
 
     # UI
     vscode
-    zed
+    # zed
     # siovim
     spotify
     # obsidian # Not working on ARM?
   ];
-in {
+in
+{
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
@@ -107,60 +110,70 @@ in {
     extraSpecialArgs = {
       inherit username inputs;
     };
-    users.${username} = {...}: {
-      imports = [
-        ./default.nix
-        ./programs/aerospace.nix
-        ./programs/aichat.nix
-        # ../../programs/atuin.nix
-        ./programs/bash.nix
-        ./programs/direnv.nix
-        # ../../programs/ghostty.nix
-        # ../../programs/fonts.nix
-        ./programs/fzf.nix
-        ./programs/helix.nix
-        ./programs/nushell.nix
-        ./programs/starship.nix
-        # ../../programs/tmux.nix
-        ./programs/wezterm.nix
-        ./programs/yazi.nix
-        ./programs/zellij.nix
-        ./programs/zoxide.nix
-        # ./programs/zsh.nix
-      ];
-      nix.enable = false;
-      home = {
-        packages = extraPackages;
-        file = let
-          dotfilesDir = ./programs/dotfiles;
+    users.${username} =
+      { ... }:
+      {
+        imports = [
+          ./default.nix
+          ./programs/aerospace.nix
+          ./programs/aichat.nix
+          # ../../programs/atuin.nix
+          ./programs/bash.nix
+          ./programs/direnv.nix
+          # ../../programs/ghostty.nix
+          # ../../programs/fonts.nix
+          ./programs/fzf.nix
+          ./programs/helix.nix
+          ./programs/nushell.nix
+          ./programs/starship.nix
+          # ../../programs/tmux.nix
+          ./programs/wezterm.nix
+          ./programs/yazi.nix
+          ./programs/zellij.nix
+          ./programs/zed.nix
+          ./programs/zoxide.nix
+          # ./programs/zsh.nix
+        ];
+        nix.enable = false;
+        home = {
+          packages = extraPackages;
+          file =
+            let
+              dotfilesDir = ./programs/dotfiles;
 
-          # List of files to exclude (those causing conflicts)
-          excludeFiles = [
-            "wezterm/wezterm.lua"
-            # "zellij/config.kdl"
-          ];
+              # List of files to exclude (those causing conflicts)
+              excludeFiles = [
+                "wezterm/wezterm.lua"
+                # "zellij/config.kdl"
+              ];
 
-          # Function to check if a file should be excluded
-          shouldExclude = path:
-            builtins.any (exclude: path == exclude) excludeFiles;
+              # Function to check if a file should be excluded
+              shouldExclude = path: builtins.any (exclude: path == exclude) excludeFiles;
 
-          # Function to copy files from a directory
-          copyFiles = dir: prefix: let
-            entries = builtins.readDir dir;
-            processEntry = name: type:
-              if type == "regular" && !shouldExclude "${prefix}${name}"
-              then {".config/${prefix}${name}" = {source = dir + "/${name}";};}
-              else if type == "directory"
-              then copyFiles (dir + "/${name}") "${prefix}${name}/"
-              else {};
-          in
-            builtins.foldl' (
-              acc: name:
-                acc // (processEntry name (builtins.getAttr name entries))
-            ) {} (builtins.attrNames entries);
-        in
-          copyFiles dotfilesDir "";
+              # Function to copy files from a directory
+              copyFiles =
+                dir: prefix:
+                let
+                  entries = builtins.readDir dir;
+                  processEntry =
+                    name: type:
+                    if type == "regular" && !shouldExclude "${prefix}${name}" then
+                      {
+                        ".config/${prefix}${name}" = {
+                          source = dir + "/${name}";
+                        };
+                      }
+                    else if type == "directory" then
+                      copyFiles (dir + "/${name}") "${prefix}${name}/"
+                    else
+                      { };
+                in
+                builtins.foldl' (acc: name: acc // (processEntry name (builtins.getAttr name entries))) { } (
+                  builtins.attrNames entries
+                );
+            in
+            copyFiles dotfilesDir "";
+        };
       };
-    };
   };
 }

@@ -2,7 +2,8 @@
   pkgs,
   username,
   ...
-}: {
+}:
+{
   imports = [
     # ./programs/aerospace.nix
   ];
@@ -33,15 +34,17 @@
     # configureBuildUsers = false;J
     # useDaemon = false; # Let Determinate manage the daemon
     settings = {
-      trusted-users = [username];
-      access-tokens = let
-        getSecret = key: ''
-          $(if [ -f "$HOME/.secrets.json" ]; then
-            jq -r '.${key} // empty' "$HOME/.secrets.json"
-          fi)'';
-      in [
-        "github.com=${getSecret "github_pat_token"}"
-      ];
+      trusted-users = [ username ];
+      access-tokens =
+        let
+          getSecret = key: ''
+            $(if [ -f "$HOME/.secrets.json" ]; then
+              jq -r '.${key} // empty' "$HOME/.secrets.json"
+            fi)'';
+        in
+        [
+          "github.com=${getSecret "github_pat_token"}"
+        ];
     };
   };
 
@@ -60,7 +63,7 @@
       cleanup = "zap";
       upgrade = true;
       autoUpdate = true;
-      extraFlags = ["--force"];
+      extraFlags = [ "--force" ];
     };
 
     global = {
@@ -109,6 +112,7 @@
       #   greedy = true;
       # }
       "vlc"
+      # "zed"
     ];
   };
 

@@ -202,7 +202,7 @@ on_force_close "quit"
 simplified_ui true
 // default_shell "nu"
 pane_frames false
-default_layout "z-default"
+default_layout "default"
 default_mode "normal"
 copy_command "pbcopy"                     // osx
 paste_comma
