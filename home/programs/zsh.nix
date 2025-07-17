@@ -10,8 +10,8 @@
     # Use fast-syntax-highlighting instead of regular syntax highlighting
     syntaxHighlighting.enable = true;
 
-    # defaultKeymap = "emacs";
-    defaultKeymap = "viins";
+    defaultKeymap = "emacs";
+    # defaultKeymap = "viins";
 
     # Optimized completion init
     # completionInit = ''
@@ -144,21 +144,21 @@
 
     initExtra = ''
       # Enable vi mode
-      bindkey -v
+      # bindkey -v
 
       # Emacs-style history navigation in insert mode
-      bindkey -M viins '^p' _atuin_search_widget
-      bindkey -M viins '^n' down-line-or-history
+      # bindkey -M viins '^p' _atuin_search_widget
+      # bindkey -M viins '^n' down-line-or-history
 
       # Keep your existing autosuggest binding
       bindkey '^f' autosuggest-accept
 
       # Add other common Emacs bindings that don't conflict with Vim
-      bindkey -M viins '^a' beginning-of-line
-      bindkey -M viins '^e' end-of-line
-      bindkey -M viins '^k' kill-line
-      bindkey -M viins '^u' backward-kill-line
-      bindkey -M viins '^w' backward-kill-word
+      # bindkey -M viins '^a' beginning-of-line
+      # bindkey -M viins '^e' end-of-line
+      # bindkey -M viins '^k' kill-line
+      # bindkey -M viins '^u' backward-kill-line
+      # bindkey -M viins '^w' backward-kill-word
 
       function y() {
       	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd

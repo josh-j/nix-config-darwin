@@ -74,7 +74,7 @@ shell-integration-features     = cursor,sudo,title
 # Startup
 # command = ~/.config/ghostty/restore_ghostty_tmux.sh
 # command = /etc/profiles/per-user/joshj/bin/zellij -l welcome
-command = /etc/profiles/per-user/joshj/bin/zellij
+# command = /etc/profiles/per-user/joshj/bin/zellij
 
 keybind=clear
 # Key bindings
