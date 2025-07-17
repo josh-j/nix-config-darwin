@@ -2,8 +2,7 @@
   pkgs,
   username,
   ...
-}:
-{
+}: {
   imports = [
     # ./programs/aerospace.nix
   ];
@@ -23,6 +22,7 @@
     experimental-features = nix-command flakes
   '';
 
+  system.primaryUser = "joshj";
   programs.nix-index.enable = true;
   programs.zsh.enable = true; # breaks /run/current-system/sw/bin
   # programs.nu.enable = true;
@@ -34,27 +34,25 @@
     # configureBuildUsers = false;J
     # useDaemon = false; # Let Determinate manage the daemon
     settings = {
-      trusted-users = [ username ];
-      access-tokens =
-        let
-          getSecret = key: ''
-            $(if [ -f "$HOME/.secrets.json" ]; then
-              jq -r '.${key} // empty' "$HOME/.secrets.json"
-            fi)'';
-        in
-        [
-          "github.com=${getSecret "github_pat_token"}"
-        ];
+      trusted-users = [username];
+      access-tokens = let
+        getSecret = key: ''
+          $(if [ -f "$HOME/.secrets.json" ]; then
+            jq -r '.${key} // empty' "$HOME/.secrets.json"
+          fi)'';
+      in [
+        "github.com=${getSecret "github_pat_token"}"
+      ];
     };
   };
 
-  services.jankyborders = {
-    enable = true;
-    active_color = "0x7705f5e5";
-    # active_color = "0xaaff9999";
-    inactive_color = "";
-    width = 5.0;
-  };
+  # services.jankyborders = {
+  #   enable = true;
+  #   active_color = "0x7705f5e5";
+  #   # active_color = "0xaaff9999";
+  #   inactive_color = "";
+  #   width = 1.0;
+  # };
 
   homebrew = {
     enable = true;
@@ -63,7 +61,7 @@
       cleanup = "zap";
       upgrade = true;
       autoUpdate = true;
-      extraFlags = [ "--force" ];
+      extraFlags = ["--force"];
     };
 
     global = {
@@ -88,6 +86,7 @@
     casks = [
       # "font-sf-mono-nerd-font-ligaturized"
       # "nextcloud"
+      "moonlight"
       "anki"
       # {
       #   name = "microsoft-edge";
@@ -112,7 +111,7 @@
       #   greedy = true;
       # }
       "vlc"
-      # "zed"
+      "zed"
     ];
   };
 
@@ -124,11 +123,11 @@
 
   system = {
     stateVersion = 5;
-    activationScripts.postUserActivation.text = ''
-      # activateSettings -u will reload the settings from the database and apply them to the current session,
-      # so we do not need to logout and login again to make the changes take effect.
-      /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
-    '';
+    # activationScripts.postUserActivation.text = ''
+    #   # activateSettings -u will reload the settings from the database and apply them to the current session,
+    #   # so we do not need to logout and login again to make the changes take effect.
+    #   /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+    # '';
 
     defaults = {
       loginwindow.GuestEnabled = false;
@@ -153,9 +152,9 @@
           # When performing a search, search the current folder by default
           FXDefaultSearchScope = "SCcf";
         };
-        "com.apple.spaces" = {
-          "spans-displays" = true;
-        };
+        # "com.apple.spaces" = {
+        #   "spans-displays" = true;
+        # };
       };
 
       dock = {
@@ -228,11 +227,14 @@
     };
     keyboard = {
       enableKeyMapping = true;
-      remapCapsLockToControl = true;
+      remapCapsLockToControl = false;
       userKeyMapping = [
         {
-          HIDKeyboardModifierMappingSrc = 29360128100; # The function key
-          HIDKeyboardModifierMappingDst = 64424509440; # Hyper key   }
+          HIDKeyboardModifierMappingSrc = 30064771129; # Caps Lock
+          HIDKeyboardModifierMappingDst = 30064771363; # Left Command
+
+          # HIDKeyboardModifierMappingSrc = 29360128100; # The function key
+          # HIDKeyboardModifierMappingDst = 64424509440; # Hyper key   }
         }
       ];
     };
