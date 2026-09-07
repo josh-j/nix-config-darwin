@@ -198,10 +198,6 @@
             i = ":pipe aichat -r coder-openai";
             r = ":pipe aichat -r refactor-openai";
             e = [":pipe-to tee /tmp/helix-tmp-explain" ":sh aichat -f /tmp/helix-tmp-explain -r explain-openai"];
-
-            c = ":pipe aichat -r coder-assist";
-            t = ":pipe aichat -r refactor-assist";
-            y = [":pipe-to tee /tmp/helix-tmp-explain" ":sh aichat -f /tmp/helix-tmp-explain -r explain-assist"];
           };
           "," = {
             b = ":sh helix-wezterm blame";
@@ -464,12 +460,6 @@
         command = "lsp-ai";
         config = {
           memory.file_store = {};
-          models.model1 = {
-            type = "open_ai";
-            chat_endpoint = "https://openrouter.ai/api/v1/chat/completions";
-            model = "aiservice/assist-3.7-sonnet";
-            auth_token_env_var_name = "OPENROUTER_API_KEY";
-          };
           models.model2 = {
             type = "open_ai";
             chat_endpoint = "https://openrouter.ai/api/v1/chat/completions";

@@ -35,8 +35,6 @@
     # nodePackages.typescript-language-server
     # nodePackages.yaml-language-server
     # nodePackages.vscode-langservers-extracted # html, css, json, eslint
-    # unstable.nodePackages.assist-code
-
     # LSP
     neocmakelsp
 

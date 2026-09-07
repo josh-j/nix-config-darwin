@@ -78,7 +78,6 @@ in {
           jq -r '.${key} // empty' "$HOME/.secrets.json"
         fi)'';
     in {
-      aiservice_API_KEY = getSecret "aiservice_api";
       GITHUB_TOKEN = getSecret "github_token"; # Example of another secret
       OPENAI_API_KEY = getSecret "openai_api"; # Another example
       OPENROUTER_API_KEY = getSecret "openrouter_api"; # Another example
